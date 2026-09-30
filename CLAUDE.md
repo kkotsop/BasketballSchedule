@@ -82,3 +82,12 @@ Empty `time` renders as "Time TBC" and exports as an all-day calendar event.
 - Accessibility: 44px tap targets in the header, visible focus rings, `prefers-reduced-motion` respected, contrast
   checked in both themes.
 - Dates are rendered in the viewer's local time; tip-off times are local Cyprus time without a timezone.
+
+## Update: two age groups, filter, footnote
+- `scraper/scrape.py` now reads two competitions (`CONFIG["competitions"]`: U14 and U16, both Γ΄ Όμιλος). Each game has
+  `league` ("U14"/"U16"); a failed group keeps its previous games and the run exits 1. The team list of each group is
+  read from the standings table. The U16 group has not been verified against the live site yet (check the
+  `debug-output` branch, files `U16-step*.html`).
+- `fixtures.json` has `checked` (every run) and `updated` (when games changed). The page footnote shows `checked`.
+- Page: Both/U14/U16 filter (remembered in localStorage), refresh button (reloads with a cache-busting query),
+  last-5 shown as green/red dots for played games only (0-0 = not played), `position:fixed` full-screen layout for iOS.

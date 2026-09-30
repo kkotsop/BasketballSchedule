@@ -38,8 +38,8 @@ jobs:
           name: scraper-debug
           path: scraper/debug/
           if-no-files-found: ignore
-      - name: Publish debug files to a branch (only when failed)
-        if: steps.scrape.outcome == 'failure'
+      - name: Publish debug files to a branch
+        if: always()
         continue-on-error: true
         run: |
           mkdir -p /tmp/dbg && cp -r scraper/debug/. /tmp/dbg/ 2>/dev/null || true

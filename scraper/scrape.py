@@ -29,7 +29,11 @@ DEBUG = os.path.join(HERE, "debug")
 URL = os.environ.get("CBF_URL", "https://cbfweb.org/eCBF/pubgames.aspx")
 
 CONFIG = {
-    "competition": "Γυναικών U14 - Γ' Ομιλος",   # "Επιλογή Διοργάνωσης"
+    # "Επιλογή Διοργάνωσης" for each age group we follow; label is shown on the website
+    "competitions": [
+        {"label": "U14", "competition": "Γυναικών U14 - Γ' Ομιλος"},
+        {"label": "U16", "competition": "Γυναικών U16 - Γ' Ομιλος"},
+    ],
     "phase": "Κανονική Περίοδος",
     "season": None,          # None = current season (e.g. 20262027). Or set it, e.g. "20262027"
     "team": "ΑΠΟΠ",          # only games of this team are kept
@@ -44,6 +48,9 @@ DATE_RE = re.compile(r"(?<!\d)(\d{1,2})\s*[/.\-]\s*(\d{1,2})\s*[/.\-]\s*(\d{4}|\
 TIME_RE = re.compile(r"(?<!\d)([01]?\d|2[0-3]):([0-5]\d)(?!\d)")
 SCORE_RE = re.compile(r"^\s*(\d{1,3})\s*[-–:]\s*(\d{1,3})\s*$")
 DAY_RE = re.compile(r"^(ΔΕΥ|ΤΡΙ|ΤΕΤ|ΠΕΜ|ΠΑΡ|ΣΑΒ|ΚΥΡ|MON|TUE|WED|THU|FRI|SAT|SUN)[A-ZΑ-Ω]*\.?,?$")
+
+
+TEAMS = list(CONFIG["teams"])        # replaced by the real list of each group while reading it
 
 
 def log(*a):
@@ -64,9 +71,12 @@ def clean(s):
     return re.sub(r"\s+", " ", str(s or "").replace("\u00a0", " ")).strip(" \t-–—|")
 
 
+DUMP_PREFIX = ""
+
+
 def dump(name, text):
     os.makedirs(DEBUG, exist_ok=True)
-    with open(os.path.join(DEBUG, name), "w", encoding="utf-8") as f:
+    with open(os.path.join(DEBUG, DUMP_PREFIX + name), "w", encoding="utf-8") as f:
         f.write(text)
 
 
@@ -164,7 +174,7 @@ def match_team(cell):
     n = norm(cell)
     if not n:
         return None
-    for t in CONFIG["teams"]:
+    for t in TEAMS:
         nt = norm(t)
         if n == nt or (len(nt) >= 4 and nt in n and len(n) <= len(nt) + 14):
             return t
@@ -273,7 +283,25 @@ def games_from(soup):
 
 # ------------------------------------------------------------------ main flow
 
-def fetch_games():
+def group_teams(soup):
+    """Team names from the standings table (the table with the ΟΜΑΔΑ / ΒΑΘΜΟΙ header)."""
+    for t in soup.find_all("table"):
+        if t.find("table"):
+            continue
+        txt = t.get_text(" ", strip=True)
+        if "ΟΜΑΔΑ" in txt and "ΒΑΘΜΟΙ" in txt:
+            names = []
+            for tr in t.find_all("tr")[1:]:
+                cells = [clean(c.get_text(" ", strip=True)) for c in tr.find_all(["td", "th"])]
+                cells = [c for c in cells if c and not re.fullmatch(r"[\d\W]+", c)]
+                if cells and cells[0] not in names:
+                    names.append(cells[0])
+            if len(names) >= 3:
+                return names
+    return []
+
+
+def fetch_games(competition):
     s = requests.Session()
     s.headers.update({"User-Agent": UA, "Accept-Language": "el,en;q=0.8"})
     r = s.get(URL, timeout=60)
@@ -283,7 +311,7 @@ def fetch_games():
     soup = BeautifulSoup(html, "html.parser")
     games = games_from(soup)                          # in case the page already lists something
     steps = [("season", CONFIG["season"] or current_season()),
-             ("competition", CONFIG["competition"]),
+             ("competition", competition),
              ("phase", CONFIG["phase"])]
     chosen = {}
     for n, (kind, wanted) in enumerate(steps, 1):
@@ -298,6 +326,10 @@ def fetch_games():
         dump("step%d-after-%s.html" % (n, kind), html)
         soup = BeautifulSoup(html, "html.parser")
         # pages remember earlier choices; keep sending them in case they were reset
+        if kind == "competition":
+            global TEAMS
+            TEAMS = group_teams(soup) or list(CONFIG["teams"])
+            log("  teams: %s" % ", ".join(TEAMS))
         found = games_from(soup)
         if found:                                     # the list can appear before the last drop-down is set;
             games = found                             # never let a later, empty page throw it away
@@ -338,39 +370,52 @@ def apply_overrides(games):
 
 
 def main():
-    log("Reading", URL)
-    try:
-        games = fetch_games()
-    except Exception as e:                            # network, layout change, missing option...
-        log("FAILED:", e)
-        dump("error.txt", repr(e))
-        return 1
-    if not games:
-        log("FAILED: the page was read but no games for %s were found." % CONFIG["team"])
-        return 1
-    games = apply_overrides(games)
-    for g in games:
-        g["id"] = hashlib.sha1(("%s|%s|%s" % (g["date"], norm(g["home"]), norm(g["away"]))).encode()).hexdigest()[:8]
-    games.sort(key=lambda g: (g["date"], g["time"] or "99:99"))
     try:
         with open(FIXTURES, encoding="utf-8") as f:
             data = json.load(f)
     except (OSError, ValueError):
-        data = {"team": CONFIG["team"], "league": "Γυναικών U14", "group": "Γ΄ Όμιλος", "places": {}}
-    old = json.dumps(data.get("games"), ensure_ascii=False, sort_keys=True)
-    data["games"] = games
-    if old != json.dumps(games, ensure_ascii=False, sort_keys=True):
-        data["updated"] = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    elif not data.get("updated"):
-        data["updated"] = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        data = {"team": CONFIG["team"], "league": "Γυναικών", "group": "Γ΄ Όμιλος", "places": {}}
+    old_games = data.get("games") or []
+    all_games, failed = [], []
+    for comp in CONFIG["competitions"]:
+        label = comp["label"]
+        global DUMP_PREFIX
+        DUMP_PREFIX = label + "-"
+        log("Reading", URL, "for", comp["competition"])
+        try:
+            games = fetch_games(comp["competition"])
+        except Exception as e:                        # network, layout change, missing option...
+            log("FAILED (%s):" % label, e)
+            dump("error-%s.txt" % label, repr(e))
+            games = []
+        if not games:
+            log("FAILED (%s): no games for %s were found." % (label, CONFIG["team"]))
+            failed.append(label)
+            all_games += [g for g in old_games if (g.get("league") or "U14") == label]   # keep what we had
+            continue
+        games = apply_overrides(games)
+        for g in games:
+            g["league"] = label
+            g["id"] = hashlib.sha1(("%s|%s|%s|%s" % (label, g["date"], norm(g["home"]), norm(g["away"]))).encode()).hexdigest()[:8]
+        all_games += games
+        log("OK (%s): %d games for %s" % (label, len(games), CONFIG["team"]))
+    if len(failed) == len(CONFIG["competitions"]):
+        return 1
+    all_games.sort(key=lambda g: (g["date"], g["time"] or "99:99"))
+    now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    old = json.dumps(old_games, ensure_ascii=False, sort_keys=True)
+    data["games"] = all_games
+    if old != json.dumps(all_games, ensure_ascii=False, sort_keys=True) or not data.get("updated"):
+        data["updated"] = now
+    data["checked"] = now
+    data["league"] = "Γυναικών"
     data["source"] = URL
     with open(FIXTURES, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1)
         f.write("\n")
-    log("OK: %d games for %s" % (len(games), CONFIG["team"]))
-    for g in games:
-        log("  %s %-5s %s - %s | %s | %s-%s" % (g["date"], g["time"], g["home"], g["away"], g["venue"], g["hs"], g["as"]))
-    return 0
+    for g in all_games:
+        log("  %s %s %-5s %s - %s | %s | %s-%s" % (g.get("league"), g["date"], g["time"], g["home"], g["away"], g["venue"], g["hs"], g["as"]))
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
