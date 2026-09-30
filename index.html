@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#04070E">
+<meta name="theme-color" content="#1A0B3B">
 <title>ΑΠΟΠ U14 &amp; U16 — Γ΄ Όμιλος</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -275,10 +275,7 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 :root[data-theme="dark"] .it.next .bd{box-shadow:0 1.5px 0 rgba(255,255,255,.3) inset,0 0 0 4px var(--accent-chip),0 30px 56px -18px rgba(249,115,22,.55),0 6px 16px rgba(0,0,0,.4)}
 
 /* ---- palette v3: neutral controls, photo background in dark, one neon accent (from the hoop photo) ---- */
-.bg .photo{position:absolute;inset:0;display:none;background:linear-gradient(180deg,rgba(4,7,14,.62) 0%,rgba(4,7,14,.30) 22%,rgba(4,7,14,.12) 45%,rgba(4,7,14,.6) 100%),url("assets/bg-hoop.webp") center top/cover no-repeat}
-:root[data-theme="dark"] .bg .photo{display:block}
-:root[data-theme="dark"] .bg .ball3d,:root[data-theme="dark"] .bg .ballshadow{display:none}
-:root[data-theme="dark"]{--accent:#FF4D6A;--accent-text:#BBD0FF;--accent-chip:rgba(255,77,106,.18);--accent-line:rgba(255,77,106,.5);--bg-bot:#0A0710;--glass:rgba(18,12,26,.50);--glass-soft:rgba(18,12,26,.38)}
+:root[data-theme="dark"] :root[data-theme="dark"]{--accent:#FF4D6A;--accent-text:#BBD0FF;--accent-chip:rgba(255,77,106,.18);--accent-line:rgba(255,77,106,.5);--bg-bot:#0A0710;--glass:rgba(18,12,26,.50);--glass-soft:rgba(18,12,26,.38)}
 :root[data-theme="light"]{--accent:#E11D48;--accent-text:#1D4ED8;--accent-chip:rgba(225,29,72,.10);--accent-line:rgba(225,29,72,.40)}
 /* buttons */
 :root[data-theme="dark"] .cta,:root[data-theme="dark"] .btn{background:linear-gradient(180deg,#fff,#DCE3F0);color:#0B1220;box-shadow:0 1px 0 #fff inset,0 10px 22px -10px rgba(0,0,0,.6)}
@@ -303,23 +300,39 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 .chip{color:var(--text)}
 :root[data-theme="dark"] .foot{color:rgba(226,232,240,.72)}
 
-/* ---- background v4: court lines + hoop photo placed lower, same picture in both themes ---- */
-.bg .photo{display:block;background:
-  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 440 956' preserveAspectRatio='xMidYMin slice'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.10' stroke-width='1.6'%3E%3Cpath d='M30 0V150A190 190 0 0 0 410 150V0'/%3E%3Crect x='150' y='0' width='140' height='200'/%3E%3Cpath d='M150 200a70 70 0 0 0 140 0'/%3E%3Cpath d='M190 34h60'/%3E%3Ccircle cx='220' cy='54' r='9'/%3E%3C/g%3E%3C/svg%3E") center top/100% auto no-repeat,
-  radial-gradient(120% 50% at 85% 0%,rgba(96,119,255,.30),transparent 60%),
-  radial-gradient(90% 55% at 10% 10%,rgba(190,30,70,.28),transparent 65%),
-  linear-gradient(180deg,#140B18 0%,#0A0710 100%)}
-.bg .photo::after{content:"";position:absolute;left:0;right:0;top:22%;bottom:0;background:url("assets/bg-hoop.webp") center top/cover no-repeat;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 32%);mask-image:linear-gradient(180deg,transparent 0%,#000 32%)}
-.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,7,14,.25) 0%,rgba(4,7,14,0) 30%,rgba(4,7,14,.55) 100%)}
-:root[data-theme="dark"] .bg .ball3d,:root[data-theme="dark"] .bg .ballshadow,.bg .ball3d,.bg .ballshadow{display:none}
-:root[data-theme="light"] .bg .photo{background:
-  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 440 956' preserveAspectRatio='xMidYMin slice'%3E%3Cg fill='none' stroke='%230F172A' stroke-opacity='.10' stroke-width='1.6'%3E%3Cpath d='M30 0V150A190 190 0 0 0 410 150V0'/%3E%3Crect x='150' y='0' width='140' height='200'/%3E%3Cpath d='M150 200a70 70 0 0 0 140 0'/%3E%3Cpath d='M190 34h60'/%3E%3Ccircle cx='220' cy='54' r='9'/%3E%3C/g%3E%3C/svg%3E") center top/100% auto no-repeat,
-  radial-gradient(120% 50% at 85% 0%,rgba(96,119,255,.16),transparent 60%),
-  radial-gradient(90% 55% at 10% 10%,rgba(225,29,72,.10),transparent 65%),
-  linear-gradient(180deg,#EDF2F8 0%,#D8E1EC 100%)}
-:root[data-theme="light"] .bg .photo::after{opacity:.34;filter:saturate(.85)}
-:root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(237,242,248,.35) 0%,rgba(237,242,248,0) 30%,rgba(216,225,236,.55) 100%)}
+
+/* ---- branding v5: neon purple basketball (assets/bg-neon.webp), magenta-to-blue accents, cyan glow ---- */
+.bg .ball3d,.bg .ballshadow{display:none}
+.bg .neon{position:absolute;inset:0;background:url("assets/bg-neon.webp") center/cover no-repeat,#2A1257}
+.bg::after{content:"";position:absolute;inset:0}
+:root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(14,6,36,.40) 0%,rgba(14,6,36,.12) 38%,rgba(14,6,36,.62) 100%)}
+:root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(250,247,255,.62) 0%,rgba(250,247,255,.50) 45%,rgba(243,236,255,.72) 100%)}
+html{background:#1A0B3B}
+:root[data-theme="dark"]{
+  --glass:rgba(34,17,78,.44);--glass-strong:rgba(36,18,84,.74);--glass-soft:rgba(34,17,78,.32);--edge:rgba(255,255,255,.20);--hair:rgba(255,255,255,.13);--surface:#20104A;
+  --text:#F7F4FF;--text-2:#CFC8EE;--text-3:#9D94C9;--line-strong:rgba(196,181,253,.42);
+  --accent:#67E8F9;--accent-text:#B5F1FF;--accent-chip:rgba(103,232,249,.16);--accent-line:rgba(103,232,249,.55);--club:#5B6CFF}
+:root[data-theme="light"]{
+  --glass:rgba(255,255,255,.52);--glass-strong:rgba(255,255,255,.80);--glass-soft:rgba(255,255,255,.40);--edge:rgba(255,255,255,.85);--hair:rgba(49,27,110,.12);
+  --text:#1E1B4B;--text-2:#4B4580;--text-3:#8983B6;--line-strong:rgba(91,62,180,.35);
+  --accent:#8B5CF6;--accent-text:#6D28D9;--accent-chip:rgba(139,92,246,.14);--accent-line:rgba(139,92,246,.45);--club:#4F46E5}
+/* primary buttons: magenta to electric blue */
+:root[data-theme] .cta,:root[data-theme] .btn{background:linear-gradient(135deg,#D946EF 0%,#7C5CFF 55%,#3B82F6 100%);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 12px 24px -10px rgba(124,92,255,.85)}
+/* filter + switch */
+:root[data-theme] .seg button[aria-checked="true"]{background:linear-gradient(135deg,rgba(217,70,239,.85),rgba(99,102,241,.85));color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 14px -6px rgba(124,92,255,.8)}
+.sw .knob{background:linear-gradient(180deg,#fff,#E2DBFF)}
+/* next game: frosted card, pink-to-cyan neon edge like the ball's seams */
+.it.next .bd::before{background:linear-gradient(90deg,transparent,#F0ABFC 22%,#67E8F9 78%,transparent);box-shadow:0 0 16px 1px rgba(150,120,255,.85);height:2.5px}
+:root[data-theme="dark"] .it.next .bd{background:linear-gradient(172deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.06) 42%),var(--glass-strong);border-color:rgba(255,255,255,.36);box-shadow:0 1.5px 0 rgba(255,255,255,.5) inset,0 0 0 1px rgba(150,120,255,.35),0 26px 50px -22px rgba(10,4,30,.8),0 0 40px -10px rgba(139,92,246,.45)}
+:root[data-theme="light"] .it.next .bd{border-color:#fff;box-shadow:0 2px 0 #fff inset,0 0 0 1px rgba(139,92,246,.22),0 26px 46px -22px rgba(76,29,149,.45),0 4px 12px rgba(49,27,110,.10)}
+.it.next .dot::after{background:linear-gradient(135deg,#F0ABFC,#67E8F9);border-color:#fff;box-shadow:0 0 0 4px rgba(150,120,255,.3),0 0 14px rgba(150,120,255,.9)}
+.chip{background:linear-gradient(135deg,rgba(217,70,239,.30),rgba(103,232,249,.26));color:var(--text)}
+/* tinted gloss + shadows */
+.it .bd.glass,.widget.glass,.it .dt.glass,.seg.glass{box-shadow:0 1.5px 0 var(--rim) inset,0 -1px 0 var(--rim-b) inset,0 16px 30px -16px rgba(20,8,60,.55),0 2px 6px rgba(20,8,60,.10)}
+.pip.w{background:#22C55E}.pip.l{background:#F43F5E}
+.quote.glass{background:var(--glass-soft)}
+:root[data-theme="dark"] .foot{color:rgba(226,220,255,.75)}
+:root[data-theme="light"] .foot{color:#6B63A0}
 </style>
 </head>
 <body>
@@ -330,7 +343,7 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 "use strict";
 
 
-var BG_HTML = '<div class="bg" aria-hidden="true"><i class="photo"></i><i class="ballshadow"></i><i class="ball3d"></i></div>';
+var BG_HTML = '<div class="bg" aria-hidden="true"><i class="neon"></i><i class="ballshadow"></i><i class="ball3d"></i></div>';
 
 var DEFAULT_QUOTES = ["I can accept failure, everyone fails at something. But I can't accept not trying. — Michael Jordan", "Talent wins games, but teamwork and intelligence win championships. — Michael Jordan", "You must expect great things of yourself before you can do them. — Michael Jordan", "Obstacles don't have to stop you. — Michael Jordan", "Failure is not fatal, but failure to change might be. — John Wooden", "Be quick, but don't hurry. — John Wooden", "It's the little details that are vital. Little things make big things happen. — John Wooden", "Do not let what you cannot do interfere with what you can do. — John Wooden", "Make each day your masterpiece. — John Wooden", "Never mistake activity for achievement. — John Wooden", "The main ingredient of stardom is the rest of the team. — John Wooden", "Rest at the end, not in the middle. — Kobe Bryant", "Make winning an attitude. — Pat Summitt", "Teamwork allows common people to obtain uncommon results. — Pat Summitt", "Success is a project that is always under construction. — Pat Summitt", "Here's how I'm going to beat you. I'm going to outwork you. — Pat Summitt", "The strength of the team is each individual member. — Phil Jackson", "I like criticism. It makes you strong. — LeBron James"];
 
