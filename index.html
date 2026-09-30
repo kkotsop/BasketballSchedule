@@ -385,6 +385,24 @@ body{position:static;height:auto;min-height:100%;overflow:visible}
 .scroller{position:static;overflow:visible;flex:1;padding:2px 16px 0}
 .jump{position:fixed;bottom:auto;top:calc(var(--top-h,200px) + 10px)}
 .bottom{margin-top:auto;padding-top:6px}
+
+/* ===== bottom bar stays put; scroll animations ===== */
+.app{padding-bottom:calc(var(--bot-h,150px) + 14px)}
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:7;max-width:560px;margin:0 auto;padding:10px 0 max(env(safe-area-inset-bottom,0px),8px)}
+:root[data-theme="dark"] .bottom{background:linear-gradient(180deg,rgba(6,6,8,0),rgba(6,6,8,.62) 38%,rgba(6,6,8,.78))}
+:root[data-theme="light"] .bottom{background:linear-gradient(180deg,rgba(244,244,246,0),rgba(244,244,246,.70) 38%,rgba(244,244,246,.86))}
+.bottom .quote.glass{margin:0 16px 6px;width:calc(100% - 32px)}
+.bottom .foot{margin:0 16px}
+.top{transition:box-shadow .25s ease}
+.top.scrolled{box-shadow:0 14px 28px -18px rgba(0,0,0,.65)}
+.bg .photo{will-change:transform;transform:scale(1.08)}
+@media (prefers-reduced-motion:no-preference){
+  .rv{opacity:0;transform:translateY(22px) scale(.985);transition:opacity .55s ease,transform .6s cubic-bezier(.2,.75,.25,1)}
+  .rv.in{opacity:1;transform:none}
+  .it.next.rv{transform:translateY(26px) scale(.97)}
+  .it.next.rv.in{transform:none}
+}
+@media (prefers-reduced-motion:reduce){.bg .photo{transform:scale(1.08)!important}}
 </style>
 </head>
 <body>
@@ -609,7 +627,7 @@ function paintQuote(animate){
   var el = $("#q"), t = $("#q-text"), b = $("#q-by");
   if (!el || !t || !b) return;
   var q = parseQuote(quotes()[qIdx]);
-  var apply = function(){ t.textContent = q.t; b.textContent = q.by ? "— " + q.by : ""; b.hidden = !q.by; el.classList.remove("swap"); };
+  var apply = function(){ t.textContent = q.t; b.textContent = q.by ? "— " + q.by : ""; b.hidden = !q.by; el.classList.remove("swap"); botHeight(); };
   if (animate) { el.classList.add("swap"); setTimeout(apply, 170); } else apply();
 }
 
@@ -621,23 +639,57 @@ function render(opts){
     '<div class="app"><div class="top" id="top">' + headerHTML() + filterHTML() + widgetHTML() + '</div>'
     + '<main class="scroller" id="scroller">' + timelineHTML() + '</main>'
     + '<button class="jump glass hide" id="jump" data-act="jump" data-dir="down">' + (hasNext ? "Next game" : "Latest game") + ICON.down + '</button>'
-    + '<div class="bottom"><button class="quote glass" id="q" data-act="quote" aria-live="polite" aria-label="Show another quote">'
+    + '<div class="bottom" id="bottom"><button class="quote glass" id="q" data-act="quote" aria-live="polite" aria-label="Show another quote">'
     + '<span class="qmark" aria-hidden="true">“</span><span class="qbody"><span id="q-text"></span><span id="q-by" hidden></span></span>'
     + '</button>'
     + '<p class="foot"><span>' + esc(updatedText()) + '</span><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></p></div></div>';
   paintQuote(false);
-  topHeight();
+  topHeight(); botHeight();
+  initReveal(!revealed);
+  revealed = true;
   if (opts.center) centerFocus(false); else { window.scrollTo(0, keep); updateJump(); }
 }
 
+/* ---------- scroll animations ---------- */
+var revealed = false, io = null;
+function initReveal(animate){
+  var els = document.querySelectorAll(".it, h2.mo, .brand");
+  if (io) { io.disconnect(); io = null; }
+  var reduce = false;
+  try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  if (!animate || reduce || !("IntersectionObserver" in window)) { els.forEach(function(e){ e.classList.add("rv", "in"); }); return; }
+  io = new IntersectionObserver(function(list){
+    list.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, {threshold:0.08, rootMargin:"0px 0px -6% 0px"});
+  els.forEach(function(e){ e.classList.add("rv"); io.observe(e); });
+}
+var ticking = false;
+function onScrollFx(){
+  if (ticking) return; ticking = true;
+  requestAnimationFrame(function(){
+    ticking = false;
+    var y = window.scrollY || 0, ph = document.querySelector(".bg .photo"), top = $("#top");
+    if (ph) ph.style.transform = "translate3d(0," + Math.round(-Math.min(y, 1600) * 0.06) + "px,0) scale(1.08)";
+    if (top) top.classList.toggle("scrolled", y > 6);
+  });
+}
+window.addEventListener("scroll", onScrollFx, {passive:true});
+
 /* the page itself scrolls (not an inner box), so browsers can hide their toolbars and use the whole screen */
+function botHeight(){
+  var b = $("#bottom"), h = b ? b.getBoundingClientRect().height : 0;
+  document.documentElement.style.setProperty("--bot-h", Math.round(h) + "px");
+  return h;
+}
 function topHeight(){ var t = $("#top"), h = t ? t.getBoundingClientRect().height : 0; document.documentElement.style.setProperty("--top-h", Math.round(h) + "px"); return h; }
 
 function centerFocus(smooth){
   var el = $("#focus"), sp = $("#spacer");
   if (!el) return;
   if (sp) sp.style.height = "0px";
-  var topH = topHeight(), vis = window.innerHeight - topH;
+  var topH = topHeight(), botH = botHeight(), vis = window.innerHeight - topH - botH;
   var elTop = el.getBoundingClientRect().top + window.scrollY, h = el.offsetHeight;
   var need = Math.max(0, (vis - h) / 2);
   var target = Math.max(0, elTop - topH - need);
@@ -654,11 +706,12 @@ function updateJump(){
   if (!pill) return;
   if (!el) { pill.classList.add("hide"); return; }
   var r = el.getBoundingClientRect(), topH = topHeight();
-  var above = r.bottom < topH + 8, below = r.top > window.innerHeight - 8;
+  var above = r.bottom < topH + 8, below = r.top > window.innerHeight - botHeight() - 8;
   pill.classList.toggle("hide", !(above || below));
   pill.setAttribute("data-dir", above ? "up" : "down");
 }
 window.addEventListener("scroll", updateJump, {passive:true});
+window.addEventListener("resize", function(){ topHeight(); botHeight(); });
 
 /* ---------- sheets ---------- */
 
