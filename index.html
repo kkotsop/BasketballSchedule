@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#0A1A24">
 <title>ΑΠΟΠ U14 &amp; U16 — Γ΄ Όμιλος</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -255,72 +255,66 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 .rfb:active{background:var(--glass-soft)}
 @media (prefers-reduced-motion: reduce){.rfb.spin svg{animation:none}}
 
-/* ===== design v6: monochrome court photo (assets/bg-court.webp), white-on-graphite glass, one bright next-game card ===== */
-:root{--gloss:rgba(255,255,255,.10);--gloss-low:rgba(255,255,255,0);--rim:rgba(255,255,255,.22);--rim-b:rgba(0,0,0,.40)}
+/* ===== design v7: sunset hoop photo (assets/bg-sunset.png), clear glass cards, teal + coral accents ===== */
+:root{--gloss:rgba(255,255,255,.16);--gloss-low:rgba(255,255,255,0);--rim:rgba(255,255,255,.38);--rim-b:rgba(0,0,0,.18)}
 :root[data-theme="dark"]{
-  --bg-top:#0B0B0C;--bg-bot:#0A0A0B;--surface:#141416;
-  --glass:rgba(16,16,18,.52);--glass-strong:rgba(18,18,20,.80);--glass-soft:rgba(16,16,18,.34);--edge:rgba(255,255,255,.16);--hair:rgba(255,255,255,.10);
-  --text:#F5F5F6;--text-2:#C3C4C8;--text-3:#8C8D93;--line-strong:rgba(255,255,255,.30);
-  --accent:#FFFFFF;--accent-text:#FFFFFF;--accent-chip:rgba(255,255,255,.14);--accent-line:rgba(255,255,255,.4);--club:#F5F5F6;
-  --gloss:rgba(255,255,255,.10);--rim:rgba(255,255,255,.22);--rim-b:rgba(0,0,0,.40)}
+  --bg-top:#0B2530;--bg-bot:#0A1A24;--surface:#10303D;
+  --glass:rgba(8,26,38,.30);--glass-strong:rgba(8,26,38,.58);--glass-soft:rgba(8,26,38,.26);--edge:rgba(255,255,255,.26);--hair:rgba(255,255,255,.14);
+  --text:#FFFFFF;--text-2:#E3EEF2;--text-3:#B4C7CF;--line-strong:rgba(255,255,255,.40);
+  --accent:#FF7A8A;--accent-text:#9BF3F8;--accent-chip:rgba(255,255,255,.18);--accent-line:rgba(255,255,255,.5);--club:#1AA9C4;
+  --gloss:rgba(255,255,255,.16);--rim:rgba(255,255,255,.38);--rim-b:rgba(0,0,0,.25)}
 :root[data-theme="light"]{
-  --bg-top:#ECECEE;--bg-bot:#DCDCDF;--surface:#FFFFFF;
-  --glass:rgba(255,255,255,.58);--glass-strong:rgba(255,255,255,.86);--glass-soft:rgba(255,255,255,.44);--edge:rgba(255,255,255,.92);--hair:rgba(10,10,12,.10);
-  --text:#0B0B0D;--text-2:#46474D;--text-3:#85868D;--line-strong:rgba(10,10,12,.30);
-  --accent:#0B0B0D;--accent-text:#0B0B0D;--accent-chip:rgba(10,10,12,.08);--accent-line:rgba(10,10,12,.35);--club:#0B0B0D;
-  --gloss:rgba(255,255,255,.75);--rim:rgba(255,255,255,.95);--rim-b:rgba(10,10,12,.07)}
-html{background:#0A0A0B}
+  --bg-top:#DDF3F6;--bg-bot:#FBD9D9;--surface:#FFFFFF;
+  --glass:rgba(255,255,255,.30);--glass-strong:rgba(255,255,255,.66);--glass-soft:rgba(255,255,255,.28);--edge:rgba(255,255,255,.80);--hair:rgba(10,40,55,.12);
+  --text:#0B2530;--text-2:#26505F;--text-3:#5E8593;--line-strong:rgba(10,40,55,.34);
+  --accent:#E8475F;--accent-text:#0B7A8A;--accent-chip:rgba(11,37,48,.09);--accent-line:rgba(11,37,48,.35);--club:#0E8FA8;
+  --gloss:rgba(255,255,255,.55);--rim:rgba(255,255,255,.95);--rim-b:rgba(10,40,55,.08)}
+html{background:#0A1A24}
 /* background photo */
 .bg .ball3d,.bg .ballshadow{display:none}
 .bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
 @supports (height:100lvh){.bg{height:100lvh}}
-.bg .photo{position:absolute;inset:0;background:url("assets/bg-court.webp") center/cover no-repeat,#0A0A0B}
+.bg .photo{position:absolute;inset:0;background:url("assets/bg-sunset.png") center/cover no-repeat,#10303D}
 .bg::after{content:"";position:absolute;inset:0}
-:root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.14) 38%,rgba(0,0,0,.58) 100%)}
-:root[data-theme="light"] .bg .photo{filter:brightness(1.9) contrast(.8)}
-:root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(240,240,243,.66) 0%,rgba(240,240,243,.50) 45%,rgba(226,226,230,.74) 100%)}
+:root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(5,18,28,.40) 0%,rgba(5,18,28,.22) 45%,rgba(5,18,28,.46) 100%)}
+:root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.22) 100%)}
 @supports (height:100dvh){.app{height:100dvh}}
-/* cards: soft top sheen, bright rim */
+/* clear glass cards: low fill, strong blur, bright rim */
+.glass{-webkit-backdrop-filter:blur(16px) saturate(165%);backdrop-filter:blur(16px) saturate(165%)}
 .it .bd.glass,.widget.glass,.it .dt.glass,.seg.glass{
-  background:linear-gradient(175deg,var(--gloss) 0%,var(--gloss-low) 46%),var(--glass);
-  box-shadow:0 1.5px 0 var(--rim) inset,0 -1px 0 var(--rim-b) inset,0 16px 30px -16px rgba(0,0,0,.6),0 2px 6px rgba(0,0,0,.12)}
-/* next game: the brightest card on the page, with a thin white glow along the top edge */
+  background:linear-gradient(175deg,var(--gloss) 0%,var(--gloss-low) 50%),var(--glass);
+  box-shadow:0 1.5px 0 var(--rim) inset,0 -1px 0 var(--rim-b) inset,0 14px 28px -18px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.08)}
+/* next game: brighter and a little less clear than the rest, with a sunset edge */
 .it.next .opp{font-size:26px}
 .it.next .dt b{font-size:20px;color:var(--text)}
-.it.next .bd{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.55);
-  background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.28),rgba(255,255,255,0) 60%),linear-gradient(172deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.05) 45%),var(--glass-strong);
-  box-shadow:0 1.5px 0 rgba(255,255,255,.65) inset,0 0 0 1px rgba(255,255,255,.10),0 30px 60px -22px rgba(0,0,0,.85),0 0 46px -14px rgba(255,255,255,.35)}
-.it.next .bd::before{content:"";position:absolute;left:12px;right:12px;top:0;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#fff 30%,#fff 70%,transparent);box-shadow:0 0 14px 1px rgba(255,255,255,.7)}
-:root[data-theme="light"] .it.next .bd{border-color:#fff;background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,1),rgba(255,255,255,.4) 60%),rgba(255,255,255,.86);
-  box-shadow:0 2px 0 #fff inset,0 0 0 1px rgba(10,10,12,.10),0 30px 56px -24px rgba(0,0,0,.45),0 4px 12px rgba(0,0,0,.10)}
-:root[data-theme="light"] .it.next .bd::before{background:linear-gradient(90deg,transparent,#0B0B0D 30%,#0B0B0D 70%,transparent);box-shadow:0 0 10px rgba(0,0,0,.35)}
-.it.next .dot::after{background:#fff;border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.22),0 0 16px rgba(255,255,255,.8)}
-:root[data-theme="light"] .it.next .dot::after{background:#0B0B0D;border-color:#0B0B0D;box-shadow:0 0 0 4px rgba(10,10,12,.16)}
+.it.next .bd{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.6);
+  background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.34),rgba(255,255,255,0) 60%),linear-gradient(172deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.04) 50%),var(--glass-strong);
+  box-shadow:0 1.5px 0 rgba(255,255,255,.7) inset,0 28px 54px -24px rgba(0,0,0,.65),0 0 40px -12px rgba(255,122,138,.5)}
+.it.next .bd::before{content:"";position:absolute;left:12px;right:12px;top:0;height:2.5px;border-radius:2px;background:linear-gradient(90deg,transparent,#37D6E3 18%,#FF7A8A 82%,transparent);box-shadow:0 0 14px 1px rgba(255,122,138,.6)}
+:root[data-theme="light"] .it.next .bd{border-color:#fff;background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.95),rgba(255,255,255,.35) 60%),var(--glass-strong);box-shadow:0 2px 0 #fff inset,0 26px 50px -26px rgba(10,40,55,.5),0 0 40px -14px rgba(232,71,95,.45)}
+.it.next .dot::after{background:linear-gradient(135deg,#37D6E3,#FF7A8A);border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.28),0 0 14px rgba(255,122,138,.8)}
 .chip{background:var(--accent-chip);color:var(--text)}
-/* home = solid, away = outline */
-.side.home{background:var(--text);color:var(--bg-bot);box-shadow:none}
-:root[data-theme="light"] .side.home{color:#fff}
-/* buttons */
-:root[data-theme] .cta,:root[data-theme] .btn{background:var(--text);color:var(--bg-bot);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 10px 22px -10px rgba(0,0,0,.6)}
-:root[data-theme="light"] .cta,:root[data-theme="light"] .btn{color:#fff}
-/* filter */
-:root[data-theme] .seg button[aria-checked="true"]{background:var(--text);color:var(--bg-bot);box-shadow:0 4px 12px -4px rgba(0,0,0,.5)}
-:root[data-theme="light"] .seg button[aria-checked="true"]{color:#fff}
-/* theme switch */
-:root[data-theme="dark"] .sw .knob{background:#F5F5F6}
-:root[data-theme="light"] .sw .knob{background:#0B0B0D}
-.sw .knob{box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 5px 10px -4px rgba(0,0,0,.55)}
+/* home = teal, away = outline */
+.side.home{background:linear-gradient(135deg,#1FC2D3,#1588B5);color:#fff;box-shadow:0 6px 12px -6px rgba(21,136,181,.7)}
+/* buttons: sunset gradient */
+:root[data-theme] .cta,:root[data-theme] .btn{background:linear-gradient(135deg,#FF9A5A 0%,#FF5C85 100%);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 12px 24px -10px rgba(255,92,133,.8)}
+/* filter: teal */
+:root[data-theme] .seg button[aria-checked="true"]{background:linear-gradient(135deg,#27C9DA,#1A93BF);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 14px -6px rgba(26,147,191,.8)}
+/* theme switch: neutral */
+.sw .knob{background:#fff;box-shadow:0 1px 0 #fff inset,0 5px 10px -4px rgba(0,0,0,.5)}
 .sw .sun,.sw .moon{color:var(--text-3)}
-:root[data-theme="dark"] .sw .moon{color:#0B0B0D}
-:root[data-theme="light"] .sw .sun{color:#fff}
+:root[data-theme="dark"] .sw .moon,:root[data-theme="light"] .sw .sun{color:#0B2530}
 /* links and small text */
-.it .meta .go{color:var(--text);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px;font-weight:600}
+.it .meta .go{color:var(--accent-text);font-weight:600}
 .jump{color:var(--text)}
 .pip.w{background:#22C55E}.pip.l{background:#F43F5E}
-/* quote: no border */
 .quote.glass{background:var(--glass-soft);border:0;box-shadow:none}
-:root[data-theme="dark"] .foot{color:rgba(235,235,240,.72)}
-:root[data-theme="light"] .foot{color:#5B5C63}
+:root[data-theme="dark"] .foot{color:rgba(255,255,255,.80)}
+:root[data-theme="light"] .foot{color:#2E5866}
+.foot{width:fit-content;max-width:calc(100% - 32px);margin:-4px auto 8px;padding:4px 6px 4px 12px;border-radius:999px;background:var(--glass-strong);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+:root[data-theme="light"] .foot{color:#1E4756}
+/* text over a photo: a touch of shadow keeps small text readable */
+:root[data-theme="dark"] .it .bd,:root[data-theme="dark"] .widget,:root[data-theme="dark"] .quote,:root[data-theme="dark"] .ttl,:root[data-theme="dark"] .foot{text-shadow:0 1px 6px rgba(0,0,0,.35)}
 </style>
 </head>
 <body>
