@@ -1,0 +1,69 @@
+name: Update fixtures and publish
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"      # every 3 hours
+  workflow_dispatch:             # the "Run workflow" button
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      scrape: ${{ steps.scrape.outcome }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests beautifulsoup4
+      - name: Read fixtures from the federation site
+        id: scrape
+        continue-on-error: true
+        run: python scraper/scrape.py
+      - name: Keep what the scraper saw (only when it failed)
+        if: steps.scrape.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-debug
+          path: scraper/debug/
+          if-no-files-found: ignore
+      - name: Save updated fixtures in the repository
+        run: |
+          git config user.name "fixtures-bot"
+          git config user.email "fixtures-bot@users.noreply.github.com"
+          git add fixtures.json
+          git diff --cached --quiet || (git commit -m "Update fixtures" && git push) || true
+      - uses: actions/configure-pages@v5
+      - name: Assemble the website
+        run: |
+          mkdir _site
+          cp -r index.html fixtures.json manifest.webmanifest assets _site/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Flag a failed fixtures check
+        if: needs.build.outputs.scrape == 'failure'
+        run: |
+          echo "::error::Could not read the federation page. The site was published with the last saved fixtures. Open the run and download the scraper-debug file."
+          exit 1

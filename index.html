@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#EDF2F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#04070E" media="(prefers-color-scheme: dark)">
+<title>ΑΠΟΠ U14 — Γ΄ Όμιλος</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ΑΠΟΠ U14">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style id="css">
+/* Tokens map to Tailwind: slate neutrals, orange-600 accent, blue-600 club colour.
+   Glass = translucent fill + backdrop blur + 1px light edge + layered shadow (fintech card). */
+:root{
+  --bg-top:#EDF2F8;--bg-bot:#D8E1EC;--surface:#FFFFFF;
+  --glass:rgba(255,255,255,.58);--glass-strong:rgba(255,255,255,.82);--edge:rgba(255,255,255,.82);--hair:rgba(15,23,42,.09);--field:rgba(255,255,255,.62);--glass-soft:rgba(255,255,255,.38);
+  --line-strong:rgba(71,85,105,.38);
+  --text:#0F172A;--text-2:#475569;--text-3:#94A3B8;
+  --accent:#EA580C;--accent-text:#C2410C;--accent-chip:rgba(251,146,60,.24);--accent-line:rgba(234,88,12,.45);
+  --next-a:rgba(255,237,213,.82);--next-b:rgba(255,255,255,.5);
+  --club:#2563EB;
+  --win:#047857;--win-soft:rgba(16,185,129,.18);--loss:#BE123C;--loss-soft:rgba(244,63,94,.16);
+  --sh:0 1px 0 rgba(255,255,255,.75) inset,0 14px 32px -16px rgba(15,23,42,.35),0 2px 6px rgba(15,23,42,.06);
+  --sh-lift:0 1px 0 rgba(255,255,255,.85) inset,0 22px 44px -16px rgba(234,88,12,.5),0 4px 12px rgba(15,23,42,.10);
+  --blur:blur(18px) saturate(170%);
+  --glow-a:rgba(37,99,235,.16);--glow-b:rgba(234,88,12,.12);
+  --ball-filter:drop-shadow(0 6px 10px rgba(60,25,8,.28));--ball-shadow:rgba(30,14,6,.55);
+  --dw:46px;--rw:26px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --bg-top:#0B1220;--bg-bot:#04070E;--surface:#0F172A;
+  --glass:rgba(15,23,42,.55);--glass-strong:rgba(15,23,42,.84);--edge:rgba(255,255,255,.11);--hair:rgba(255,255,255,.09);--field:rgba(2,6,23,.55);--glass-soft:rgba(15,23,42,.4);
+  --line-strong:rgba(148,163,184,.4);
+  --text:#F1F5F9;--text-2:#A9B6CB;--text-3:#64748B;
+  --accent:#F97316;--accent-text:#FDBA74;--accent-chip:rgba(249,115,22,.26);--accent-line:rgba(249,115,22,.55);
+  --next-a:rgba(249,115,22,.30);--next-b:rgba(15,23,42,.62);
+  --win:#34D399;--win-soft:rgba(52,211,153,.2);--loss:#FB7185;--loss-soft:rgba(251,113,133,.2);
+  --sh:0 1px 0 rgba(255,255,255,.07) inset,0 16px 36px -16px rgba(0,0,0,.75),0 2px 6px rgba(0,0,0,.3);
+  --sh-lift:0 1px 0 rgba(255,255,255,.1) inset,0 24px 48px -16px rgba(249,115,22,.42),0 4px 12px rgba(0,0,0,.35);
+  --glow-a:rgba(59,130,246,.22);--glow-b:rgba(249,115,22,.14);
+  --ball-filter:brightness(.7) saturate(1.05) drop-shadow(0 6px 10px rgba(0,0,0,.5));--ball-shadow:rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg-top:#0B1220;--bg-bot:#04070E;--surface:#0F172A;
+  --glass:rgba(15,23,42,.55);--glass-strong:rgba(15,23,42,.84);--edge:rgba(255,255,255,.11);--hair:rgba(255,255,255,.09);--field:rgba(2,6,23,.55);--glass-soft:rgba(15,23,42,.4);
+  --line-strong:rgba(148,163,184,.4);
+  --text:#F1F5F9;--text-2:#A9B6CB;--text-3:#64748B;
+  --accent:#F97316;--accent-text:#FDBA74;--accent-chip:rgba(249,115,22,.26);--accent-line:rgba(249,115,22,.55);
+  --next-a:rgba(249,115,22,.30);--next-b:rgba(15,23,42,.62);
+  --win:#34D399;--win-soft:rgba(52,211,153,.2);--loss:#FB7185;--loss-soft:rgba(251,113,133,.2);
+  --sh:0 1px 0 rgba(255,255,255,.07) inset,0 16px 36px -16px rgba(0,0,0,.75),0 2px 6px rgba(0,0,0,.3);
+  --sh-lift:0 1px 0 rgba(255,255,255,.1) inset,0 24px 48px -16px rgba(249,115,22,.42),0 4px 12px rgba(0,0,0,.35);
+  --glow-a:rgba(59,130,246,.22);--glow-b:rgba(249,115,22,.14);
+  --ball-filter:brightness(.7) saturate(1.05) drop-shadow(0 6px 10px rgba(0,0,0,.5));--ball-shadow:rgba(0,0,0,.8);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{
+  height:100%;margin:0;overflow:hidden;background:var(--bg-bot);color:var(--text);
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+#root{height:100%}
+.app{height:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;position:relative;z-index:1}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;background:none;border:0;padding:0}
+a{color:inherit}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* glass surface, used everywhere */
+.glass{background:var(--glass);border:1px solid var(--edge);box-shadow:var(--sh);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  :root{--glass:rgba(255,255,255,.9);--glass-strong:rgba(255,255,255,.96)}
+}
+
+/* background: one real-looking basketball that stays put while the list scrolls */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;--bs:min(118vw,88vh,840px);
+  background:radial-gradient(70% 45% at 100% 0%,var(--glow-a),transparent 70%),radial-gradient(60% 40% at 0% 100%,var(--glow-b),transparent 70%),linear-gradient(180deg,var(--bg-top),var(--bg-bot))}
+.ballshadow{position:absolute;left:50%;top:calc(57% + var(--bs)*.5 - var(--bs)*.045);width:calc(var(--bs)*.8);height:calc(var(--bs)*.12);transform:translateX(-50%);
+  background:radial-gradient(closest-side,var(--ball-shadow),color-mix(in srgb,var(--ball-shadow) 40%,transparent) 55%,transparent 100%);filter:blur(12px)}
+.ball3d{position:absolute;left:50%;top:57%;width:var(--bs);height:var(--bs);transform:translate(-50%,-50%);
+  background:url("assets/ball.webp") center/contain no-repeat;filter:var(--ball-filter)}
+
+/* header */
+.bar{display:flex;align-items:center;gap:12px;padding:12px 16px 8px}
+.logo{width:46px;height:46px;flex:none;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(15,23,42,.3))}
+.ttl{flex:1;min-width:0}
+.ttl h1{font-size:22px;line-height:1.15;font-weight:700;letter-spacing:-.02em}
+.ttl p{font-size:13px;color:var(--text-2);font-weight:500}
+.tools{display:flex;align-items:center;gap:8px}
+.ibtn{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;color:var(--text-2);transition:color .15s}
+.ibtn:hover{color:var(--text)}
+.ibtn svg{width:20px;height:20px}
+.sw{position:relative;width:66px;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;color:var(--text-3)}
+.sw svg{width:16px;height:16px;position:relative;z-index:1}
+.sw .knob{position:absolute;top:3px;left:3px;width:30px;height:30px;border-radius:999px;background:linear-gradient(180deg,#F97316,#C2410C);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 12px -4px rgba(234,88,12,.7);transition:transform .18s ease-out}
+.sw[aria-checked="true"] .knob{transform:translateX(28px)}
+.sw .sun{color:#fff}.sw[aria-checked="true"] .sun{color:var(--text-3)}
+.sw .moon{color:var(--text-3)}.sw[aria-checked="true"] .moon{color:#fff}
+
+/* season widget */
+.widget{margin:4px 16px 10px;padding:14px 0;border-radius:20px;display:grid;grid-template-columns:.9fr 1.4fr .9fr}
+.widget .cell{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 8px;min-width:0}
+.widget .cell+.cell{border-left:1px solid var(--hair)}
+.big{font-size:26px;line-height:26px;font-weight:700;letter-spacing:-.03em}
+.cap{font-size:12px;color:var(--text-2);font-weight:500}
+.form{display:flex;gap:3px;height:26px;align-items:center}
+.pip{width:20px;height:20px;border-radius:999px;display:grid;place-items:center;font-size:11px;font-weight:700;line-height:1}
+.pip.w{background:var(--win-soft);color:var(--win)}
+.pip.l{background:var(--loss-soft);color:var(--loss)}
+.pip.e{border:1.5px dashed var(--line-strong)}
+
+/* timeline */
+.scrollwrap{flex:1;min-height:0;position:relative}
+.scroller{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:2px 16px 0;-webkit-overflow-scrolling:touch}
+.tl{position:relative;padding-bottom:56px}
+.tl::before{content:"";position:absolute;top:0;bottom:0;left:calc(var(--dw) + var(--rw)/2 - .5px);width:1px;background:var(--line-strong);opacity:.55}
+h2.mo{width:max-content;margin:16px 0 8px calc(var(--dw) + var(--rw) + 4px);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:600;color:var(--text-2);position:relative;box-shadow:var(--sh)}
+.it{display:grid;grid-template-columns:var(--dw) var(--rw) 1fr;align-items:start;position:relative}
+.it .dt{margin-top:6px;padding:9px 0 8px;border-radius:14px;text-align:center;line-height:1}
+.it .dt b{display:block;font-size:18px;font-weight:700}
+.it .dt span{display:block;font-size:11px;color:var(--text-2);margin-top:4px;font-weight:500}
+.it .dot{position:relative;height:100%}
+.it .dot::after{content:"";position:absolute;left:50%;top:25px;width:10px;height:10px;transform:translateX(-50%);border-radius:999px;background:var(--surface);border:2px solid var(--text-3)}
+.it.won .dot::after{background:var(--win);border-color:var(--win)}
+.it.lost .dot::after{background:var(--loss);border-color:var(--loss)}
+.it.past .dot::after{background:var(--text-3);border-color:var(--text-3)}
+.it.won .dot::after{background:var(--win);border-color:var(--win)}
+.it.lost .dot::after{background:var(--loss);border-color:var(--loss)}
+.it.next .dot::after{width:14px;height:14px;top:23px;background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-chip)}
+.it .bd{display:flex;align-items:flex-start;gap:8px;margin:6px 0;padding:12px 12px 12px 14px;border-radius:18px;min-width:0}
+.it .mid{flex:1;min-width:0}
+.it .opp{font-size:16px;font-weight:600;line-height:1.35;letter-spacing:-.01em;overflow-wrap:anywhere}
+.it.past .opp{font-weight:500;color:var(--text-2)}
+.it .meta{display:inline-flex;align-items:flex-start;gap:4px;margin-top:2px;padding:2px 0;font-size:14px;line-height:1.4;color:var(--text-2);text-decoration:none}
+.it a.meta:hover{color:var(--text);text-decoration:underline}
+.it .meta svg{flex:none;width:14px;height:14px;margin-top:2px}
+.vs{font-weight:500;color:var(--text-2)}
+.it .end{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.it .time{font-size:15px;font-weight:600;line-height:22px}
+.it .time.tbc{font-size:13px;font-weight:500;color:var(--text-2)}
+.it .score{font-size:17px;font-weight:700;line-height:22px}
+.it.won .score{color:var(--win)}.it.lost .score{color:var(--loss)}
+.rowtools{display:flex;gap:6px}
+.ic{width:36px;height:36px;display:grid;place-items:center;border-radius:12px;color:var(--text-2);background:var(--glass-strong);border:1px solid var(--edge);box-shadow:0 1px 2px rgba(15,23,42,.12);transition:color .15s,transform .15s}
+.ic:hover{color:var(--text)}.ic:active{transform:scale(.94)}
+.ic svg{width:18px;height:18px}
+
+/* home / away */
+.side{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px 0 6px;border-radius:7px;font-size:12px;font-weight:600;line-height:1;margin-bottom:6px}
+.side svg{width:12px;height:12px}
+.side.home{background:var(--club);color:#fff;box-shadow:0 6px 12px -6px rgba(37,99,235,.7)}
+.side.away{border:1.5px solid var(--text-2);color:var(--text);padding:0 7px 0 5px;background:var(--glass-strong)}
+
+/* next game */
+.it.next .bd{display:block;margin:8px 0 10px;padding:16px;border-radius:22px;background:linear-gradient(135deg,var(--next-a),var(--next-b));border:1px solid var(--accent-line);box-shadow:var(--sh-lift);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.it.next .dt b{color:var(--accent-text)}
+.it.next .k{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.it.next .side{height:28px;padding:0 12px 0 10px;font-size:14px;margin:0;gap:6px;border-radius:9px}
+.it.next .side svg{width:16px;height:16px}
+.it.next .side.away{padding:0 11px 0 9px}
+.chip{font-size:12px;font-weight:600;line-height:1;padding:7px 11px;border-radius:999px;background:var(--accent-chip);color:var(--accent-text)}
+.it.next .opp{font-size:24px;line-height:1.2;letter-spacing:-.02em}
+.it.next .when{font-size:16px;font-weight:500;margin-top:8px}
+.it.next .where{margin-top:4px}
+.it.next .where .meta{margin-top:0}
+.it.next .acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px}
+.it.next .acts .ic{margin-left:auto}
+.cta,.pill{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+.cta{padding:0 18px;background:linear-gradient(180deg,#E2570F,#B93C0B);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 10px 20px -10px rgba(234,88,12,.85);transition:filter .15s}
+.cta:hover{filter:brightness(.94)}
+.pill{background:var(--glass-strong);border:1px solid var(--edge);color:var(--text);box-shadow:0 1px 2px rgba(15,23,42,.12)}
+.cta svg,.pill svg{width:16px;height:16px}
+.endnote{padding:16px 0 4px calc(var(--dw) + var(--rw) + 4px);font-size:14px;color:var(--text-2)}
+.brand{width:max-content;margin:22px auto 4px;padding:6px 14px;border-radius:999px;text-align:center;font-size:12px;font-weight:500;letter-spacing:.06em;color:var(--text-2)}
+
+/* jump pill */
+.jump{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 12px;border-radius:999px;color:var(--accent-text);font-size:14px;font-weight:600}
+.jump svg{width:16px;height:16px;transition:transform .15s}
+.jump[data-dir="up"] svg{transform:rotate(180deg)}
+
+/* quote footer */
+.quote{display:flex;align-items:center;gap:10px;margin:8px 16px 12px;padding:10px 14px;border-radius:16px;text-align:left;width:calc(100% - 32px);color:var(--text)}
+.quote.glass{background:var(--glass-soft);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 16px -12px rgba(15,23,42,.3)}
+.quote .qmark{flex:none;align-self:flex-start;font-size:22px;line-height:20px;font-weight:600;color:var(--text-3)}
+.quote .qbody{flex:1;min-width:0;font-size:13px;line-height:1.4;font-weight:400;transition:opacity .17s,transform .17s}
+.quote #q-by{display:block;font-size:11.5px;line-height:1.3;color:var(--text-2);margin-top:3px;letter-spacing:.01em}
+.quote .qref{flex:none;width:16px;height:16px;color:var(--text-3);opacity:.75}
+.quote.swap .qbody{opacity:0;transform:translateY(3px)}
+
+/* empty, buttons, sheets */
+.empty{margin:24px 0;padding:32px 24px;text-align:center;border-radius:20px;color:var(--text-2)}
+.empty h2{font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px}
+.empty p{font-size:14px;margin-bottom:16px}
+.btn{height:42px;padding:0 18px;border-radius:999px;background:linear-gradient(180deg,#E2570F,#B93C0B);color:#fff;font-size:14px;font-weight:600;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 10px 20px -10px rgba(234,88,12,.85)}
+.btn:hover{filter:brightness(.94)}
+.btn.ghost{background:var(--glass-strong);color:var(--text-2);border:1px solid var(--edge);box-shadow:0 1px 2px rgba(15,23,42,.12)}
+.btn.danger{background:transparent;color:var(--loss);border:1px solid var(--loss);box-shadow:none}
+dialog{border:1px solid var(--edge);border-bottom:0;border-radius:24px 24px 0 0;padding:0;background:var(--glass-strong);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);color:var(--text);width:100%;max-width:560px;
+  margin:auto auto 0;max-height:88dvh;box-shadow:0 -20px 60px rgba(2,6,23,.35)}
+dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.sheet{padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.sheet h2{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px}
+.note{font-size:14px;color:var(--text-2);margin:0 0 16px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--text-2);margin-bottom:4px}
+.field input,.field textarea{width:100%;background:var(--field);border:1px solid var(--hair);border-radius:12px;padding:11px 12px;font:inherit;font-size:16px;color:var(--text)}
+.field textarea{min-height:200px;font-size:14px;line-height:1.5}
+.two{display:flex;gap:12px}.two>*{flex:1;min-width:0}
+.sheetacts{display:flex;gap:8px;margin-top:16px;align-items:center}
+.sheetacts .sp{flex:1}
+.menu{display:flex;flex-direction:column;margin:-4px 0 0}
+.menu button{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;border-top:1px solid var(--hair);padding:16px 0;font-size:16px;font-weight:500;min-height:56px;width:100%}
+.menu button:first-child{border-top:0}
+.menu button small{display:block;font-size:14px;font-weight:400;color:var(--text-2)}
+.menu button svg{width:16px;height:16px;color:var(--text-3);flex:none}
+.preview{max-height:38dvh;overflow:auto;border:1px solid var(--hair);border-radius:12px;padding:8px 12px;font-size:14px;background:var(--field)}
+.preview div{padding:4px 0;border-bottom:1px solid var(--hair)}
+.preview div:last-child{border:0}
+.preview .bad{color:var(--loss)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));background:var(--text);color:var(--bg-top);
+  padding:10px 16px;border-radius:999px;font-size:14px;font-weight:500;z-index:99;box-shadow:0 10px 24px -8px rgba(2,6,23,.5)}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script id="data" type="application/json">{"team": "ΑΠΟΠ", "league": "Γυναικών U14", "group": "Γ΄ Όμιλος", "games": [{"id": "cc7tbfc", "date": "2026-10-03", "time": "12:30", "home": "ΑΝΟΡΘΩΣΗ Αμμοχώστου", "away": "ΑΠΟΠ", "venue": "Λύκ. Αγ. Φύλας", "hs": "", "as": ""}, {"id": "n7s34tp", "date": "2026-10-10", "time": "", "home": "ΑΠΟΠ", "away": "ΑΠΟΛΛΩΝ Λεμεσού", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "", "as": ""}, {"id": "9notkkt", "date": "2026-10-17", "time": "", "home": "ΑΡΗΣ Λεμεσού", "away": "ΑΠΟΠ", "venue": "Λύκ. Αγ. Σπυρίδωνα", "hs": "", "as": ""}, {"id": "wctfmm7", "date": "2026-10-31", "time": "", "home": "ΑΠΟΠ", "away": "ΑΧΙΛΛΕΑΣ Αγρού", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "", "as": ""}, {"id": "v3ryk3n", "date": "2026-11-07", "time": "", "home": "Α.Ε.Λ.", "away": "ΑΠΟΠ", "venue": "Αίθ. Νίκος Σολομωνίδης", "hs": "", "as": ""}, {"id": "b4e75cw", "date": "2026-11-14", "time": "", "home": "ΑΠΟΠ", "away": "ΑΤΛΑΝΤΑΣ Πάφου", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "", "as": ""}], "places": {"Λύκ. Αγ. Φύλας": "ChIJB1NLt1s15xQRZIQYDzOVzvw", "Αίθ. Α' Λυκείου Ακης Κλεάνθους": "ChIJ8fu6F4sG5xQRYpyKuejOGt4", "Λύκ. Αγ. Σπυρίδωνα": "ChIJC5C3BiUy5xQRsPujJ0Gw4n8", "Αίθ. Νίκος Σολομωνίδης": "ChIJVxNtFFEy5xQRqajVcmxdSKU"}, "logo": "assets/logo.png", "source": "https://cbfweb.org/eCBF/pubgames.aspx"}</script>
+<script id="app">
+(function(){
+"use strict";
+
+var HEAD = "<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<meta name=\"color-scheme\" content=\"light dark\">\n<meta name=\"theme-color\" content=\"#EDF2F8\" media=\"(prefers-color-scheme: light)\">\n<meta name=\"theme-color\" content=\"#04070E\" media=\"(prefers-color-scheme: dark)\">\n<title>ΑΠΟΠ U14 — Γ΄ Όμιλος</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap\" rel=\"stylesheet\">\n<link rel=\"icon\" href=\"assets/icon-192.png\">\n<link rel=\"apple-touch-icon\" href=\"assets/apple-touch-icon.png\">\n<link rel=\"manifest\" href=\"manifest.webmanifest\">\n<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n<meta name=\"apple-mobile-web-app-title\" content=\"ΑΠΟΠ U14\">\n<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">";
+
+var BG_HTML = '<div class="bg" aria-hidden="true"><i class="ballshadow"></i><i class="ball3d"></i></div>';
+
+var DEFAULT_QUOTES = ["I can accept failure, everyone fails at something. But I can't accept not trying. — Michael Jordan", "Talent wins games, but teamwork and intelligence win championships. — Michael Jordan", "You must expect great things of yourself before you can do them. — Michael Jordan", "Obstacles don't have to stop you. — Michael Jordan", "Failure is not fatal, but failure to change might be. — John Wooden", "Be quick, but don't hurry. — John Wooden", "It's the little details that are vital. Little things make big things happen. — John Wooden", "Do not let what you cannot do interfere with what you can do. — John Wooden", "Make each day your masterpiece. — John Wooden", "Never mistake activity for achievement. — John Wooden", "The main ingredient of stardom is the rest of the team. — John Wooden", "Rest at the end, not in the middle. — Kobe Bryant", "Make winning an attitude. — Pat Summitt", "Teamwork allows common people to obtain uncommon results. — Pat Summitt", "Success is a project that is always under construction. — Pat Summitt", "Here's how I'm going to beat you. I'm going to outwork you. — Pat Summitt", "The strength of the team is each individual member. — Phil Jackson", "I like criticism. It makes you strong. — LeBron James"];
+
+function use(name){
+  try {
+    if (typeof claude === "undefined" || !claude || typeof claude.use !== "function") return Promise.resolve(null);
+    return Promise.resolve(claude.use(name)).catch(function(){ return null; });
+  } catch (e) { return Promise.resolve(null); }
+}
+
+var state, canWrite = false, saving = false;
+try { state = JSON.parse(document.getElementById("data").textContent); }
+catch (e) { state = {team:"ΑΠΟΠ", player:"", league:"", group:"", games:[], places:{}}; }
+if (!Array.isArray(state.games)) state.games = [];
+if (!state.places || typeof state.places !== "object") state.places = {};
+
+var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var MONTHS_LONG = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+var DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var DAYS_LONG = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+var ICON = {
+  more:'<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="4" cy="10" r="1.6"/><circle cx="10" cy="10" r="1.6"/><circle cx="16" cy="10" r="1.6"/></svg>',
+  sun:'<svg class="sun" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="3.2"/><path d="M10 2.5v1.8M10 15.7v1.8M2.5 10h1.8M15.7 10h1.8M4.7 4.7l1.3 1.3M14 14l1.3 1.3M15.3 4.7L14 6M6 14l-1.3 1.3"/></svg>',
+  moon:'<svg class="moon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 11.6A6.6 6.6 0 0 1 8.4 3.5a6.6 6.6 0 1 0 8.1 8.1z"/></svg>',
+  pen:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 3.5l3 3L7 16H4v-3z"/></svg>',
+  down:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>',
+  chev:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5l5 5-5 5"/></svg>',
+  pin:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M10 17.5s5.5-4.6 5.5-9A5.5 5.5 0 0 0 4.5 8.5c0 4.4 5.5 9 5.5 9z"/><circle cx="10" cy="8.5" r="2"/></svg>',
+  cal:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" rx="2.5"/><path d="M3 8.5h14M7 3v3M13 3v3M10 11v4M8 13h4"/></svg>',
+  refresh:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10a6 6 0 1 1-1.8-4.3M16 3.5v3h-3"/></svg>',
+  home:'<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2.6 2.4 9.3h2.1V17h4V12h3v5h4V9.3h2.1z"/></svg>',
+  away:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 14 14 6M7.5 6H14v6.5"/></svg>'
+};
+
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function $(sel, root){ return (root || document).querySelector(sel); }
+function when(g){ var d = new Date((g.date||"2000-01-01") + "T" + (g.time||"12:00") + ":00"); return isNaN(d) ? new Date(0) : d; }
+function isHome(g){ return (g.home||"").indexOf(state.team) > -1; }
+function opponent(g){ return isHome(g) ? (g.away||"") : (g.home||""); }
+function played(g){ return g.hs !== null && g.hs !== undefined && g.hs !== "" && g.as !== null && g.as !== undefined && g.as !== ""; }
+function ourScore(g){ return Number(isHome(g) ? g.hs : g.as); }
+function theirScore(g){ return Number(isHome(g) ? g.as : g.hs); }
+function sorted(){ return state.games.slice().sort(function(a,b){ return when(a) - when(b); }); }
+function upcoming(g){ return when(g).getTime() > Date.now() - 2*3600*1000 && !played(g); }
+function pad(n){ return ("0" + n).slice(-2); }
+
+/* Venue -> Google Maps. state.places maps a venue name to its Google place id. */
+function vkey(v){ try { return String(v || "").toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); } catch (e) { return String(v || "").toLowerCase(); } }
+function placeId(v){
+  var k = vkey(v), ids = state.places || {};
+  for (var name in ids) { if (vkey(name) === k) return ids[name]; }
+  return "";
+}
+function mapsUrl(g){
+  var v = (g.venue || "").trim();
+  if (!v) return "";
+  var pid = placeId(v);
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(pid ? v : v + " Cyprus")
+    + (pid ? "&query_place_id=" + encodeURIComponent(pid) : "");
+}
+function venueHTML(g){
+  var v = (g.venue || "").trim();
+  if (!v) return '<p class="meta">Venue to be confirmed</p>';
+  return '<a class="meta" href="' + esc(mapsUrl(g)) + '" target="_blank" rel="noopener" aria-label="Directions to ' + esc(v) + '">' + ICON.pin.replace(' width="16" height="16"', "") + '<span>' + esc(v) + '</span></a>';
+}
+function sideHTML(g, big){
+  var h = isHome(g);
+  return '<span class="side ' + (h ? "home" : "away") + '">' + (h ? ICON.home : ICON.away) + (h ? "Home" : "Away") + (big ? " game" : "") + '</span>';
+}
+
+function relative(d){
+  var now = new Date(), ms = d - now;
+  var a = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var b = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  var days = Math.round((b - a) / 86400000);
+  if (days <= 0) {
+    if (ms <= 0) return "Now";
+    if (ms < 3600000) return "In " + Math.max(1, Math.round(ms / 60000)) + " min";
+    return "Today";
+  }
+  if (days === 1) return "Tomorrow";
+  return "In " + days + " days";
+}
+
+/* ---------- theme ---------- */
+
+function isDark(){
+  var t = document.documentElement.getAttribute("data-theme");
+  if (t) return t === "dark";
+  try { return window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) { return false; }
+}
+function syncSwitch(){
+  var sw = $(".sw");
+  if (sw) sw.setAttribute("aria-checked", isDark() ? "true" : "false");
+}
+
+/* ---------- rendering ---------- */
+
+function headerHTML(){
+  return '<header class="bar">' + (state.logo ? '<img class="logo" src="' + esc(state.logo) + '" alt="APOP BC emblem">' : "") + '<div class="ttl"><h1>' + esc(state.team) + '</h1>'
+    + '<p>' + esc([state.league, state.group].filter(Boolean).join(' · ') || 'Season schedule') + '</p></div>'
+    + '<div class="tools">'
+    + '<button class="ibtn glass" data-act="menu" aria-label="Menu" aria-haspopup="dialog">' + ICON.more + '</button>'
+    + '<button class="sw glass" role="switch" aria-checked="' + isDark() + '" aria-label="Dark theme" data-act="theme">'
+    + '<span class="knob"></span>' + ICON.sun + ICON.moon + '</button>'
+    + '</div></header>';
+}
+
+function widgetHTML(){
+  var all = sorted(), res = all.filter(played), left = all.filter(upcoming).length, w = 0, l = 0;
+  res.forEach(function(g){ var o = ourScore(g), t = theirScore(g); if (o > t) w++; else if (o < t) l++; });
+  var last = res.slice(-5), pips = "";
+  last.forEach(function(g){
+    var win = ourScore(g) > theirScore(g);
+    pips += '<span class="pip ' + (win ? "w" : "l") + '" aria-label="' + (win ? "Win" : "Loss") + '">' + (win ? "W" : "L") + '</span>';
+  });
+  for (var i = last.length; i < 5; i++) pips += '<span class="pip e" aria-hidden="true"></span>';
+  return '<section class="widget glass" aria-label="Season">'
+    + '<div class="cell"><span class="big num">' + w + '–' + l + '</span><span class="cap">Record</span></div>'
+    + '<div class="cell"><div class="form">' + pips + '</div><span class="cap">Last 5</span></div>'
+    + '<div class="cell"><span class="big num">' + left + '</span><span class="cap">To play</span></div>'
+    + '</section>';
+}
+
+function editBtn(g){
+  return canWrite ? '<button class="ic" data-act="edit" data-id="' + g.id + '" aria-label="Edit game">' + ICON.pen + '</button>' : "";
+}
+function calBtn(g){
+  return '<button class="ic" data-act="cal" data-id="' + g.id + '" aria-label="Add to calendar" title="Add to calendar">' + ICON.cal + '</button>';
+}
+
+function rowHTML(g, isFocus){
+  var d = when(g), isPast = !upcoming(g), cls = "future", right;
+  if (isPast) {
+    cls = "past";
+    if (played(g)) {
+      var o = ourScore(g), t = theirScore(g);
+      cls = o > t ? "past won" : (o < t ? "past lost" : "past");
+      right = '<span class="score num">' + o + '–' + t + '</span>';
+    } else right = '<span class="score num" style="color:var(--text-3)">—</span>';
+  } else right = g.time ? '<span class="time num">' + esc(g.time) + '</span>' : '<span class="time tbc">Time TBC</span>';
+  return '<article class="it ' + cls + '"' + (isFocus ? ' id="focus"' : "") + '>'
+    + '<div class="dt glass num"><b>' + d.getDate() + '</b><span>' + DAYS[d.getDay()] + '</span></div><div class="dot"></div>'
+    + '<div class="bd glass"><div class="mid">' + sideHTML(g, false)
+    + '<p class="opp"><span class="vs">' + (isHome(g) ? "vs" : "at") + '</span> ' + esc(opponent(g)) + '</p>'
+    + venueHTML(g) + '</div>'
+    + '<div class="end">' + right + '<div class="rowtools">' + (isPast ? "" : calBtn(g)) + editBtn(g) + '</div></div>'
+    + '</div></article>';
+}
+
+function nextHTML(g){
+  var d = when(g), url = mapsUrl(g);
+  return '<article class="it next" id="focus">'
+    + '<div class="dt glass num"><b>' + d.getDate() + '</b><span>' + DAYS[d.getDay()] + '</span></div><div class="dot"></div>'
+    + '<div class="bd"><div class="k">' + sideHTML(g, true) + '<span class="chip">' + relative(d) + '</span></div>'
+    + '<h3 class="opp"><span class="vs">' + (isHome(g) ? "vs" : "at") + '</span> ' + esc(opponent(g)) + '</h3>'
+    + '<p class="when num">' + DAYS_LONG[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_LONG[d.getMonth()] + ' · ' + (g.time ? esc(g.time) : "Time to be confirmed") + '</p>'
+    + '<div class="where">' + venueHTML(g) + '</div>'
+    + '<div class="acts">'
+    + (url ? '<a class="cta" href="' + esc(url) + '" target="_blank" rel="noopener">' + ICON.pin + 'Directions</a>' : "")
+    + '<button class="pill" data-act="cal" data-id="' + g.id + '">' + ICON.cal + 'Add to calendar</button>'
+    + editBtn(g) + '</div></div></article>';
+}
+
+function timelineHTML(){
+  var all = sorted();
+  if (!all.length) {
+    return '<div class="empty"><h2>No fixtures yet</h2>'
+      + (canWrite
+        ? '<p>Copy the ' + esc(state.team) + ' rows from the federation site and paste them in. Dates, times, teams and venues are read automatically.</p><button class="btn" data-act="paste">Paste fixtures</button>'
+        : '<p>Fixtures haven’t been added yet.</p>')
+      + '</div>';
+  }
+  var nextId = (all.filter(upcoming)[0] || {}).id;
+  var focusId = nextId || all[all.length - 1].id;
+  var out = "", lastKey = "";
+  all.forEach(function(g){
+    var d = when(g), key = d.getFullYear() + "-" + d.getMonth();
+    if (key !== lastKey) { out += '<h2 class="mo glass">' + MONTHS_LONG[d.getMonth()] + ' ' + d.getFullYear() + '</h2>'; lastKey = key; }
+    out += g.id === nextId ? nextHTML(g) : rowHTML(g, g.id === focusId);
+  });
+  if (!nextId) out += '<p class="endnote">Season complete. No more fixtures.</p>';
+  return '<div class="tl">' + out + '<p class="brand glass">One Club. One Dream.</p><div id="spacer" aria-hidden="true"></div></div>';
+}
+
+/* ---------- quotes ---------- */
+
+function quotes(){ return (Array.isArray(state.quotes) && state.quotes.length) ? state.quotes : DEFAULT_QUOTES; }
+var qIdx = -1;
+function nextQuote(){
+  var list = quotes(), last = -1;
+  if (!list.length) return;
+  try { var s = localStorage.getItem("apop-quote"); if (s !== null && s !== "") last = Number(s); } catch (e) {}
+  var cur = qIdx >= 0 ? qIdx : last, i = 0;
+  if (list.length > 1) { do { i = Math.floor(Math.random() * list.length); } while (i === cur); }
+  qIdx = i;
+  try { localStorage.setItem("apop-quote", String(i)); } catch (e) {}
+}
+function parseQuote(s){
+  var m = String(s || "").match(/^(.*\S)\s+[—–]\s+(\S[^—–]*)$/);
+  return m ? {t:m[1], by:m[2].trim()} : {t:String(s || ""), by:""};
+}
+function paintQuote(animate){
+  var el = $("#q"), t = $("#q-text"), b = $("#q-by");
+  if (!el || !t || !b) return;
+  var q = parseQuote(quotes()[qIdx]);
+  var apply = function(){ t.textContent = q.t; b.textContent = q.by ? "— " + q.by : ""; b.hidden = !q.by; el.classList.remove("swap"); };
+  if (animate) { el.classList.add("swap"); setTimeout(apply, 170); } else apply();
+}
+
+function render(opts){
+  opts = opts || {};
+  var old = $("#scroller"), keep = old ? old.scrollTop : 0;
+  var hasNext = sorted().some(upcoming);
+  document.getElementById("root").innerHTML =
+    '<div class="app">' + headerHTML() + widgetHTML()
+    + '<div class="scrollwrap"><main class="scroller" id="scroller">' + timelineHTML() + '</main>'
+    + '<button class="jump glass hide" id="jump" data-act="jump" data-dir="down">' + (hasNext ? "Next game" : "Latest game") + ICON.down + '</button></div>'
+    + '<button class="quote glass" id="q" data-act="quote" aria-live="polite" aria-label="Show another quote">'
+    + '<span class="qmark" aria-hidden="true">“</span><span class="qbody"><span id="q-text"></span><span id="q-by" hidden></span></span>'
+    + '<span class="qref" aria-hidden="true">' + ICON.refresh + '</span></button></div>';
+  paintQuote(false);
+  var sc = $("#scroller");
+  if (!sc) return;
+  sc.addEventListener("scroll", updateJump, {passive:true});
+  if (opts.center) centerFocus(false); else { sc.scrollTop = keep; updateJump(); }
+}
+
+function centerFocus(smooth){
+  var sc = $("#scroller"), el = $("#focus"), sp = $("#spacer");
+  if (!sc || !el) return;
+  if (sp) sp.style.height = "0px";
+  var s = sc.getBoundingClientRect(), r = el.getBoundingClientRect();
+  var top = r.top - s.top + sc.scrollTop, h = el.offsetHeight, H = sc.clientHeight;
+  var need = Math.max(0, (H - h) / 2);
+  var below = sc.scrollHeight - (top + h);
+  if (sp) sp.style.height = Math.max(0, need - below) + "px";
+  var reduce = false;
+  try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  sc.scrollTo({top:Math.max(0, top - need), behavior:(smooth && !reduce) ? "smooth" : "auto"});
+  updateJump();
+}
+
+function updateJump(){
+  var sc = $("#scroller"), el = $("#focus"), pill = $("#jump");
+  if (!pill) return;
+  if (!sc || !el) { pill.classList.add("hide"); return; }
+  var s = sc.getBoundingClientRect(), r = el.getBoundingClientRect();
+  var above = r.bottom < s.top + 8, below = r.top > s.bottom - 8;
+  pill.classList.toggle("hide", !(above || below));
+  pill.setAttribute("data-dir", above ? "up" : "down");
+}
+
+/* ---------- sheets ---------- */
+
+function sheet(html){
+  var d = document.createElement("dialog");
+  d.innerHTML = '<div class="sheet">' + html + '</div>';
+  document.body.appendChild(d);
+  d.addEventListener("close", function(){ d.remove(); });
+  d.addEventListener("click", function(ev){ if (ev.target === d) d.close(); });
+  d.showModal();
+  return d;
+}
+function toast(msg){
+  var t = document.createElement("div");
+  t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, 2600);
+}
+function xAttr(ev){ var b = ev.target.closest ? ev.target.closest("[data-x]") : null; return b ? b.getAttribute("data-x") : null; }
+
+function menuSheet(){
+  var row = function(x, title, sub){
+    return '<button data-x="' + x + '"><span>' + title + (sub ? '<small>' + sub + '</small>' : "") + '</span>' + ICON.chev + '</button>';
+  };
+  var d = sheet('<h2>Menu</h2><p class="note">' + esc(updatedText()) + '</p><div class="menu">'
+    + row("ics", "Export all games to calendar", "One calendar file with every game")
+    + (canWrite ? row("paste", "Paste fixtures", "Import from the federation site") : "")
+    + (canWrite ? row("add", "Add a game", "") : "")
+    + (canWrite ? row("quotes", "Edit quotes", "The lines shown at the bottom") : "")
+    + (canWrite ? row("details", "Team and season details", "") : "")
+    + '</div>');
+  d.addEventListener("click", function(ev){
+    var x = xAttr(ev);
+    if (!x) return;
+    d.close();
+    if (x === "ics") exportICS(sorted(), "apop-u14-season.ics");
+    else if (x === "paste") pasteSheet();
+    else if (x === "add") gameSheet(null);
+    else if (x === "quotes") quotesSheet();
+    else if (x === "details") detailsSheet();
+  });
+}
+
+function quotesSheet(){
+  var d = sheet('<h2>Quotes</h2>'
+    + '<p class="note">One quote per line. Add “ — Name” at the end of a line to credit someone.</p>'
+    + '<div class="field"><label for="q-area">Quotes</label><textarea id="q-area">' + esc(quotes().join("\n")) + '</textarea></div>'
+    + '<div class="sheetacts"><button class="btn ghost" data-x="reset">Reset</button><span class="sp"></span>'
+    + '<button class="btn ghost" data-x="cancel">Cancel</button><button class="btn" data-x="save">Save</button></div>');
+  d.addEventListener("click", function(ev){
+    var x = xAttr(ev);
+    if (!x) return;
+    if (x === "cancel") { d.close(); return; }
+    if (x === "reset") delete state.quotes;
+    else {
+      var lines = d.querySelector("#q-area").value.split(/\r?\n/).map(function(s){ return s.trim(); }).filter(Boolean);
+      if (!lines.length || lines.join("\n") === DEFAULT_QUOTES.join("\n")) delete state.quotes; else state.quotes = lines;
+    }
+    qIdx = -1; nextQuote();
+    d.close(); commit("Quotes saved");
+  });
+}
+
+function gameSheet(id){
+  var g = id ? state.games.filter(function(x){ return x.id === id; })[0] : null;
+  var fresh = !g;
+  if (!g) g = {id:uid(), date:"", time:"", home:state.team, away:"", venue:"", hs:"", as:""};
+  var d = sheet(
+      '<h2>' + (fresh ? "Add a game" : "Edit game") + '</h2>'
+    + '<div class="two"><div class="field"><label for="f-date">Date</label><input id="f-date" type="date" value="' + esc(g.date) + '"></div>'
+    + '<div class="field"><label for="f-time">Tip-off (empty if not known)</label><input id="f-time" type="time" value="' + esc(g.time) + '"></div></div>'
+    + '<div class="two"><div class="field"><label for="f-home">Home team</label><input id="f-home" value="' + esc(g.home) + '"></div>'
+    + '<div class="field"><label for="f-away">Away team</label><input id="f-away" value="' + esc(g.away) + '"></div></div>'
+    + '<div class="field"><label for="f-venue">Venue</label><input id="f-venue" value="' + esc(g.venue) + '"></div>'
+    + '<div class="two"><div class="field"><label for="f-hs">Home score</label><input id="f-hs" inputmode="numeric" value="' + esc(g.hs == null ? "" : g.hs) + '"></div>'
+    + '<div class="field"><label for="f-as">Away score</label><input id="f-as" inputmode="numeric" value="' + esc(g.as == null ? "" : g.as) + '"></div></div>'
+    + '<div class="sheetacts">' + (fresh ? "" : '<button class="btn danger" data-x="del">Delete</button>')
+    + '<span class="sp"></span><button class="btn ghost" data-x="cancel">Cancel</button>'
+    + '<button class="btn" data-x="save">Save</button></div>');
+  d.addEventListener("click", function(ev){
+    var x = xAttr(ev);
+    if (!x) return;
+    if (x === "cancel") { d.close(); return; }
+    if (x === "del") {
+      state.games = state.games.filter(function(v){ return v.id !== g.id; });
+      d.close(); commit("Game removed"); return;
+    }
+    var val = function(i){ return d.querySelector(i).value.trim(); };
+    if (!val("#f-date")) { toast("A date is needed"); return; }
+    g.date = val("#f-date"); g.time = val("#f-time");
+    g.home = val("#f-home"); g.away = val("#f-away"); g.venue = val("#f-venue");
+    g.hs = val("#f-hs"); g.as = val("#f-as");
+    if (fresh) state.games.push(g);
+    d.close(); commit("Saved");
+  });
+}
+
+function detailsSheet(){
+  var d = sheet('<h2>Team and season details</h2>'
+    + '<p class="note">Changes you save are published for everyone with the link.</p>'
+    + '<div class="two"><div class="field"><label for="m-team">Team as written on the fixture list</label><input id="m-team" value="' + esc(state.team) + '"></div>'
+    + '<div class="field"><label for="m-league">Age group</label><input id="m-league" value="' + esc(state.league) + '"></div></div>'
+    + '<div class="field"><label for="m-group">Group</label><input id="m-group" value="' + esc(state.group || "") + '"></div>'
+    + '<div class="sheetacts"><span class="sp"></span><button class="btn ghost" data-x="cancel">Cancel</button><button class="btn" data-x="save">Save</button></div>');
+  d.addEventListener("click", function(ev){
+    var x = xAttr(ev);
+    if (!x) return;
+    if (x === "cancel") { d.close(); return; }
+    state.group = d.querySelector("#m-group").value.trim();
+    delete state.player; delete state.season;
+    state.team = d.querySelector("#m-team").value.trim() || state.team;
+    state.league = d.querySelector("#m-league").value.trim();
+    d.close(); commit("Saved");
+  });
+}
+
+/* ---------- paste importer ---------- */
+
+var VENUEISH = /ΑΙΘ|ΓΥΜΝΑΣ|ΓΥΜΝ\.|ΚΛΕΙΣΤ|ΣΤΑΔΙ|ΑΘΛΗΤΙΚ|ΣΧΟΛ|ΛΥΚΕΙ|ΠΟΛΥΔΥΝΑΜ|ΟΛΥΜΠΙΟΝ|HALL|GYM|ARENA|COURT|CENTRE|CENTER/i;
+
+function parseLines(text){
+  var rows = [], bad = [];
+  text.split(/\r?\n/).forEach(function(raw){
+    var line = raw.replace(/\u00a0/g, " ").trim();
+    if (!line) return;
+    var dm = line.match(/(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{2,4})/);
+    if (!dm) { if (line.length > 6) bad.push(line); return; }
+    var yr = Number(dm[3]); if (yr < 100) yr += 2000;
+    var date = yr + "-" + pad(Number(dm[2])) + "-" + pad(Number(dm[1]));
+    var rest = line.replace(dm[0], "\t");
+    var tm = rest.match(/(\d{1,2}):(\d{2})/);
+    var time = tm ? pad(Number(tm[1])) + ":" + tm[2] : "";
+    if (tm) rest = rest.replace(tm[0], "\t");
+    var sc = rest.match(/(?:^|[\s\t])(\d{1,3})\s*[-–:]\s*(\d{1,3})(?:[\s\t]|$)/);
+    var hs = "", as = "";
+    if (sc && (Number(sc[1]) > 3 || Number(sc[2]) > 3)) { hs = sc[1]; as = sc[2]; rest = rest.replace(sc[0], "\t"); }
+    var parts = rest.split(/\t|,|\s{2,}|\s+[-–]\s+|\s+vs?\.?\s+/i)
+      .map(function(s){ return s.replace(/^[\s\-–|]+|[\s\-–|]+$/g, "").trim(); })
+      .filter(function(s){ return s.length > 1 && !/^\d+$/.test(s); });
+    if (parts.length < 2) { bad.push(line); return; }
+    var teamIdx = -1;
+    for (var i = 0; i < parts.length; i++) { if (parts[i].indexOf(state.team) > -1) { teamIdx = i; break; } }
+    var home, away, venue = "", oppIdx = -1;
+    if (teamIdx === -1) {
+      var plain = [];
+      parts.forEach(function(p, i){ if (!VENUEISH.test(p)) plain.push(i); });
+      if (plain.length < 2) { bad.push(line); return; }
+      teamIdx = plain[0]; oppIdx = plain[1];
+    } else {
+      [teamIdx + 1, teamIdx - 1].forEach(function(i){
+        if (oppIdx === -1 && i >= 0 && i < parts.length && !VENUEISH.test(parts[i])) oppIdx = i;
+      });
+      if (oppIdx === -1) {
+        for (var j = 0; j < parts.length; j++) { if (j !== teamIdx && !VENUEISH.test(parts[j])) { oppIdx = j; break; } }
+      }
+      if (oppIdx === -1) {
+        for (var k = 0; k < parts.length; k++) { if (k !== teamIdx) { oppIdx = k; break; } }
+      }
+      if (oppIdx === -1) { bad.push(line); return; }
+    }
+    venue = parts.filter(function(_, i){ return i !== teamIdx && i !== oppIdx; }).join(" ");
+    var oppName = parts[oppIdx], glued = oppName.match(/^(.+?)\s+((?:ΑΙΘ|ΓΥΜΝ|ΚΛΕΙΣΤ|ΣΤΑΔ|ΑΘΛΗΤ|ΣΧΟΛ|ΛΥΚΕΙ|ΠΟΛΥΔ)[^\s]*\s.*)$/);
+    if (glued) { oppName = glued[1].trim(); venue = (glued[2] + " " + venue).trim(); }
+    if (teamIdx < oppIdx) { home = parts[teamIdx]; away = oppName; } else { home = oppName; away = parts[teamIdx]; }
+    rows.push({id:uid(), date:date, time:time, home:home, away:away, venue:venue, hs:hs, as:as});
+  });
+  return {rows:rows, bad:bad};
+}
+
+function pasteSheet(){
+  var d = sheet('<h2>Paste fixtures</h2>'
+    + '<p class="note">Open the fixture list, select the ' + esc(state.team) + ' rows, copy, and paste here. One game per line. Anything misread can be fixed afterwards.</p>'
+    + '<div class="field"><label for="p-text">Copied rows</label><textarea id="p-text" placeholder="11/10/2025  17:00  ΑΠΟΠ - ΑΕΛ  Αίθουσα ..."></textarea></div>'
+    + '<div id="p-prev"></div>'
+    + '<div class="sheetacts"><span class="sp"></span><button class="btn ghost" data-x="cancel">Cancel</button>'
+    + '<button class="btn" data-x="import">Import</button></div>');
+  var parsed = {rows:[], bad:[]};
+  var ta = d.querySelector("#p-text");
+  ta.addEventListener("input", function(){
+    parsed = parseLines(ta.value);
+    var html = "";
+    if (parsed.rows.length) {
+      html = '<div class="preview">' + parsed.rows.map(function(g){
+        var dd = when(g);
+        return '<div>' + DAYS[dd.getDay()] + " " + dd.getDate() + " " + MONTHS[dd.getMonth()] + " · " + (g.time ? esc(g.time) : "time TBC")
+          + " · " + esc(g.home) + " – " + esc(g.away) + (g.venue ? " · " + esc(g.venue) : "") + '</div>';
+      }).join("") + parsed.bad.map(function(b){ return '<div class="bad">Skipped: ' + esc(b) + '</div>'; }).join("") + '</div>';
+    } else if (ta.value.trim()) {
+      html = '<p class="note">Nothing readable yet. Each line needs a date like 11/10/2025.</p>';
+    }
+    d.querySelector("#p-prev").innerHTML = html;
+  });
+  d.addEventListener("click", function(ev){
+    var x = xAttr(ev);
+    if (!x) return;
+    if (x === "cancel") { d.close(); return; }
+    if (!parsed.rows.length) { toast("Nothing to import yet"); return; }
+    var keys = {};
+    state.games.forEach(function(g){ keys[g.date + g.home + g.away] = 1; });
+    var added = 0;
+    parsed.rows.forEach(function(g){ if (!keys[g.date + g.home + g.away]) { state.games.push(g); added++; } });
+    d.close(); commit(added + (added === 1 ? " game added" : " games added"));
+  });
+}
+
+/* ---------- calendar export ---------- */
+
+function icsStamp(d){
+  return d.getUTCFullYear() + pad(d.getUTCMonth()+1) + pad(d.getUTCDate()) + "T" + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + "00Z";
+}
+function icsDate(g){ var p = g.date.split("-"); return p[0] + p[1] + p[2]; }
+function icsFor(games){
+  var out = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//" + state.team + " " + state.league + "//EN","CALSCALE:GREGORIAN"];
+  games.forEach(function(g){
+    var title = isHome(g) ? state.team + " vs " + opponent(g) : state.team + " at " + opponent(g);
+    out.push("BEGIN:VEVENT","UID:" + g.id + "@apop-schedule","DTSTAMP:" + icsStamp(new Date()));
+    if (g.time) {
+      var s = when(g), e = new Date(s.getTime() + 90*60000);
+      out.push("DTSTART:" + icsStamp(s), "DTEND:" + icsStamp(e));
+    } else {
+      var n = new Date(when(g).getTime() + 86400000);
+      out.push("DTSTART;VALUE=DATE:" + icsDate(g), "DTEND;VALUE=DATE:" + n.getFullYear() + pad(n.getMonth()+1) + pad(n.getDate()));
+    }
+    out.push("SUMMARY:" + title + (g.time ? "" : " (time TBC)"),
+      "LOCATION:" + (g.venue || "").replace(/,/g, "\\,"));
+    if (mapsUrl(g)) out.push("URL:" + mapsUrl(g));
+    if (g.time) out.push("BEGIN:VALARM","TRIGGER:-PT90M","ACTION:DISPLAY","DESCRIPTION:Tip-off in 90 minutes","END:VALARM");
+    out.push("END:VEVENT");
+  });
+  out.push("END:VCALENDAR");
+  return out.join("\r\n");
+}
+function exportICS(games, name){
+  if (!games.length) { toast("No games to export yet"); return; }
+  var blob = new Blob([icsFor(games)], {type:"text/calendar;charset=utf-8"});
+  var url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+}
+
+function updatedText(){
+  if (!state.updated) return "Fixtures are checked automatically.";
+  var d = new Date(state.updated);
+  if (isNaN(d)) return "Fixtures are checked automatically.";
+  return "Fixtures are checked automatically. Last update: " + d.getDate() + " " + MONTHS[d.getMonth()] + ", " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ".";
+}
+
+/* ---------- persistence ---------- */
+
+function buildDoc(){
+  var json = JSON.stringify(state).replace(/</g, "\\u003c");
+  var css = document.getElementById("css").textContent;
+  var app = document.getElementById("app").textContent;
+  return '<!doctype html>\n<html lang="en">\n<head>\n' + HEAD + '\n<style id="css">' + css + '</style>\n</head>\n'
+    + '<body>\n<div id="root"></div>\n'
+    + '<script id="data" type="application/json">' + json + '<\/script>\n'
+    + '<script id="app">' + app + '<\/script>\n</body>\n</html>';
+}
+
+function commit(msg){
+  render();
+  if (saving) return;
+  saving = true;
+  use("artifact").then(function(a){
+    if (!a) { canWrite = false; render(); toast("This is a read-only view"); return; }
+    return a.publish(buildDoc()).then(function(){ toast(msg || "Saved"); });
+  }).catch(function(err){
+    var code = err && err.code;
+    if (code === "not_writer" || code === "not_granted" || code === "consent_required") {
+      canWrite = false; render(); toast("This is a read-only view");
+    } else if (code === "conflict") {
+      /* the view is already reloading to the newer version */
+    } else if (code === "rate_limited") {
+      toast("Too many saves at once. Try again in a moment.");
+    } else {
+      toast("That change was not saved");
+    }
+  }).then(function(){ saving = false; });
+}
+
+/* ---------- events ---------- */
+
+document.addEventListener("click", function(ev){
+  var el = ev.target.closest ? ev.target.closest("[data-act]") : null;
+  if (!el) return;
+  var act = el.getAttribute("data-act"), id = el.getAttribute("data-id");
+  if (act === "edit") gameSheet(id);
+  else if (act === "menu") menuSheet();
+  else if (act === "paste") pasteSheet();
+  else if (act === "jump") centerFocus(true);
+  else if (act === "cal") {
+    var cg = state.games.filter(function(x){ return x.id === id; })[0];
+    if (cg) exportICS([cg], "apop-" + cg.date + ".ics");
+  }
+  else if (act === "quote") { nextQuote(); paintQuote(true); }
+  else if (act === "theme") {
+    var next = isDark() ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("apop-theme", next); } catch (e) {}
+    syncSwitch();
+  }
+});
+
+try {
+  var saved = localStorage.getItem("apop-theme");
+  if (saved === "light" || saved === "dark") document.documentElement.setAttribute("data-theme", saved);
+} catch (e) {}
+try {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", syncSwitch);
+} catch (e) {}
+
+document.body.insertAdjacentHTML("afterbegin", BG_HTML);
+nextQuote();
+render({center:true});
+window.addEventListener("resize", function(){ updateJump(); });
+setInterval(function(){ if (!document.querySelector("dialog[open]")) render(); }, 60000);
+
+function refreshData(){
+  if (!window.fetch || location.protocol === "file:") return;
+  fetch("fixtures.json?ts=" + Date.now(), {cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+    if (!j || !Array.isArray(j.games)) return;
+    if (JSON.stringify(j) === JSON.stringify(state)) return;
+    state = j; if (!state.places) state.places = {};
+    render();
+  }).catch(function(){});
+}
+refreshData();
+document.addEventListener("visibilitychange", function(){ if (!document.hidden) refreshData(); });
+
+})();
+</script>
+</body>
+</html>
