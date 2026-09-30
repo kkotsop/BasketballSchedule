@@ -302,6 +302,24 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 .it.next .dot::after{box-shadow:0 0 0 4px var(--accent-chip),0 0 12px var(--accent)}
 .chip{color:var(--text)}
 :root[data-theme="dark"] .foot{color:rgba(226,232,240,.72)}
+
+/* ---- background v4: court lines + hoop photo placed lower, same picture in both themes ---- */
+.bg .photo{display:block;background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 440 956' preserveAspectRatio='xMidYMin slice'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.10' stroke-width='1.6'%3E%3Cpath d='M30 0V150A190 190 0 0 0 410 150V0'/%3E%3Crect x='150' y='0' width='140' height='200'/%3E%3Cpath d='M150 200a70 70 0 0 0 140 0'/%3E%3Cpath d='M190 34h60'/%3E%3Ccircle cx='220' cy='54' r='9'/%3E%3C/g%3E%3C/svg%3E") center top/100% auto no-repeat,
+  radial-gradient(120% 50% at 85% 0%,rgba(96,119,255,.30),transparent 60%),
+  radial-gradient(90% 55% at 10% 10%,rgba(190,30,70,.28),transparent 65%),
+  linear-gradient(180deg,#140B18 0%,#0A0710 100%)}
+.bg .photo::after{content:"";position:absolute;left:0;right:0;top:22%;bottom:0;background:url("assets/bg-hoop.webp") center top/cover no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 32%);mask-image:linear-gradient(180deg,transparent 0%,#000 32%)}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,7,14,.25) 0%,rgba(4,7,14,0) 30%,rgba(4,7,14,.55) 100%)}
+:root[data-theme="dark"] .bg .ball3d,:root[data-theme="dark"] .bg .ballshadow,.bg .ball3d,.bg .ballshadow{display:none}
+:root[data-theme="light"] .bg .photo{background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 440 956' preserveAspectRatio='xMidYMin slice'%3E%3Cg fill='none' stroke='%230F172A' stroke-opacity='.10' stroke-width='1.6'%3E%3Cpath d='M30 0V150A190 190 0 0 0 410 150V0'/%3E%3Crect x='150' y='0' width='140' height='200'/%3E%3Cpath d='M150 200a70 70 0 0 0 140 0'/%3E%3Cpath d='M190 34h60'/%3E%3Ccircle cx='220' cy='54' r='9'/%3E%3C/g%3E%3C/svg%3E") center top/100% auto no-repeat,
+  radial-gradient(120% 50% at 85% 0%,rgba(96,119,255,.16),transparent 60%),
+  radial-gradient(90% 55% at 10% 10%,rgba(225,29,72,.10),transparent 65%),
+  linear-gradient(180deg,#EDF2F8 0%,#D8E1EC 100%)}
+:root[data-theme="light"] .bg .photo::after{opacity:.34;filter:saturate(.85)}
+:root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(237,242,248,.35) 0%,rgba(237,242,248,0) 30%,rgba(216,225,236,.55) 100%)}
 </style>
 </head>
 <body>
@@ -452,14 +470,11 @@ function calBtn(g){
 }
 
 function rowHTML(g, isFocus){
-  var d = when(g), isPast = !upcoming(g), cls = "future", right;
-  if (isPast) {
-    cls = "past";
-    if (played(g)) {
-      var o = ourScore(g), t = theirScore(g);
-      cls = o > t ? "past won" : (o < t ? "past lost" : "past");
-      right = '<span class="score num">' + o + '–' + t + '</span>';
-    } else right = hasScore(g) ? '<span class="score num" style="color:var(--text-3)">' + ourScore(g) + '–' + theirScore(g) + '</span>' : '<span class="score num" style="color:var(--text-3)">—</span>';
+  var d = when(g), fut = upcoming(g), cls = "future", right;
+  if (played(g)) {
+    var o = ourScore(g), t = theirScore(g);
+    cls = o > t ? "past won" : (o < t ? "past lost" : "past");
+    right = '<span class="score num">' + o + '–' + t + '</span>';
   } else right = (g.time ? '<span class="time num">' + esc(g.time) + '</span>' : '<span class="time tbc">Time TBC</span>')
     + (hasScore(g) ? '<span class="score sm num" aria-label="Score">' + ourScore(g) + '–' + theirScore(g) + '</span>' : "");
   return '<article class="it ' + cls + '"' + (isFocus ? ' id="focus"' : "") + '>'
@@ -467,7 +482,7 @@ function rowHTML(g, isFocus){
     + '<div class="bd glass"><div class="mid">' + sideHTML(g, false)
     + '<p class="opp"><span class="vs">' + (isHome(g) ? "vs" : "at") + '</span> ' + esc(opponent(g)) + '</p>'
     + venueHTML(g) + '</div>'
-    + '<div class="end">' + right + '<div class="rowtools">' + (isPast ? "" : calBtn(g)) + '</div></div>'
+    + '<div class="end">' + right + '<div class="rowtools">' + (fut ? calBtn(g) : "") + '</div></div>'
     + '</div></article>';
 }
 
@@ -715,7 +730,15 @@ function refreshData(){
   }).catch(function(){});
 }
 refreshData();
-document.addEventListener("visibilitychange", function(){ if (!document.hidden) refreshData(); });
+var hiddenAt = 0;
+document.addEventListener("visibilitychange", function(){
+  if (document.hidden) { hiddenAt = Date.now(); return; }
+  refreshData();
+  if (hiddenAt && Date.now() - hiddenAt > 30000) render({center:true});   // coming back to the app: start on the next game again
+});
+window.addEventListener("pageshow", function(e){ if (e.persisted) render({center:true}); });
+window.addEventListener("load", function(){ centerFocus(false); });
+try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ centerFocus(false); }); } catch (e) {}
 
 })();
 </script>
