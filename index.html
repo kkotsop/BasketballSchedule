@@ -272,7 +272,7 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 html{background:#0A1A24}
 /* background photo */
 .bg .ball3d,.bg .ballshadow{display:none}
-.bg{position:fixed;top:0;right:0;bottom:0;left:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg{position:fixed;top:0;right:0;bottom:-120px;left:0;z-index:0;pointer-events:none;overflow:hidden}
 .bg .photo{position:absolute;inset:0;background:url("assets/bg-ball.webp") center/cover no-repeat,#10303D}
 .bg::after{content:"";position:absolute;inset:0}
 :root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(5,18,28,.40) 0%,rgba(5,18,28,.22) 45%,rgba(5,18,28,.46) 100%)}
@@ -399,6 +399,8 @@ html{background:#0A0A0B}
 :root[data-design="orange"][data-theme="dark"] .quote.glass{background:rgba(36,14,4,.22)}
 :root[data-design="orange"][data-theme="light"] .quote.glass,:root[data-design="orange"][data-theme="light"] .quote,:root[data-design="orange"][data-theme="light"] .foot{color:#2B1407}
 :root[data-design="orange"][data-theme="light"] .quote .qbody{color:#2B1407}
+:root[data-theme="dark"]{background:#2E2E32}
+:root[data-theme="light"]{background:#DADADD}
 </style>
 </head>
 <body>
@@ -814,6 +816,24 @@ function refreshData(){
   }).catch(function(){});
 }
 refreshData();
+/* ?debug=1 shows the screen measurements (used to diagnose the iPhone home-screen layout) */
+if (/[?&]debug=1/.test(location.search)) {
+  var probe = document.createElement("div");
+  probe.style.cssText = "position:fixed;left:0;top:0;width:0;height:0;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);visibility:hidden";
+  document.body.appendChild(probe);
+  var box = document.createElement("pre");
+  box.style.cssText = "position:fixed;left:6px;right:6px;bottom:96px;z-index:99;margin:0;padding:8px;border-radius:8px;background:rgba(0,0,0,.78);color:#0f0;font:11px/1.35 monospace;white-space:pre-wrap;pointer-events:none";
+  document.body.appendChild(box);
+  var paintDbg = function(){
+    var cs = getComputedStyle(probe), vv = window.visualViewport;
+    box.textContent = "innerH " + innerHeight + "  innerW " + innerWidth + "\nvisualViewport " + (vv ? Math.round(vv.height) + "x" + Math.round(vv.width) : "-") +
+      "\nscreen " + screen.height + "x" + screen.width + "  dpr " + devicePixelRatio +
+      "\nsafe top " + cs.paddingTop + "  bottom " + cs.paddingBottom +
+      "\nstandalone " + (navigator.standalone === true) + "  display-mode " + (matchMedia("(display-mode: standalone)").matches ? "standalone" : "browser") +
+      "\nbody " + Math.round(document.body.getBoundingClientRect().height) + "  app " + Math.round(document.querySelector(".app").getBoundingClientRect().height) + "  bg " + Math.round(document.querySelector(".bg").getBoundingClientRect().height);
+  };
+  paintDbg(); setInterval(paintDbg, 1000);
+}
 var hiddenAt = 0;
 document.addEventListener("visibilitychange", function(){
   if (document.hidden) { hiddenAt = Date.now(); return; }
