@@ -243,6 +243,15 @@ def parse_row(cells):
         j = nb[0]
         hi, ai = (i, j) if i < j else (j, i)
     venue = clean(" ".join(c for k, c in enumerate(rest) if k not in (hi, ai) and not re.fullmatch(r"[\d\W]+", c)))
+    # the federation puts the game code, the score and a "|" in the same cell as the venue
+    m = re.search(r"(?<![\d-])(\d{1,3})\s*-\s*(\d{1,3})(?![\d-])", venue)
+    if m and score is None and (m.group(1), m.group(2)) != ("0", "0"):
+        score = (int(m.group(1)), int(m.group(2)))
+    venue = re.sub(r"\b[A-Z]{1,4}\d*[A-Z]?-\d+-\d+\b", " ", venue)
+    venue = re.sub(r"(?<![\d-])\d{1,3}\s*-\s*\d{1,3}(?![\d-])", " ", venue).replace("|", " ")
+    venue = clean(venue)
+    if score == (0, 0):
+        score = None
     return {
         "date": date, "time": time or "", "home": rest[hi], "away": rest[ai], "venue": venue,
         "hs": "" if score is None else str(score[0]), "as": "" if score is None else str(score[1]),
@@ -291,11 +300,12 @@ def fetch_games():
         dump("step%d-after-%s.html" % (n, kind), html)
         soup = BeautifulSoup(html, "html.parser")
         # pages remember earlier choices; keep sending them in case they were reset
-        for nm, val in chosen.items():
-            pass
-        games = games_from(soup)
-        if games and kind == "phase":
-            break
+        found = games_from(soup)
+        if found:                                     # the list can appear before the last drop-down is set;
+            games = found                             # never let a later, empty page throw it away
+            log("  %d game(s) for %s after %s" % (len(found), CONFIG["team"], kind))
+            if kind != "season":
+                break
     if not games:                                     # maybe the page needs a Search button
         buttons = [b for b in soup.find_all(["input", "button"])
                    if (b.get("type") or "").lower() in ("submit", "button") and b.get("name")]
