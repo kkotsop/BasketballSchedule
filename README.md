@@ -1,8 +1,8 @@
-# ΑΠΟΠ U14 · Γ΄ Όμιλος schedule
+# ΑΠΟΠ U14 & U16 · Γ΄ Όμιλος schedule
 
 A small website that shows the ΑΠΟΠ fixtures, and keeps itself up to date.
 Every 3 hours a GitHub server opens the federation page, picks
-*Γυναικών U14 - Γ' Ομιλος*, reads the games and republishes the site.
+*Γυναικών U14 - Γ' Ομιλος* and *Γυναικών U16 - Γ' Ομιλος*, reads the games and republishes the site.
 Nobody has to paste or edit anything.
 
 ## Put it online (about 10 minutes, free)

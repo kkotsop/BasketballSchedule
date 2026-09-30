@@ -1,7 +1,9 @@
 {
- "name": "ΑΠΟΠ U14 — Γ΄ Όμιλος",
- "short_name": "ΑΠΟΠ U14",
+ "name": "ΑΠΟΠ U14 & U16 — Γ΄ Όμιλος",
+ "short_name": "ΑΠΟΠ Schedule",
  "start_url": ".",
+ "scope": ".",
+ "orientation": "portrait",
  "display": "standalone",
  "background_color": "#EDF2F8",
  "theme_color": "#EDF2F8",
