@@ -57,7 +57,7 @@ jobs:
           git config user.name "fixtures-bot"
           git config user.email "fixtures-bot@users.noreply.github.com"
           git add fixtures.json
-          git diff --cached --quiet || (git commit -m "Update fixtures" && git push) || true
+          git diff --cached --quiet || (git commit -m "Update fixtures" && git pull --rebase -q origin main && git push) || echo "could not save fixtures.json (will retry next run)"
       - uses: actions/configure-pages@v5
       - name: Assemble the website
         run: |
