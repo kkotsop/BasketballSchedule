@@ -41,16 +41,17 @@ jobs:
       - name: Publish debug files to a branch
         if: always()
         continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p /tmp/dbg && cp -r scraper/debug/. /tmp/dbg/ 2>/dev/null || true
-          git config user.name "fixtures-bot"
-          git config user.email "fixtures-bot@users.noreply.github.com"
-          git checkout --orphan debug-output
-          git rm -rf . -q
-          cp -r /tmp/dbg/. .
-          git add -f .
-          git commit -q -m "Scraper debug output" && git push -f origin debug-output
-          git checkout -f main
+          # done in a separate temporary repository so the working files stay untouched
+          test -d scraper/debug || exit 0
+          rm -rf /tmp/dbgrepo && mkdir /tmp/dbgrepo && cp -r scraper/debug/. /tmp/dbgrepo/
+          cd /tmp/dbgrepo
+          git init -q -b debug-output
+          git -c user.name=fixtures-bot -c user.email=fixtures-bot@users.noreply.github.com add -f .
+          git -c user.name=fixtures-bot -c user.email=fixtures-bot@users.noreply.github.com commit -q -m "Scraper debug output"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" debug-output
       - name: Save updated fixtures in the repository
         run: |
           git config user.name "fixtures-bot"
