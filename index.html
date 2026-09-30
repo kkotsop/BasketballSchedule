@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0A0A0B">
 <title>ΑΠΟΠ U14 &amp; U16 — Γ΄ Όμιλος</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="assets/icon-192.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -68,7 +67,7 @@
 html{height:100%;-webkit-text-size-adjust:100%;background:var(--bg-bot)}
 body{
   position:fixed;inset:0;width:100%;margin:0;overflow:hidden;background:var(--bg-bot);color:var(--text);
-  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-family:system-ui,-apple-system,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
 }
 #root{height:100%}
@@ -470,7 +469,7 @@ function mapsUrl(g){
   var v = (g.venue || "").trim();
   if (!v) return "";
   var pid = placeId(v);
-  if (/^https?:\/\//.test(pid)) return pid;
+  if (/^https:\/\//.test(pid)) return pid;
   if (pid && pid.indexOf("ChIJ") !== 0) return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(pid);
   return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(pid ? v : v + " Cyprus")
     + (pid ? "&query_place_id=" + encodeURIComponent(pid) : "");
@@ -478,7 +477,7 @@ function mapsUrl(g){
 function venueHTML(g){
   var v = (g.venue || "").trim();
   if (!v) return '<p class="meta">Venue to be confirmed</p>';
-  return '<a class="meta" href="' + esc(mapsUrl(g)) + '" target="_blank" rel="noopener" aria-label="Directions to ' + esc(v) + '">' + ICON.pin.replace(' width="16" height="16"', "") + '<span>' + esc(v) + '<em class="go">Open in Maps</em></span></a>';
+  return '<a class="meta" href="' + esc(mapsUrl(g)) + '" target="_blank" rel="noopener noreferrer" aria-label="Directions to ' + esc(v) + '">' + ICON.pin.replace(' width="16" height="16"', "") + '<span>' + esc(v) + '<em class="go">Open in Maps</em></span></a>';
 }
 function sideHTML(g, big){
   var h = isHome(g);
@@ -553,7 +552,7 @@ function widgetHTML(){
 }
 
 function calBtn(g){
-  return '<button class="ic" data-act="cal" data-id="' + g.id + '" aria-label="Add to calendar" title="Add to calendar">' + ICON.cal + '</button>';
+  return '<button class="ic" data-act="cal" data-id="' + esc(g.id) + '" aria-label="Add to calendar" title="Add to calendar">' + ICON.cal + '</button>';
 }
 
 function rowHTML(g, isFocus){
@@ -582,8 +581,8 @@ function nextHTML(g){
     + '<p class="when num">' + DAYS_LONG[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_LONG[d.getMonth()] + ' · ' + (g.time ? esc(g.time) : "Time to be confirmed") + (filt === "both" && leagueCount() > 1 ? ' · ' + esc(leagueOf(g)) : "") + '</p>'
     + '<div class="where">' + venueHTML(g) + '</div>'
     + '<div class="acts">'
-    + (url ? '<a class="cta" href="' + esc(url) + '" target="_blank" rel="noopener">' + ICON.pin + 'Directions</a>' : "")
-    + '<button class="pill" data-act="cal" data-id="' + g.id + '">' + ICON.cal + 'Add to calendar</button>'
+    + (url ? '<a class="cta" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + ICON.pin + 'Directions</a>' : "")
+    + '<button class="pill" data-act="cal" data-id="' + esc(g.id) + '">' + ICON.cal + 'Add to calendar</button>'
     + '</div></div></article>';
 }
 
@@ -778,7 +777,7 @@ function googleCalUrl(g){
     + "&details=" + encodeURIComponent(mapsUrl(g) ? "Directions: " + mapsUrl(g) : "");
 }
 function calOption(href, title, sub, extra){
-  return '<a class="calopt" href="' + esc(href) + '" ' + (extra || 'target="_blank" rel="noopener"') + '><span>' + title + '<small>' + sub + '</small></span>' + ICON.chev + '</a>';
+  return '<a class="calopt" href="' + esc(href) + '" ' + (extra || 'target="_blank" rel="noopener noreferrer"') + '><span>' + title + '<small>' + sub + '</small></span>' + ICON.chev + '</a>';
 }
 function calSheet(games, name){
   if (!games.length) { toast("No games to add yet"); return; }
