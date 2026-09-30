@@ -708,7 +708,7 @@ function render(opts){
     + '<div class="bottom" id="bottom"><button class="quote glass" id="q" data-act="quote" aria-live="polite" aria-label="Show another quote">'
     + '<span class="qmark" aria-hidden="true">“</span><span class="qbody"><span id="q-text"></span><span id="q-by" hidden></span></span>'
     + '</button>'
-    + '<p class="foot"><span>' + esc(updatedText()) + '</span><span class="fa"><a class="rfb wa" href="' + esc(waUrl()) + '" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" title="Share on WhatsApp">' + ICON.whatsapp + '</a><button class="rfb" data-act="copy" aria-label="Copy link" title="Copy link">' + ICON.copy + '</button><button class="rfb' + (seenUpdates() ? "" : " dot") + '" data-act="updates" aria-label="Get updates" title="Get updates">' + ICON.bell + '</button><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></span></p></div></div>';
+    + '<p class="foot"><span>' + esc(updatedText()) + '</span><span class="fa"><a class="rfb wa" href="' + esc(waUrl()) + '" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" title="Share on WhatsApp">' + ICON.whatsapp + '</a><button class="rfb" data-act="copy" aria-label="Copy link" title="Copy link">' + ICON.copy + '</button><button class="rfb' + (seenUpdates() ? "" : " dot") + '" data-act="updates" aria-label="Subscribe" title="Subscribe">' + ICON.bell + '</button><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></span></p></div></div>';
   paintQuote(false);
   topHeight(); botHeight();
   initReveal(!revealed);
@@ -924,7 +924,7 @@ function pushOff(){
 }
 function pushSectionHTML(){
   if (!pushCfg()) return "";
-  var head = '<p class="note" style="margin-top:16px">Notifications when a time is set or changed, a game moves or a result is posted</p>';
+  var head = '<p class="note" style="margin-top:18px">Notifications</p>';
   if (!pushSupported() || (isIOS() && !isStandalone())) {
     return head + '<p class="note" style="font-size:13px;line-height:1.5">' + (isIOS()
       ? 'On iPhone, first add this page to your Home Screen: tap <b>Share</b> (the square with the arrow), then <b>Add to Home Screen</b>. Open it from the new icon and come back here to turn notifications on.'
@@ -935,19 +935,19 @@ function pushSectionHTML(){
   if (st) {
     var cur = leaguesNow().join() === (st.lg || []).join();
     return head + '<div class="menu"><div class="stat"><span class="ok"></span>On for ' + esc((st.lg || []).join(" & ")) + '</div>'
-      + (cur ? "" : '<button data-x="pushon"><span>Switch to ' + esc(leaguesNow().join(" & ")) + '<small>Uses the filter you have selected now</small></span>' + ICON.chev + '</button>')
-      + '<button data-x="pushoff"><span>Turn off notifications<small>On this device</small></span>' + ICON.chev + '</button></div>';
+      + (cur ? "" : '<button data-x="pushon"><span>Switch to ' + esc(leaguesNow().join(" & ")) + '<small>Current filter</small></span>' + ICON.chev + '</button>')
+      + '<button data-x="pushoff"><span>Turn off notifications</span>' + ICON.chev + '</button></div>';
   }
-  return head + '<div class="menu"><button data-x="pushon"><span>Turn on notifications<small>For ' + esc(leaguesNow().join(" & ")) + ' (the filter you selected)</small></span>' + ICON.chev + '</button></div>';
+  return head + '<div class="menu"><button data-x="pushon"><span>Turn on notifications<small>' + esc(leaguesNow().join(" & ")) + '</small></span>' + ICON.chev + '</button></div>';
 }
 function updatesSheet(){
   try { localStorage.setItem("apop-seen-updates", "1"); } catch (e) {}
   var base = siteUrl(), feed = filt === "U14" ? "apop-u14.ics" : filt === "U16" ? "apop-u16.ics" : "apop.ics";
   var webcal = base.replace(/^https?:/, "webcal:") + "calendar/" + feed;
   var which = filt === "both" ? "U14 & U16" : filt;
-  var d = sheet('<h2>Get updates</h2><p class="note">Calendar feed (' + esc(which) + ')</p><div class="menu">'
-    + calOption(webcal, "Apple Calendar or Outlook", "Subscribe. New times and changes appear by themselves", 'target="_self"')
-    + calOption("https://calendar.google.com/calendar/r?cid=" + webcal, "Google Calendar", "Subscribe. Google refreshes every few hours")
+  var d = sheet('<h2>Subscribe</h2><p class="note">Add the ' + esc(which) + ' games to your calendar. New times and changes update by themselves.</p><div class="menu">'
+    + calOption(webcal, "Apple Calendar", "", 'target="_self"')
+    + calOption("https://calendar.google.com/calendar/r?cid=" + webcal, "Google Calendar", "")
     + '</div>' + pushSectionHTML());
   d.addEventListener("click", function(ev){
     var t = ev.target.closest ? ev.target : null, link = t && t.closest("a.calopt"), b = t && t.closest("[data-x]");

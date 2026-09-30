@@ -19,7 +19,7 @@ Live site: `https://kkotsop.github.io/BasketballSchedule/` (on a phone: Share â†
   highlighted (logo, bold, red edge).
 - **Bottom bar icons**: WhatsApp (opens WhatsApp with a ready message that includes the next game), copy link, bell
   (updates) and refresh.
-- **Get updates** (bell, bottom bar): subscribe to a **calendar feed** and turn on **notifications** (see below).
+- **Subscribe** (bell, bottom bar): subscribe to a **calendar feed** and turn on **notifications** (see below).
 - Refresh button next to the footnote.
 
 ## Calendar feed and notifications

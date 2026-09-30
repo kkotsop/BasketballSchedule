@@ -60,7 +60,7 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 
 ## Features added later
 - Table view (`view` = games|table, button in the filter row). Bottom-bar icons: WhatsApp (`wa.me` link, `waUrl()`),
-  copy link (`copyLink()`), bell (updates sheet), refresh; the bell shows a red dot until opened once
+  copy link (`copyLink()`), bell (subscribe sheet), refresh; the bell shows a red dot until opened once
   (localStorage `apop-seen-updates`).
 - Updates sheet: calendar subscription links (`webcal://`, Google `cid=`) and in-page **Web Push** (`pushOn/pushOff`,
   stored choice in localStorage `apop-push`). Hidden until `push.api` is set. iPhone needs the page on the Home Screen.
