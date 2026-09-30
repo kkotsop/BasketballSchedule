@@ -149,6 +149,8 @@ h2.mo{width:max-content;margin:16px 0 8px calc(var(--dw) + var(--rw) + 4px);padd
 .it .opp{font-size:16px;font-weight:600;line-height:1.35;letter-spacing:-.01em;overflow-wrap:anywhere}
 .it.past .opp{font-weight:500;color:var(--text-2)}
 .it .meta{display:inline-flex;align-items:flex-start;gap:4px;margin-top:2px;padding:2px 0;font-size:14px;line-height:1.4;color:var(--text-2);text-decoration:none}
+.it .meta .go{display:block;font-style:normal;font-size:13px;font-weight:600;color:var(--accent-text);white-space:nowrap}
+.it.next .go{display:none}
 .it a.meta:hover{color:var(--text);text-decoration:underline}
 .it .meta svg{flex:none;width:14px;height:14px;margin-top:2px}
 .vs{font-weight:500;color:var(--text-2)}
@@ -156,6 +158,7 @@ h2.mo{width:max-content;margin:16px 0 8px calc(var(--dw) + var(--rw) + 4px);padd
 .it .time{font-size:15px;font-weight:600;line-height:22px}
 .it .time.tbc{font-size:13px;font-weight:500;color:var(--text-2)}
 .it .score{font-size:17px;font-weight:700;line-height:22px}
+.it .score.sm{font-size:13px;font-weight:600;line-height:18px;color:var(--text-3)}
 .it.won .score{color:var(--win)}.it.lost .score{color:var(--loss)}
 .rowtools{display:flex;gap:6px}
 .ic{width:36px;height:36px;display:grid;place-items:center;border-radius:12px;color:var(--text-2);background:var(--glass-strong);border:1px solid var(--edge);box-shadow:0 1px 2px rgba(15,23,42,.12);transition:color .15s,transform .15s}
@@ -228,6 +231,10 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 .menu{display:flex;flex-direction:column;margin:-4px 0 0}
 .menu button{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;border-top:1px solid var(--hair);padding:16px 0;font-size:16px;font-weight:500;min-height:56px;width:100%}
 .menu button:first-child{border-top:0}
+.menu a.calopt{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;border-top:1px solid var(--hair);padding:16px 0;font-size:16px;font-weight:500;min-height:56px;color:inherit;text-decoration:none}
+.menu a.calopt:first-child{border-top:0}
+.menu a.calopt small{display:block;font-size:14px;font-weight:400;color:var(--text-2)}
+.menu a.calopt svg{width:16px;height:16px;color:var(--text-3);flex:none}
 .menu button small{display:block;font-size:14px;font-weight:400;color:var(--text-2)}
 .menu button svg{width:16px;height:16px;color:var(--text-3);flex:none}
 .preview{max-height:38dvh;overflow:auto;border:1px solid var(--hair);border-radius:12px;padding:8px 12px;font-size:14px;background:var(--field)}
@@ -241,7 +248,7 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 </head>
 <body>
 <div id="root"></div>
-<script id="data" type="application/json">{"team": "ΑΠΟΠ", "league": "Γυναικών U14", "group": "Γ΄ Όμιλος", "games": [{"id": "cc7tbfc", "date": "2026-10-03", "time": "12:30", "home": "ΑΝΟΡΘΩΣΗ Αμμοχώστου", "away": "ΑΠΟΠ", "venue": "Λύκ. Αγ. Φύλας", "hs": "", "as": ""}, {"id": "n7s34tp", "date": "2026-10-10", "time": "", "home": "ΑΠΟΠ", "away": "ΑΠΟΛΛΩΝ Λεμεσού", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "", "as": ""}, {"id": "9notkkt", "date": "2026-10-17", "time": "", "home": "ΑΡΗΣ Λεμεσού", "away": "ΑΠΟΠ", "venue": "Λύκ. Αγ. Σπυρίδωνα", "hs": "", "as": ""}, {"id": "wctfmm7", "date": "2026-10-31", "time": "", "home": "ΑΠΟΠ", "away": "ΑΧΙΛΛΕΑΣ Αγρού", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "", "as": ""}, {"id": "v3ryk3n", "date": "2026-11-07", "time": "", "home": "Α.Ε.Λ.", "away": "ΑΠΟΠ", "venue": "Αίθ. Νίκος Σολομωνίδης", "hs": "", "as": ""}, {"id": "b4e75cw", "date": "2026-11-14", "time": "", "home": "ΑΠΟΠ", "away": "ΑΤΛΑΝΤΑΣ Πάφου", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "", "as": ""}], "places": {"Λύκ. Αγ. Φύλας": "ChIJB1NLt1s15xQRZIQYDzOVzvw", "Αίθ. Α' Λυκείου Ακης Κλεάνθους": "Akis Kleanthous Sports Hall, Paphos", "Λύκ. Αγ. Σπυρίδωνα": "ChIJC5C3BiUy5xQRsPujJ0Gw4n8", "Αίθ. Νίκος Σολομωνίδης": "ChIJVxNtFFEy5xQRqajVcmxdSKU"}, "logo": "assets/logo.png", "source": "https://cbfweb.org/eCBF/pubgames.aspx", "updated": null}</script>
+<script id="data" type="application/json">{"team": "ΑΠΟΠ", "league": "Γυναικών U14", "group": "Γ΄ Όμιλος", "games": [{"date": "2026-10-03", "time": "12:30", "home": "ΑΝΟΡΘΩΣΗ Αμμοχώστου", "away": "ΑΠΟΠ", "venue": "Λύκ. Αγ. Φύλας", "hs": "0", "as": "0", "id": "aac154c1"}, {"date": "2026-10-10", "time": "", "home": "ΑΠΟΠ", "away": "ΑΠΟΛΛΩΝ Λεμεσού", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "0", "as": "0", "id": "2c5921f4"}, {"date": "2026-10-17", "time": "", "home": "ΑΡΗΣ Λεμεσού", "away": "ΑΠΟΠ", "venue": "Λύκ. Αγ. Σπυρίδωνα", "hs": "0", "as": "0", "id": "25e09b33"}, {"date": "2026-10-31", "time": "", "home": "ΑΠΟΠ", "away": "ΑΧΙΛΛΕΑΣ Αγρού", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "0", "as": "0", "id": "f8ee63ae"}, {"date": "2026-11-07", "time": "", "home": "Α.Ε.Λ.", "away": "ΑΠΟΠ", "venue": "Αίθ. Νίκος Σολομωνίδης", "hs": "0", "as": "0", "id": "68659da4"}, {"date": "2026-11-14", "time": "", "home": "ΑΠΟΠ", "away": "ΑΤΛΑΝΤΑΣ Πάφου", "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους", "hs": "0", "as": "0", "id": "314a9bd1"}], "places": {"Λύκ. Αγ. Φύλας": "ChIJB1NLt1s15xQRZIQYDzOVzvw", "Αίθ. Α' Λυκείου Ακης Κλεάνθους": "https://maps.app.goo.gl/x759A3LTFowJAeGe7", "Λύκ. Αγ. Σπυρίδωνα": "ChIJC5C3BiUy5xQRsPujJ0Gw4n8", "Αίθ. Νίκος Σολομωνίδης": "ChIJVxNtFFEy5xQRqajVcmxdSKU"}, "logo": "assets/logo.png", "source": "https://cbfweb.org/eCBF/pubgames.aspx", "updated": "2026-09-30T17:49:27Z"}</script>
 <script id="app">
 (function(){
 "use strict";
@@ -281,7 +288,8 @@ function $(sel, root){ return (root || document).querySelector(sel); }
 function when(g){ var d = new Date((g.date||"2000-01-01") + "T" + (g.time||"12:00") + ":00"); return isNaN(d) ? new Date(0) : d; }
 function isHome(g){ return (g.home||"").indexOf(state.team) > -1; }
 function opponent(g){ return isHome(g) ? (g.away||"") : (g.home||""); }
-function played(g){ return g.hs !== null && g.hs !== undefined && g.hs !== "" && g.as !== null && g.as !== undefined && g.as !== ""; }
+function hasScore(g){ return g.hs !== null && g.hs !== undefined && g.hs !== "" && g.as !== null && g.as !== undefined && g.as !== ""; }
+function played(g){ return hasScore(g) && !(Number(g.hs) === 0 && Number(g.as) === 0); }
 function ourScore(g){ return Number(isHome(g) ? g.hs : g.as); }
 function theirScore(g){ return Number(isHome(g) ? g.as : g.hs); }
 function sorted(){ return state.games.slice().sort(function(a,b){ return when(a) - when(b); }); }
@@ -299,6 +307,7 @@ function mapsUrl(g){
   var v = (g.venue || "").trim();
   if (!v) return "";
   var pid = placeId(v);
+  if (/^https?:\/\//.test(pid)) return pid;
   if (pid && pid.indexOf("ChIJ") !== 0) return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(pid);
   return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(pid ? v : v + " Cyprus")
     + (pid ? "&query_place_id=" + encodeURIComponent(pid) : "");
@@ -306,7 +315,7 @@ function mapsUrl(g){
 function venueHTML(g){
   var v = (g.venue || "").trim();
   if (!v) return '<p class="meta">Venue to be confirmed</p>';
-  return '<a class="meta" href="' + esc(mapsUrl(g)) + '" target="_blank" rel="noopener" aria-label="Directions to ' + esc(v) + '">' + ICON.pin.replace(' width="16" height="16"', "") + '<span>' + esc(v) + '</span></a>';
+  return '<a class="meta" href="' + esc(mapsUrl(g)) + '" target="_blank" rel="noopener" aria-label="Directions to ' + esc(v) + '">' + ICON.pin.replace(' width="16" height="16"', "") + '<span>' + esc(v) + '<em class="go">Open in Maps</em></span></a>';
 }
 function sideHTML(g, big){
   var h = isHome(g);
@@ -379,8 +388,9 @@ function rowHTML(g, isFocus){
       var o = ourScore(g), t = theirScore(g);
       cls = o > t ? "past won" : (o < t ? "past lost" : "past");
       right = '<span class="score num">' + o + '–' + t + '</span>';
-    } else right = '<span class="score num" style="color:var(--text-3)">—</span>';
-  } else right = g.time ? '<span class="time num">' + esc(g.time) + '</span>' : '<span class="time tbc">Time TBC</span>';
+    } else right = hasScore(g) ? '<span class="score num" style="color:var(--text-3)">' + ourScore(g) + '–' + theirScore(g) + '</span>' : '<span class="score num" style="color:var(--text-3)">—</span>';
+  } else right = (g.time ? '<span class="time num">' + esc(g.time) + '</span>' : '<span class="time tbc">Time TBC</span>')
+    + (hasScore(g) ? '<span class="score sm num" aria-label="Score">' + ourScore(g) + '–' + theirScore(g) + '</span>' : "");
   return '<article class="it ' + cls + '"' + (isFocus ? ' id="focus"' : "") + '>'
     + '<div class="dt glass num"><b>' + d.getDate() + '</b><span>' + DAYS[d.getDay()] + '</span></div><div class="dot"></div>'
     + '<div class="bd glass"><div class="mid">' + sideHTML(g, false)
@@ -397,6 +407,7 @@ function nextHTML(g){
     + '<div class="bd"><div class="k">' + sideHTML(g, true) + '<span class="chip">' + relative(d) + '</span></div>'
     + '<h3 class="opp"><span class="vs">' + (isHome(g) ? "vs" : "at") + '</span> ' + esc(opponent(g)) + '</h3>'
     + '<p class="when num">' + DAYS_LONG[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_LONG[d.getMonth()] + ' · ' + (g.time ? esc(g.time) : "Time to be confirmed") + '</p>'
+    + (hasScore(g) ? '<p class="when num">Score ' + ourScore(g) + '–' + theirScore(g) + '</p>' : "")
     + '<div class="where">' + venueHTML(g) + '</div>'
     + '<div class="acts">'
     + (url ? '<a class="cta" href="' + esc(url) + '" target="_blank" rel="noopener">' + ICON.pin + 'Directions</a>' : "")
@@ -521,43 +532,69 @@ function menuSheet(){
     var x = xAttr(ev);
     if (!x) return;
     d.close();
-    if (x === "ics") exportICS(sorted(), "apop-u14-season.ics");
+    if (x === "ics") calSheet(sorted(), "apop-u14-season.ics");
   });
 }
 
 /* ---------- calendar export ---------- */
 
+/* Tip-off times are Cyprus local time (EET, +2; EEST, +3 from the last Sunday of March to the last Sunday of October). */
+function lastSunday(y, m){ var d = new Date(Date.UTC(y, m + 1, 0, 1)); d.setUTCDate(d.getUTCDate() - d.getUTCDay()); return d; }
+function cyprusUTC(g){
+  var p = g.date.split("-").map(Number), t = (g.time || "12:00").split(":").map(Number);
+  var asUTC = Date.UTC(p[0], p[1] - 1, p[2], t[0], t[1]);
+  var dst = asUTC - 3*3600000 >= lastSunday(p[0], 2).getTime() && asUTC - 3*3600000 < lastSunday(p[0], 9).getTime();
+  return new Date(asUTC - (dst ? 3 : 2) * 3600000);
+}
 function icsStamp(d){
   return d.getUTCFullYear() + pad(d.getUTCMonth()+1) + pad(d.getUTCDate()) + "T" + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + "00Z";
 }
 function icsDate(g){ var p = g.date.split("-"); return p[0] + p[1] + p[2]; }
+function nextDay(g){
+  var p = g.date.split("-").map(Number), n = new Date(Date.UTC(p[0], p[1] - 1, p[2] + 1));
+  return n.getUTCFullYear() + pad(n.getUTCMonth()+1) + pad(n.getUTCDate());
+}
+function gameTitle(g){ return (isHome(g) ? state.team + " vs " : state.team + " at ") + opponent(g); }
+function icsEsc(t){ return String(t || "").replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n"); }
 function icsFor(games){
-  var out = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//" + state.team + " " + state.league + "//EN","CALSCALE:GREGORIAN"];
+  var out = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//" + state.team + " " + state.league + "//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
   games.forEach(function(g){
-    var title = isHome(g) ? state.team + " vs " + opponent(g) : state.team + " at " + opponent(g);
     out.push("BEGIN:VEVENT","UID:" + g.id + "@apop-schedule","DTSTAMP:" + icsStamp(new Date()));
     if (g.time) {
-      var s = when(g), e = new Date(s.getTime() + 90*60000);
+      var s = cyprusUTC(g), e = new Date(s.getTime() + 90*60000);
       out.push("DTSTART:" + icsStamp(s), "DTEND:" + icsStamp(e));
     } else {
-      var n = new Date(when(g).getTime() + 86400000);
-      out.push("DTSTART;VALUE=DATE:" + icsDate(g), "DTEND;VALUE=DATE:" + n.getFullYear() + pad(n.getMonth()+1) + pad(n.getDate()));
+      out.push("DTSTART;VALUE=DATE:" + icsDate(g), "DTEND;VALUE=DATE:" + nextDay(g));
     }
-    out.push("SUMMARY:" + title + (g.time ? "" : " (time TBC)"),
-      "LOCATION:" + (g.venue || "").replace(/,/g, "\\,"));
-    if (mapsUrl(g)) out.push("URL:" + mapsUrl(g));
+    out.push("SUMMARY:" + icsEsc(gameTitle(g) + (g.time ? "" : " (time TBC)")),
+      "LOCATION:" + icsEsc(g.venue || ""));
+    if (mapsUrl(g)) out.push("DESCRIPTION:" + icsEsc("Directions: " + mapsUrl(g)));
     if (g.time) out.push("BEGIN:VALARM","TRIGGER:-PT90M","ACTION:DISPLAY","DESCRIPTION:Tip-off in 90 minutes","END:VALARM");
     out.push("END:VEVENT");
   });
   out.push("END:VCALENDAR");
   return out.join("\r\n");
 }
-function exportICS(games, name){
-  if (!games.length) { toast("No games to export yet"); return; }
-  var blob = new Blob([icsFor(games)], {type:"text/calendar;charset=utf-8"});
-  var url = URL.createObjectURL(blob), a = document.createElement("a");
-  a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+function icsHref(games){ return "data:text/calendar;charset=utf-8," + encodeURIComponent(icsFor(games)); }
+function googleCalUrl(g){
+  var dates = g.time ? icsStamp(cyprusUTC(g)) + "/" + icsStamp(new Date(cyprusUTC(g).getTime() + 90*60000)) : icsDate(g) + "/" + nextDay(g);
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(gameTitle(g) + (g.time ? "" : " (time TBC)"))
+    + "&dates=" + dates + "&location=" + encodeURIComponent(g.venue || "")
+    + "&details=" + encodeURIComponent(mapsUrl(g) ? "Directions: " + mapsUrl(g) : "");
+}
+function calOption(href, title, sub, extra){
+  return '<a class="calopt" href="' + esc(href) + '" ' + (extra || 'target="_blank" rel="noopener"') + '><span>' + title + '<small>' + sub + '</small></span>' + ICON.chev + '</a>';
+}
+function calSheet(games, name){
+  if (!games.length) { toast("No games to add yet"); return; }
+  var single = games.length === 1, g = games[0];
+  var d = sheet('<h2>' + (single ? "Add to calendar" : "Export all games") + '</h2>'
+    + '<p class="note">' + (single ? esc(gameTitle(g)) + (g.time ? "" : " · time TBC, added as an all-day event") : "Every game in one calendar file.") + '</p>'
+    + '<div class="menu">'
+    + (single ? calOption(googleCalUrl(g), "Google Calendar", "Opens Google Calendar to save the game") : "")
+    + calOption(icsHref(games), single ? "Apple, Outlook or other" : "Download calendar file", "Saves a .ics file to open in your calendar app", 'download="' + esc(name) + '"')
+    + '</div>');
+  d.addEventListener("click", function(ev){ if (ev.target.closest && ev.target.closest("a.calopt")) setTimeout(function(){ d.close(); }, 300); });
 }
 
 function updatedText(){
@@ -577,7 +614,7 @@ document.addEventListener("click", function(ev){
   else if (act === "jump") centerFocus(true);
   else if (act === "cal") {
     var cg = state.games.filter(function(x){ return x.id === id; })[0];
-    if (cg) exportICS([cg], "apop-" + cg.date + ".ics");
+    if (cg) calSheet([cg], "apop-" + cg.date + ".ics");
   }
   else if (act === "quote") { nextQuote(); paintQuote(true); }
   else if (act === "theme") {

@@ -245,13 +245,11 @@ def parse_row(cells):
     venue = clean(" ".join(c for k, c in enumerate(rest) if k not in (hi, ai) and not re.fullmatch(r"[\d\W]+", c)))
     # the federation puts the game code, the score and a "|" in the same cell as the venue
     m = re.search(r"(?<![\d-])(\d{1,3})\s*-\s*(\d{1,3})(?![\d-])", venue)
-    if m and score is None and (m.group(1), m.group(2)) != ("0", "0"):
+    if m and score is None:
         score = (int(m.group(1)), int(m.group(2)))
     venue = re.sub(r"\b[A-Z]{1,4}\d*[A-Z]?-\d+-\d+\b", " ", venue)
     venue = re.sub(r"(?<![\d-])\d{1,3}\s*-\s*\d{1,3}(?![\d-])", " ", venue).replace("|", " ")
     venue = clean(venue)
-    if score == (0, 0):
-        score = None
     return {
         "date": date, "time": time or "", "home": rest[hi], "away": rest[ai], "venue": venue,
         "hs": "" if score is None else str(score[0]), "as": "" if score is None else str(score[1]),
