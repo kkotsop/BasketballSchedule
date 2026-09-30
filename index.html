@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#1A0B3B">
+<meta name="theme-color" content="#0A0A0B">
 <title>ΑΠΟΠ U14 &amp; U16 — Γ΄ Όμιλος</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -255,84 +255,72 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 .rfb:active{background:var(--glass-soft)}
 @media (prefers-reduced-motion: reduce){.rfb.spin svg{animation:none}}
 
-/* gloss: a soft top sheen, bright rim and deeper shadow on glass cards */
-:root{--gloss:rgba(255,255,255,.78);--gloss-low:rgba(255,255,255,0);--rim:rgba(255,255,255,.95);--rim-b:rgba(15,23,42,.07)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--gloss:rgba(255,255,255,.16);--rim:rgba(255,255,255,.26);--rim-b:rgba(0,0,0,.35)}}
-:root[data-theme="dark"]{--gloss:rgba(255,255,255,.16);--rim:rgba(255,255,255,.26);--rim-b:rgba(0,0,0,.35)}
+/* ===== design v6: monochrome court photo (assets/bg-court.webp), white-on-graphite glass, one bright next-game card ===== */
+:root{--gloss:rgba(255,255,255,.10);--gloss-low:rgba(255,255,255,0);--rim:rgba(255,255,255,.22);--rim-b:rgba(0,0,0,.40)}
+:root[data-theme="dark"]{
+  --bg-top:#0B0B0C;--bg-bot:#0A0A0B;--surface:#141416;
+  --glass:rgba(16,16,18,.52);--glass-strong:rgba(18,18,20,.80);--glass-soft:rgba(16,16,18,.34);--edge:rgba(255,255,255,.16);--hair:rgba(255,255,255,.10);
+  --text:#F5F5F6;--text-2:#C3C4C8;--text-3:#8C8D93;--line-strong:rgba(255,255,255,.30);
+  --accent:#FFFFFF;--accent-text:#FFFFFF;--accent-chip:rgba(255,255,255,.14);--accent-line:rgba(255,255,255,.4);--club:#F5F5F6;
+  --gloss:rgba(255,255,255,.10);--rim:rgba(255,255,255,.22);--rim-b:rgba(0,0,0,.40)}
+:root[data-theme="light"]{
+  --bg-top:#ECECEE;--bg-bot:#DCDCDF;--surface:#FFFFFF;
+  --glass:rgba(255,255,255,.58);--glass-strong:rgba(255,255,255,.86);--glass-soft:rgba(255,255,255,.44);--edge:rgba(255,255,255,.92);--hair:rgba(10,10,12,.10);
+  --text:#0B0B0D;--text-2:#46474D;--text-3:#85868D;--line-strong:rgba(10,10,12,.30);
+  --accent:#0B0B0D;--accent-text:#0B0B0D;--accent-chip:rgba(10,10,12,.08);--accent-line:rgba(10,10,12,.35);--club:#0B0B0D;
+  --gloss:rgba(255,255,255,.75);--rim:rgba(255,255,255,.95);--rim-b:rgba(10,10,12,.07)}
+html{background:#0A0A0B}
+/* background photo */
+.bg .ball3d,.bg .ballshadow{display:none}
+.bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
+@supports (height:100lvh){.bg{height:100lvh}}
+.bg .photo{position:absolute;inset:0;background:url("assets/bg-court.webp") center/cover no-repeat,#0A0A0B}
+.bg::after{content:"";position:absolute;inset:0}
+:root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.14) 38%,rgba(0,0,0,.58) 100%)}
+:root[data-theme="light"] .bg .photo{filter:brightness(1.9) contrast(.8)}
+:root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(240,240,243,.66) 0%,rgba(240,240,243,.50) 45%,rgba(226,226,230,.74) 100%)}
+@supports (height:100dvh){.app{height:100dvh}}
+/* cards: soft top sheen, bright rim */
 .it .bd.glass,.widget.glass,.it .dt.glass,.seg.glass{
   background:linear-gradient(175deg,var(--gloss) 0%,var(--gloss-low) 46%),var(--glass);
-  box-shadow:0 1.5px 0 var(--rim) inset,0 -1px 0 var(--rim-b) inset,0 16px 30px -16px rgba(15,23,42,.42),0 2px 6px rgba(15,23,42,.08)}
-.it.next .bd{
-  background:linear-gradient(172deg,rgba(255,255,255,.72) 0%,rgba(255,255,255,0) 38%),linear-gradient(135deg,var(--next-a),var(--next-b));
-  border:1px solid var(--accent);
-  box-shadow:0 2px 0 rgba(255,255,255,.9) inset,0 -1px 0 rgba(194,65,12,.25) inset,0 0 0 4px var(--accent-chip),0 30px 56px -18px rgba(234,88,12,.7),0 6px 16px rgba(15,23,42,.14)}
+  box-shadow:0 1.5px 0 var(--rim) inset,0 -1px 0 var(--rim-b) inset,0 16px 30px -16px rgba(0,0,0,.6),0 2px 6px rgba(0,0,0,.12)}
+/* next game: the brightest card on the page, with a thin white glow along the top edge */
 .it.next .opp{font-size:26px}
-.it.next .dt b{font-size:20px}
-:root{--next-a:rgba(253,186,116,.92);--next-b:rgba(255,244,230,.7)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--next-a:rgba(249,115,22,.55);--next-b:rgba(30,20,14,.62)}}
-:root[data-theme="dark"]{--next-a:rgba(249,115,22,.55);--next-b:rgba(30,20,14,.62)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .it.next .bd{box-shadow:0 1.5px 0 rgba(255,255,255,.3) inset,0 0 0 4px var(--accent-chip),0 30px 56px -18px rgba(249,115,22,.55),0 6px 16px rgba(0,0,0,.4)}}
-:root[data-theme="dark"] .it.next .bd{box-shadow:0 1.5px 0 rgba(255,255,255,.3) inset,0 0 0 4px var(--accent-chip),0 30px 56px -18px rgba(249,115,22,.55),0 6px 16px rgba(0,0,0,.4)}
-
-/* ---- palette v3: neutral controls, photo background in dark, one neon accent (from the hoop photo) ---- */
-:root[data-theme="dark"] :root[data-theme="dark"]{--accent:#FF4D6A;--accent-text:#BBD0FF;--accent-chip:rgba(255,77,106,.18);--accent-line:rgba(255,77,106,.5);--bg-bot:#0A0710;--glass:rgba(18,12,26,.50);--glass-soft:rgba(18,12,26,.38)}
-:root[data-theme="light"]{--accent:#E11D48;--accent-text:#1D4ED8;--accent-chip:rgba(225,29,72,.10);--accent-line:rgba(225,29,72,.40)}
+.it.next .dt b{font-size:20px;color:var(--text)}
+.it.next .bd{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.55);
+  background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.28),rgba(255,255,255,0) 60%),linear-gradient(172deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.05) 45%),var(--glass-strong);
+  box-shadow:0 1.5px 0 rgba(255,255,255,.65) inset,0 0 0 1px rgba(255,255,255,.10),0 30px 60px -22px rgba(0,0,0,.85),0 0 46px -14px rgba(255,255,255,.35)}
+.it.next .bd::before{content:"";position:absolute;left:12px;right:12px;top:0;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#fff 30%,#fff 70%,transparent);box-shadow:0 0 14px 1px rgba(255,255,255,.7)}
+:root[data-theme="light"] .it.next .bd{border-color:#fff;background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,1),rgba(255,255,255,.4) 60%),rgba(255,255,255,.86);
+  box-shadow:0 2px 0 #fff inset,0 0 0 1px rgba(10,10,12,.10),0 30px 56px -24px rgba(0,0,0,.45),0 4px 12px rgba(0,0,0,.10)}
+:root[data-theme="light"] .it.next .bd::before{background:linear-gradient(90deg,transparent,#0B0B0D 30%,#0B0B0D 70%,transparent);box-shadow:0 0 10px rgba(0,0,0,.35)}
+.it.next .dot::after{background:#fff;border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.22),0 0 16px rgba(255,255,255,.8)}
+:root[data-theme="light"] .it.next .dot::after{background:#0B0B0D;border-color:#0B0B0D;box-shadow:0 0 0 4px rgba(10,10,12,.16)}
+.chip{background:var(--accent-chip);color:var(--text)}
+/* home = solid, away = outline */
+.side.home{background:var(--text);color:var(--bg-bot);box-shadow:none}
+:root[data-theme="light"] .side.home{color:#fff}
 /* buttons */
-:root[data-theme="dark"] .cta,:root[data-theme="dark"] .btn{background:linear-gradient(180deg,#fff,#DCE3F0);color:#0B1220;box-shadow:0 1px 0 #fff inset,0 10px 22px -10px rgba(0,0,0,.6)}
-:root[data-theme="light"] .cta,:root[data-theme="light"] .btn{background:linear-gradient(180deg,#1E293B,#0F172A);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 10px 20px -10px rgba(15,23,42,.55)}
+:root[data-theme] .cta,:root[data-theme] .btn{background:var(--text);color:var(--bg-bot);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 10px 22px -10px rgba(0,0,0,.6)}
+:root[data-theme="light"] .cta,:root[data-theme="light"] .btn{color:#fff}
 /* filter */
-:root[data-theme="dark"] .seg button[aria-checked="true"]{background:rgba(255,255,255,.16);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 10px -4px rgba(0,0,0,.5)}
-:root[data-theme="light"] .seg button[aria-checked="true"]{background:#fff;color:#0F172A;box-shadow:0 1px 0 #fff inset,0 4px 10px -4px rgba(15,23,42,.3)}
+:root[data-theme] .seg button[aria-checked="true"]{background:var(--text);color:var(--bg-bot);box-shadow:0 4px 12px -4px rgba(0,0,0,.5)}
+:root[data-theme="light"] .seg button[aria-checked="true"]{color:#fff}
 /* theme switch */
-.sw .knob{background:linear-gradient(180deg,#fff,#CBD5E1);box-shadow:0 1px 0 #fff inset,0 5px 10px -4px rgba(0,0,0,.45)}
-.sw .sun,.sw[aria-checked="true"] .moon{color:#0F172A}
-.sw[aria-checked="true"] .sun,.sw .moon{color:var(--text-3)}
-.sw[aria-checked="true"] .moon{color:#0F172A}
-/* next game: bright frosted glass with a thin neon edge instead of an orange glow */
-.it.next .bd{position:relative;overflow:hidden;
-  background:linear-gradient(172deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.07) 42%),var(--glass-strong);
-  border:1px solid rgba(255,255,255,.34);
-  box-shadow:0 1.5px 0 rgba(255,255,255,.55) inset,0 26px 50px -22px rgba(0,0,0,.65),0 4px 14px rgba(0,0,0,.18)}
-.it.next .bd::before{content:"";position:absolute;left:14px;right:14px;top:0;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--accent) 30%,var(--accent) 70%,transparent);box-shadow:0 0 14px 1px var(--accent);opacity:.9}
-:root[data-theme="light"] .it.next .bd{background:linear-gradient(172deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.55) 60%),var(--glass-strong);border-color:rgba(255,255,255,.95);box-shadow:0 2px 0 #fff inset,0 26px 46px -22px rgba(15,23,42,.45),0 4px 12px rgba(15,23,42,.1)}
-.it.next .dt b{color:var(--text)}
-.it.next .dot::after{box-shadow:0 0 0 4px var(--accent-chip),0 0 12px var(--accent)}
-.chip{color:var(--text)}
-:root[data-theme="dark"] .foot{color:rgba(226,232,240,.72)}
-
-
-/* ---- branding v5: neon purple basketball (assets/bg-neon.webp), magenta-to-blue accents, cyan glow ---- */
-.bg .ball3d,.bg .ballshadow{display:none}
-.bg .neon{position:absolute;inset:0;background:url("assets/bg-neon.webp") center/cover no-repeat,#2A1257}
-.bg::after{content:"";position:absolute;inset:0}
-:root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(14,6,36,.40) 0%,rgba(14,6,36,.12) 38%,rgba(14,6,36,.62) 100%)}
-:root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(250,247,255,.62) 0%,rgba(250,247,255,.50) 45%,rgba(243,236,255,.72) 100%)}
-html{background:#1A0B3B}
-:root[data-theme="dark"]{
-  --glass:rgba(34,17,78,.44);--glass-strong:rgba(36,18,84,.74);--glass-soft:rgba(34,17,78,.32);--edge:rgba(255,255,255,.20);--hair:rgba(255,255,255,.13);--surface:#20104A;
-  --text:#F7F4FF;--text-2:#CFC8EE;--text-3:#9D94C9;--line-strong:rgba(196,181,253,.42);
-  --accent:#67E8F9;--accent-text:#B5F1FF;--accent-chip:rgba(103,232,249,.16);--accent-line:rgba(103,232,249,.55);--club:#5B6CFF}
-:root[data-theme="light"]{
-  --glass:rgba(255,255,255,.52);--glass-strong:rgba(255,255,255,.80);--glass-soft:rgba(255,255,255,.40);--edge:rgba(255,255,255,.85);--hair:rgba(49,27,110,.12);
-  --text:#1E1B4B;--text-2:#4B4580;--text-3:#8983B6;--line-strong:rgba(91,62,180,.35);
-  --accent:#8B5CF6;--accent-text:#6D28D9;--accent-chip:rgba(139,92,246,.14);--accent-line:rgba(139,92,246,.45);--club:#4F46E5}
-/* primary buttons: magenta to electric blue */
-:root[data-theme] .cta,:root[data-theme] .btn{background:linear-gradient(135deg,#D946EF 0%,#7C5CFF 55%,#3B82F6 100%);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 12px 24px -10px rgba(124,92,255,.85)}
-/* filter + switch */
-:root[data-theme] .seg button[aria-checked="true"]{background:linear-gradient(135deg,rgba(217,70,239,.85),rgba(99,102,241,.85));color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 14px -6px rgba(124,92,255,.8)}
-.sw .knob{background:linear-gradient(180deg,#fff,#E2DBFF)}
-/* next game: frosted card, pink-to-cyan neon edge like the ball's seams */
-.it.next .bd::before{background:linear-gradient(90deg,transparent,#F0ABFC 22%,#67E8F9 78%,transparent);box-shadow:0 0 16px 1px rgba(150,120,255,.85);height:2.5px}
-:root[data-theme="dark"] .it.next .bd{background:linear-gradient(172deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.06) 42%),var(--glass-strong);border-color:rgba(255,255,255,.36);box-shadow:0 1.5px 0 rgba(255,255,255,.5) inset,0 0 0 1px rgba(150,120,255,.35),0 26px 50px -22px rgba(10,4,30,.8),0 0 40px -10px rgba(139,92,246,.45)}
-:root[data-theme="light"] .it.next .bd{border-color:#fff;box-shadow:0 2px 0 #fff inset,0 0 0 1px rgba(139,92,246,.22),0 26px 46px -22px rgba(76,29,149,.45),0 4px 12px rgba(49,27,110,.10)}
-.it.next .dot::after{background:linear-gradient(135deg,#F0ABFC,#67E8F9);border-color:#fff;box-shadow:0 0 0 4px rgba(150,120,255,.3),0 0 14px rgba(150,120,255,.9)}
-.chip{background:linear-gradient(135deg,rgba(217,70,239,.30),rgba(103,232,249,.26));color:var(--text)}
-/* tinted gloss + shadows */
-.it .bd.glass,.widget.glass,.it .dt.glass,.seg.glass{box-shadow:0 1.5px 0 var(--rim) inset,0 -1px 0 var(--rim-b) inset,0 16px 30px -16px rgba(20,8,60,.55),0 2px 6px rgba(20,8,60,.10)}
+:root[data-theme="dark"] .sw .knob{background:#F5F5F6}
+:root[data-theme="light"] .sw .knob{background:#0B0B0D}
+.sw .knob{box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 5px 10px -4px rgba(0,0,0,.55)}
+.sw .sun,.sw .moon{color:var(--text-3)}
+:root[data-theme="dark"] .sw .moon{color:#0B0B0D}
+:root[data-theme="light"] .sw .sun{color:#fff}
+/* links and small text */
+.it .meta .go{color:var(--text);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px;font-weight:600}
+.jump{color:var(--text)}
 .pip.w{background:#22C55E}.pip.l{background:#F43F5E}
-.quote.glass{background:var(--glass-soft)}
-:root[data-theme="dark"] .foot{color:rgba(226,220,255,.75)}
-:root[data-theme="light"] .foot{color:#6B63A0}
+/* quote: no border */
+.quote.glass{background:var(--glass-soft);border:0;box-shadow:none}
+:root[data-theme="dark"] .foot{color:rgba(235,235,240,.72)}
+:root[data-theme="light"] .foot{color:#5B5C63}
 </style>
 </head>
 <body>
@@ -343,7 +331,7 @@ html{background:#1A0B3B}
 "use strict";
 
 
-var BG_HTML = '<div class="bg" aria-hidden="true"><i class="neon"></i><i class="ballshadow"></i><i class="ball3d"></i></div>';
+var BG_HTML = '<div class="bg" aria-hidden="true"><i class="photo"></i><i class="ballshadow"></i><i class="ball3d"></i></div>';
 
 var DEFAULT_QUOTES = ["I can accept failure, everyone fails at something. But I can't accept not trying. — Michael Jordan", "Talent wins games, but teamwork and intelligence win championships. — Michael Jordan", "You must expect great things of yourself before you can do them. — Michael Jordan", "Obstacles don't have to stop you. — Michael Jordan", "Failure is not fatal, but failure to change might be. — John Wooden", "Be quick, but don't hurry. — John Wooden", "It's the little details that are vital. Little things make big things happen. — John Wooden", "Do not let what you cannot do interfere with what you can do. — John Wooden", "Make each day your masterpiece. — John Wooden", "Never mistake activity for achievement. — John Wooden", "The main ingredient of stardom is the rest of the team. — John Wooden", "Rest at the end, not in the middle. — Kobe Bryant", "Make winning an attitude. — Pat Summitt", "Teamwork allows common people to obtain uncommon results. — Pat Summitt", "Success is a project that is always under construction. — Pat Summitt", "Here's how I'm going to beat you. I'm going to outwork you. — Pat Summitt", "The strength of the team is each individual member. — Phil Jackson", "I like criticism. It makes you strong. — LeBron James"];
 
