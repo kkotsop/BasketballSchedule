@@ -274,7 +274,7 @@ html{background:#0A1A24}
 .bg .ball3d,.bg .ballshadow{display:none}
 .bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
 @supports (height:100lvh){.bg{height:100lvh}}
-.bg .photo{position:absolute;inset:0;background:url("assets/bg-sunset.png") center/cover no-repeat,#10303D}
+.bg .photo{position:absolute;inset:0;background:url("assets/bg-sunset.webp") center/cover no-repeat,#10303D}
 .bg::after{content:"";position:absolute;inset:0}
 :root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(5,18,28,.40) 0%,rgba(5,18,28,.22) 45%,rgba(5,18,28,.46) 100%)}
 :root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.22) 100%)}
@@ -311,10 +311,20 @@ html{background:#0A1A24}
 .quote.glass{background:var(--glass-soft);border:0;box-shadow:none}
 :root[data-theme="dark"] .foot{color:rgba(255,255,255,.80)}
 :root[data-theme="light"] .foot{color:#2E5866}
-.foot{width:fit-content;max-width:calc(100% - 32px);margin:-4px auto 8px;padding:4px 6px 4px 12px;border-radius:999px;background:var(--glass-strong);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-:root[data-theme="light"] .foot{color:#1E4756}
 /* text over a photo: a touch of shadow keeps small text readable */
 :root[data-theme="dark"] .it .bd,:root[data-theme="dark"] .widget,:root[data-theme="dark"] .quote,:root[data-theme="dark"] .ttl,:root[data-theme="dark"] .foot{text-shadow:0 1px 6px rgba(0,0,0,.35)}
+/* quote + footnote: plain, quiet text (no pill) */
+.quote.glass{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;box-shadow:none;margin:2px 24px 0;padding:6px 0;width:calc(100% - 48px);justify-content:center}
+.quote .qbody{flex:0 1 auto;text-align:center;font-size:12.5px;color:var(--text-2)}
+.quote .qmark{display:none}
+.quote #q-by{font-size:11px;color:var(--text-3)}
+.foot{margin:0 16px 4px;padding:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:11px}
+:root[data-theme="dark"] .quote,:root[data-theme="dark"] .foot{text-shadow:0 1px 8px rgba(0,0,0,.6)}
+:root[data-theme="light"] .quote,:root[data-theme="light"] .foot{color:#173B48;text-shadow:0 0 10px rgba(255,255,255,.95),0 0 2px rgba(255,255,255,.7)}
+:root[data-theme="light"] .quote .qbody{color:#173B48}:root[data-theme="light"] .quote #q-by{color:#2E5866}
+/* full-height layout driven by the real visible height (set from script) */
+body{height:var(--app-h,100%);bottom:auto}
+.app{height:var(--app-h,100dvh);padding-bottom:max(env(safe-area-inset-bottom,0px),10px)}
 </style>
 </head>
 <body>
@@ -725,6 +735,14 @@ function refreshData(){
   }).catch(function(){});
 }
 refreshData();
+function fit(){
+  var h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  document.documentElement.style.setProperty("--app-h", Math.round(h) + "px");
+}
+fit();
+window.addEventListener("resize", fit);
+window.addEventListener("orientationchange", function(){ setTimeout(fit, 250); });
+if (window.visualViewport) window.visualViewport.addEventListener("resize", fit);
 var hiddenAt = 0;
 document.addEventListener("visibilitychange", function(){
   if (document.hidden) { hiddenAt = Date.now(); return; }
