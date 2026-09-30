@@ -272,13 +272,11 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 html{background:#0A1A24}
 /* background photo */
 .bg .ball3d,.bg .ballshadow{display:none}
-.bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
-@supports (height:100lvh){.bg{height:100lvh}}
+.bg{position:fixed;top:0;right:0;bottom:0;left:0;z-index:0;pointer-events:none;overflow:hidden}
 .bg .photo{position:absolute;inset:0;background:url("assets/bg-ball.webp") center/cover no-repeat,#10303D}
 .bg::after{content:"";position:absolute;inset:0}
 :root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(5,18,28,.40) 0%,rgba(5,18,28,.22) 45%,rgba(5,18,28,.46) 100%)}
 :root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.22) 100%)}
-@supports (height:100dvh){.app{height:100dvh}}
 /* clear glass cards: low fill, strong blur, bright rim */
 .glass{-webkit-backdrop-filter:blur(16px) saturate(165%);backdrop-filter:blur(16px) saturate(165%)}
 .it .bd.glass,.widget.glass,.it .dt.glass,.seg.glass{
@@ -323,8 +321,8 @@ html{background:#0A1A24}
 :root[data-theme="light"] .quote,:root[data-theme="light"] .foot{color:#173B48;text-shadow:0 0 10px rgba(255,255,255,.95),0 0 2px rgba(255,255,255,.7)}
 :root[data-theme="light"] .quote .qbody{color:#173B48}:root[data-theme="light"] .quote #q-by{color:#2E5866}
 /* full-height layout driven by the real visible height (set from script) */
-body{height:var(--app-h,100%);bottom:auto}
-.app{height:var(--app-h,100dvh);padding-bottom:max(env(safe-area-inset-bottom,0px),10px)}
+body{position:fixed;top:0;right:0;bottom:0;left:0;height:auto}
+.app{height:100%;padding-bottom:max(env(safe-area-inset-bottom,0px),10px)}
 /* quote: a faint frosted layer, clearly separate from the footnote below */
 .quote.glass{background:var(--glass-soft);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:0;box-shadow:none;border-radius:14px;margin:4px 16px 10px;padding:9px 14px;width:calc(100% - 32px)}
 :root[data-theme="dark"] .quote.glass{background:rgba(8,26,38,.22)}
@@ -375,6 +373,11 @@ html{background:#0A0A0B}
 :root[data-theme="light"] .foot{color:#1F2024;text-shadow:0 0 10px rgba(255,255,255,.9)}
 :root[data-theme="dark"] .it .bd,:root[data-theme="dark"] .widget,:root[data-theme="dark"] .quote,:root[data-theme="dark"] .ttl,:root[data-theme="dark"] .foot{text-shadow:0 1px 6px rgba(0,0,0,.45)}
 :root[data-theme="light"] .it .bd,:root[data-theme="light"] .widget,:root[data-theme="light"] .ttl{text-shadow:none}
+/* next game: red line on top and a red glow under the card (both themes) */
+:root[data-theme="dark"] .it.next .bd{box-shadow:0 1.5px 0 rgba(255,255,255,.55) inset,0 0 0 1px rgba(255,255,255,.08),0 34px 60px -20px rgba(255,59,78,.55),0 12px 26px -10px rgba(0,0,0,.6)}
+:root[data-theme="light"] .it.next .bd{box-shadow:0 2px 0 #fff inset,0 34px 58px -22px rgba(215,38,61,.50),0 6px 16px rgba(0,0,0,.08)}
+:root[data-theme="dark"] .it.next .bd::before{background:linear-gradient(90deg,transparent,#FF3B4E 28%,#FF3B4E 72%,transparent);box-shadow:0 0 14px 1px rgba(255,59,78,.75)}
+:root[data-theme="dark"] .it.next .dot::after{background:#FF3B4E;border-color:#fff;box-shadow:0 0 0 4px rgba(255,59,78,.28),0 0 16px rgba(255,59,78,.85)}
 /* ===== alternative design "orange": dusk palms + hoop (switch with ?d=orange, back with ?d=default) ===== */
 :root[data-design="orange"][data-theme] .bg .photo{filter:none}
 :root[data-design="orange"] .bg .photo{background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 554 1200%22 preserveAspectRatio=%22xMidYMax slice%22%3E%0A%3Cg fill=%22none%22 stroke=%22%231A0C03%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%0A%3Cpath d=%22M146 1200C150 1010 170 820 184 650%22 stroke-width=%2213%22/%3E%0A%3Cpath d=%22M180 1200C186 1000 196 800 190 650%22 stroke-width=%2211%22/%3E%0A%3Cpath d=%22M372 1200C373 1040 368 900 360 730%22 stroke-width=%2212%22/%3E%0A%3Cg stroke-width=%228%22%3E%3Cpath d=%22M185 640Q130 560 52 610%22/%3E%3Cpath d=%22M185 640Q150 545 100 500%22/%3E%3Cpath d=%22M185 640Q190 520 230 486%22/%3E%3Cpath d=%22M185 640Q240 560 300 530%22/%3E%3Cpath d=%22M185 640Q120 640 62 700%22/%3E%3Cpath d=%22M185 640Q250 620 290 690%22/%3E%3Cpath d=%22M185 640Q150 700 120 790%22/%3E%3Cpath d=%22M185 640Q205 720 240 780%22/%3E%3C/g%3E%0A%3Cg stroke-width=%227%22%3E%3Cpath d=%22M360 725Q320 650 270 650%22/%3E%3Cpath d=%22M360 725Q345 620 330 560%22/%3E%3Cpath d=%22M360 725Q400 620 440 600%22/%3E%3Cpath d=%22M360 725Q430 680 470 720%22/%3E%3Cpath d=%22M360 725Q300 740 312 800%22/%3E%3Cpath d=%22M360 725Q410 760 400 820%22/%3E%3C/g%3E%0A%3C/g%3E%0A%3Cg fill=%22%231A0C03%22 stroke=%22%231A0C03%22%3E%0A%3Cpath d=%22M383 580L418 566V846L383 892Z%22 stroke-width=%223%22/%3E%0A%3Crect x=%22410%22 y=%22846%22 width=%22144%22 height=%2236%22/%3E%0A%3Cpath d=%22M420 706L554 760M420 722L554 782%22 stroke-width=%225%22 fill=%22none%22/%3E%0A%3Cellipse cx=%22282%22 cy=%22846%22 rx=%2268%22 ry=%2210%22 fill=%22none%22 stroke-width=%226%22/%3E%0A%3Cpath d=%22M216 850L246 960M250 854L262 966M284 856L282 966M318 854L304 962M350 850L322 958M222 880Q282 900 346 880M232 915Q282 932 334 915%22 fill=%22none%22 stroke-width=%223%22/%3E%0A%3C/g%3E%3C/svg%3E") center bottom/cover no-repeat,linear-gradient(180deg,#7E3A0E 0%,#D86F14 32%,#FF8A1F 62%,#FF6A10 100%)}
@@ -811,14 +814,6 @@ function refreshData(){
   }).catch(function(){});
 }
 refreshData();
-function fit(){
-  var h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
-  document.documentElement.style.setProperty("--app-h", Math.round(h) + "px");
-}
-fit();
-window.addEventListener("resize", fit);
-window.addEventListener("orientationchange", function(){ setTimeout(fit, 250); });
-if (window.visualViewport) window.visualViewport.addEventListener("resize", fit);
 var hiddenAt = 0;
 document.addEventListener("visibilitychange", function(){
   if (document.hidden) { hiddenAt = Date.now(); return; }
