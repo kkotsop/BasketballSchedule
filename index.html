@@ -325,6 +325,32 @@ html{background:#0A1A24}
 /* full-height layout driven by the real visible height (set from script) */
 body{height:var(--app-h,100%);bottom:auto}
 .app{height:var(--app-h,100dvh);padding-bottom:max(env(safe-area-inset-bottom,0px),10px)}
+/* quote: a faint frosted layer, clearly separate from the footnote below */
+.quote.glass{background:var(--glass-soft);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:0;box-shadow:none;border-radius:14px;margin:4px 16px 10px;padding:9px 14px;width:calc(100% - 32px)}
+:root[data-theme="dark"] .quote.glass{background:rgba(8,26,38,.22)}
+:root[data-theme="light"] .quote.glass{background:rgba(255,255,255,.30)}
+.foot{margin-top:2px}
+
+/* ===== alternative design "orange": dusk palms + hoop (switch with ?d=orange, back with ?d=default) ===== */
+:root[data-design="orange"] .bg .photo{background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 554 1200%22 preserveAspectRatio=%22xMidYMax slice%22%3E%0A%3Cg fill=%22none%22 stroke=%22%231A0C03%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%0A%3Cpath d=%22M146 1200C150 1010 170 820 184 650%22 stroke-width=%2213%22/%3E%0A%3Cpath d=%22M180 1200C186 1000 196 800 190 650%22 stroke-width=%2211%22/%3E%0A%3Cpath d=%22M372 1200C373 1040 368 900 360 730%22 stroke-width=%2212%22/%3E%0A%3Cg stroke-width=%228%22%3E%3Cpath d=%22M185 640Q130 560 52 610%22/%3E%3Cpath d=%22M185 640Q150 545 100 500%22/%3E%3Cpath d=%22M185 640Q190 520 230 486%22/%3E%3Cpath d=%22M185 640Q240 560 300 530%22/%3E%3Cpath d=%22M185 640Q120 640 62 700%22/%3E%3Cpath d=%22M185 640Q250 620 290 690%22/%3E%3Cpath d=%22M185 640Q150 700 120 790%22/%3E%3Cpath d=%22M185 640Q205 720 240 780%22/%3E%3C/g%3E%0A%3Cg stroke-width=%227%22%3E%3Cpath d=%22M360 725Q320 650 270 650%22/%3E%3Cpath d=%22M360 725Q345 620 330 560%22/%3E%3Cpath d=%22M360 725Q400 620 440 600%22/%3E%3Cpath d=%22M360 725Q430 680 470 720%22/%3E%3Cpath d=%22M360 725Q300 740 312 800%22/%3E%3Cpath d=%22M360 725Q410 760 400 820%22/%3E%3C/g%3E%0A%3C/g%3E%0A%3Cg fill=%22%231A0C03%22 stroke=%22%231A0C03%22%3E%0A%3Cpath d=%22M383 580L418 566V846L383 892Z%22 stroke-width=%223%22/%3E%0A%3Crect x=%22410%22 y=%22846%22 width=%22144%22 height=%2236%22/%3E%0A%3Cpath d=%22M420 706L554 760M420 722L554 782%22 stroke-width=%225%22 fill=%22none%22/%3E%0A%3Cellipse cx=%22282%22 cy=%22846%22 rx=%2268%22 ry=%2210%22 fill=%22none%22 stroke-width=%226%22/%3E%0A%3Cpath d=%22M216 850L246 960M250 854L262 966M284 856L282 966M318 854L304 962M350 850L322 958M222 880Q282 900 346 880M232 915Q282 932 334 915%22 fill=%22none%22 stroke-width=%223%22/%3E%0A%3C/g%3E%3C/svg%3E") center bottom/cover no-repeat,linear-gradient(180deg,#7E3A0E 0%,#D86F14 32%,#FF8A1F 62%,#FF6A10 100%)}
+:root[data-design="orange"][data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(30,10,2,.46) 0%,rgba(30,10,2,.26) 45%,rgba(30,10,2,.42) 100%)}
+:root[data-design="orange"][data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(255,244,228,.26) 0%,rgba(255,244,228,.08) 50%,rgba(255,244,228,.20) 100%)}
+:root[data-design="orange"][data-theme="dark"]{--glass:rgba(36,14,4,.32);--glass-strong:rgba(40,16,6,.60);--glass-soft:rgba(36,14,4,.26);--edge:rgba(255,228,190,.28);--hair:rgba(255,228,190,.16);--text:#FFF8EE;--text-2:#F4DFC4;--text-3:#D9B98E;--accent-text:#FFE2B8;--accent-chip:rgba(255,240,220,.20)}
+:root[data-design="orange"][data-theme="light"]{--glass:rgba(255,250,242,.34);--glass-strong:rgba(255,250,242,.72);--glass-soft:rgba(255,250,242,.30);--edge:rgba(255,255,255,.85);--hair:rgba(70,28,4,.14);--text:#2B1407;--text-2:#5E3413;--text-3:#8E5F36;--accent-text:#8A3300;--accent-chip:rgba(43,20,7,.09)}
+:root[data-design="orange"][data-theme] .cta,:root[data-design="orange"][data-theme] .btn{background:#2B1407;color:#FFF3E3;box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 12px 24px -10px rgba(40,16,4,.7)}
+:root[data-design="orange"][data-theme="dark"] .cta,:root[data-design="orange"][data-theme="dark"] .btn{background:#FFF3E3;color:#2B1407}
+:root[data-design="orange"][data-theme] .seg button[aria-checked="true"]{background:#2B1407;color:#FFF3E3;box-shadow:0 4px 12px -4px rgba(40,16,4,.6)}
+:root[data-design="orange"][data-theme="dark"] .seg button[aria-checked="true"]{background:#FFF3E3;color:#2B1407}
+:root[data-design="orange"] .side.home{background:#2B1407;color:#FFF3E3;box-shadow:none}
+:root[data-design="orange"][data-theme="dark"] .side.home{background:#FFF3E3;color:#2B1407}
+:root[data-design="orange"] .sw .knob{background:#FFF3E3}
+:root[data-design="orange"] .it.next .bd::before{background:linear-gradient(90deg,transparent,#FFE0A3 25%,#fff 75%,transparent);box-shadow:0 0 14px 1px rgba(255,214,140,.8)}
+:root[data-design="orange"][data-theme="dark"] .it.next .bd{background:radial-gradient(120% 70% at 0% 0%,rgba(255,236,206,.34),rgba(255,236,206,0) 60%),var(--glass-strong);border-color:rgba(255,232,200,.6);box-shadow:0 1.5px 0 rgba(255,240,220,.6) inset,0 28px 54px -24px rgba(20,6,0,.7),0 0 44px -12px rgba(255,200,110,.5)}
+:root[data-design="orange"][data-theme="light"] .it.next .bd{background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.95),rgba(255,250,242,.4) 60%),var(--glass-strong);box-shadow:0 2px 0 #fff inset,0 26px 50px -26px rgba(90,36,4,.5),0 0 40px -14px rgba(255,170,60,.55)}
+:root[data-design="orange"] .it.next .dot::after{background:#fff;border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3),0 0 14px rgba(255,220,150,.9)}
+:root[data-design="orange"][data-theme="dark"] .quote.glass{background:rgba(36,14,4,.22)}
+:root[data-design="orange"][data-theme="light"] .quote.glass,:root[data-design="orange"][data-theme="light"] .quote,:root[data-design="orange"][data-theme="light"] .foot{color:#2B1407}
+:root[data-design="orange"][data-theme="light"] .quote .qbody{color:#2B1407}
 </style>
 </head>
 <body>
@@ -711,6 +737,11 @@ document.addEventListener("click", function(ev){
   }
 });
 
+try {
+  var _q = (location.search.match(/[?&]d=([a-z]+)/) || [])[1];
+  if (_q) localStorage.setItem("apop-design", _q === "orange" ? "orange" : "default");
+  if (localStorage.getItem("apop-design") === "orange") document.documentElement.setAttribute("data-design", "orange");
+} catch (e) {}
 try {
   var saved = localStorage.getItem("apop-theme");
   document.documentElement.setAttribute("data-theme", saved === "light" ? "light" : "dark");
