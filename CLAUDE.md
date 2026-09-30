@@ -22,8 +22,7 @@ standalone site. The artifact is kept in `legacy/claude-artifact-v5.html` for re
    runner IPs are not blocked by cbfweb.org.
 3. Confirm the two uncertain venue pins (see Venues) and fill tip-off times through `overrides.json` until the
    federation publishes them.
-4. Optional cleanup: `index.html` still contains the legacy editing UI (paste importer, game editor, quotes
-   editor, `buildDoc`/`commit`). It is unreachable because `canWrite = false`; remove it if you want a smaller file.
+4. Done: the legacy editing UI was removed from `index.html` (read-only page only).
 
 ## The federation page
 `https://cbfweb.org/eCBF/pubgames.aspx` is ASP.NET WebForms (ViewState, UpdatePanel). A plain GET returns only three
@@ -44,8 +43,9 @@ Empty `time` renders as "Time TBC" and exports as an all-day calendar event.
 `overrides.json` (`[{"date","opponent","time","venue"}]`) is applied by the scraper after parsing.
 
 ## Venues
-- Αίθ. Α' Λυκείου Ακης Κλεάνθους (Paphos, home): pinned to "APOP Basketball court", about 150 m from the Α' Λύκειο.
-  Not confirmed to be the hall itself.
+- Αίθ. Α' Λυκείου Ακης Κλεάνθους (Paphos, home): this is the Akis Kleanthous Sports Hall (Α' Λύκειο Πάφου), APOP's
+  home hall. `places` holds a plain search text ("Akis Kleanthous Sports Hall, Paphos") instead of a place id;
+  `mapsUrl` treats any value not starting with `ChIJ` as a search query.
 - Λύκ. Αγ. Φύλας: mapped to Λύκειο Αγίας Φυλάξεως, Limassol, the only Google match. Verify it is the right school.
 - Λύκ. Αγ. Σπυρίδωνα and Αίθ. Νίκος Σολομωνίδης (AEL arena): good matches.
 
