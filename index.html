@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#0A1A24">
+<meta name="theme-color" content="#0A0A0B">
 <title>ΑΠΟΠ U14 &amp; U16 — Γ΄ Όμιλος</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -274,7 +274,7 @@ html{background:#0A1A24}
 .bg .ball3d,.bg .ballshadow{display:none}
 .bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
 @supports (height:100lvh){.bg{height:100lvh}}
-.bg .photo{position:absolute;inset:0;background:url("assets/bg-sunset.webp") center/cover no-repeat,#10303D}
+.bg .photo{position:absolute;inset:0;background:url("assets/bg-ball.webp") center/cover no-repeat,#10303D}
 .bg::after{content:"";position:absolute;inset:0}
 :root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(5,18,28,.40) 0%,rgba(5,18,28,.22) 45%,rgba(5,18,28,.46) 100%)}
 :root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.22) 100%)}
@@ -331,7 +331,52 @@ body{height:var(--app-h,100%);bottom:auto}
 :root[data-theme="light"] .quote.glass{background:rgba(255,255,255,.30)}
 .foot{margin-top:2px}
 
+/* ===== design v10: dark = black-and-white ball on a finger (assets/bg-ball.webp), light = hoop on a concrete wall (assets/bg-wall.webp) ===== */
+:root[data-theme="dark"]{
+  --bg-top:#0B0B0C;--bg-bot:#0A0A0B;--surface:#141416;
+  --glass:rgba(14,14,16,.36);--glass-strong:rgba(16,16,18,.72);--glass-soft:rgba(14,14,16,.28);--edge:rgba(255,255,255,.20);--hair:rgba(255,255,255,.12);
+  --text:#F7F7F8;--text-2:#CBCCD0;--text-3:#94959B;--line-strong:rgba(255,255,255,.34);
+  --accent:#FFFFFF;--accent-text:#FFFFFF;--accent-chip:rgba(255,255,255,.16);--accent-line:rgba(255,255,255,.4);--club:#F7F7F8;
+  --gloss:rgba(255,255,255,.12);--rim:rgba(255,255,255,.26);--rim-b:rgba(0,0,0,.4)}
+:root[data-theme="light"]{
+  --bg-top:#ECECEE;--bg-bot:#DDDDE0;--surface:#FFFFFF;
+  --glass:rgba(255,255,255,.34);--glass-strong:rgba(255,255,255,.74);--glass-soft:rgba(255,255,255,.30);--edge:rgba(255,255,255,.88);--hair:rgba(20,20,24,.12);
+  --text:#0E0E10;--text-2:#45464C;--text-3:#7F8088;--line-strong:rgba(20,20,24,.32);
+  --accent:#D7263D;--accent-text:#0E0E10;--accent-chip:rgba(20,20,24,.08);--accent-line:rgba(215,38,61,.45);--club:#0E0E10;
+  --gloss:rgba(255,255,255,.65);--rim:rgba(255,255,255,.95);--rim-b:rgba(20,20,24,.07)}
+html{background:#0A0A0B}
+:root[data-theme="dark"] .bg .photo{background:url("assets/bg-ball.webp") center/cover no-repeat,#0A0A0B;filter:grayscale(1) brightness(.62) contrast(1.18)}
+:root[data-theme="light"] .bg .photo{background:url("assets/bg-wall.webp") center/cover no-repeat,#E4E4E7;filter:none}
+:root[data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(0,0,0,.36) 0%,rgba(0,0,0,.10) 40%,rgba(0,0,0,.52) 100%)}
+:root[data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.10) 45%,rgba(255,255,255,.34) 100%)}
+/* next game */
+:root[data-theme="dark"] .it.next .bd{border-color:rgba(255,255,255,.55);background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.26),rgba(255,255,255,0) 60%),var(--glass-strong);box-shadow:0 1.5px 0 rgba(255,255,255,.6) inset,0 30px 60px -22px rgba(0,0,0,.85),0 0 46px -14px rgba(255,255,255,.35)}
+:root[data-theme="light"] .it.next .bd{border-color:#fff;background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.98),rgba(255,255,255,.45) 60%),var(--glass-strong);box-shadow:0 2px 0 #fff inset,0 30px 56px -26px rgba(0,0,0,.45),0 4px 12px rgba(0,0,0,.08)}
+:root[data-theme="dark"] .it.next .bd::before{background:linear-gradient(90deg,transparent,#fff 30%,#fff 70%,transparent);box-shadow:0 0 14px 1px rgba(255,255,255,.7)}
+:root[data-theme="light"] .it.next .bd::before{background:linear-gradient(90deg,transparent,#D7263D 30%,#D7263D 70%,transparent);box-shadow:0 0 12px rgba(215,38,61,.5)}
+:root[data-theme="dark"] .it.next .dot::after{background:#fff;border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.22),0 0 16px rgba(255,255,255,.8)}
+:root[data-theme="light"] .it.next .dot::after{background:#D7263D;border-color:#fff;box-shadow:0 0 0 4px rgba(215,38,61,.22),0 0 12px rgba(215,38,61,.5)}
+/* controls: white on dark, black on light */
+:root[data-theme] .side.home{background:var(--text);color:var(--bg-bot);box-shadow:none}
+:root[data-theme="light"] .side.home{color:#fff}
+:root[data-theme] .cta,:root[data-theme] .btn{background:var(--text);color:var(--bg-bot);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 22px -10px rgba(0,0,0,.6)}
+:root[data-theme="light"] .cta,:root[data-theme="light"] .btn{color:#fff}
+:root[data-theme] .seg button[aria-checked="true"]{background:var(--text);color:var(--bg-bot);box-shadow:0 4px 12px -4px rgba(0,0,0,.5)}
+:root[data-theme="light"] .seg button[aria-checked="true"]{color:#fff}
+:root[data-theme="dark"] .sw .knob{background:#F7F7F8}
+:root[data-theme="light"] .sw .knob{background:#0E0E10}
+:root[data-theme="dark"] .sw .moon{color:#0E0E10}
+:root[data-theme="light"] .sw .sun{color:#fff}
+.it .meta .go{color:var(--text);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:3px}
+:root[data-theme="dark"] .quote.glass{background:rgba(14,14,16,.24)}
+:root[data-theme="light"] .quote.glass{background:rgba(255,255,255,.40)}
+:root[data-theme="light"] .quote,:root[data-theme="light"] .foot,:root[data-theme="light"] .quote .qbody{color:#0E0E10;text-shadow:none}
+:root[data-theme="light"] .quote #q-by{color:#45464C}
+:root[data-theme="light"] .foot{color:#1F2024;text-shadow:0 0 10px rgba(255,255,255,.9)}
+:root[data-theme="dark"] .it .bd,:root[data-theme="dark"] .widget,:root[data-theme="dark"] .quote,:root[data-theme="dark"] .ttl,:root[data-theme="dark"] .foot{text-shadow:0 1px 6px rgba(0,0,0,.45)}
+:root[data-theme="light"] .it .bd,:root[data-theme="light"] .widget,:root[data-theme="light"] .ttl{text-shadow:none}
 /* ===== alternative design "orange": dusk palms + hoop (switch with ?d=orange, back with ?d=default) ===== */
+:root[data-design="orange"][data-theme] .bg .photo{filter:none}
 :root[data-design="orange"] .bg .photo{background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 554 1200%22 preserveAspectRatio=%22xMidYMax slice%22%3E%0A%3Cg fill=%22none%22 stroke=%22%231A0C03%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%0A%3Cpath d=%22M146 1200C150 1010 170 820 184 650%22 stroke-width=%2213%22/%3E%0A%3Cpath d=%22M180 1200C186 1000 196 800 190 650%22 stroke-width=%2211%22/%3E%0A%3Cpath d=%22M372 1200C373 1040 368 900 360 730%22 stroke-width=%2212%22/%3E%0A%3Cg stroke-width=%228%22%3E%3Cpath d=%22M185 640Q130 560 52 610%22/%3E%3Cpath d=%22M185 640Q150 545 100 500%22/%3E%3Cpath d=%22M185 640Q190 520 230 486%22/%3E%3Cpath d=%22M185 640Q240 560 300 530%22/%3E%3Cpath d=%22M185 640Q120 640 62 700%22/%3E%3Cpath d=%22M185 640Q250 620 290 690%22/%3E%3Cpath d=%22M185 640Q150 700 120 790%22/%3E%3Cpath d=%22M185 640Q205 720 240 780%22/%3E%3C/g%3E%0A%3Cg stroke-width=%227%22%3E%3Cpath d=%22M360 725Q320 650 270 650%22/%3E%3Cpath d=%22M360 725Q345 620 330 560%22/%3E%3Cpath d=%22M360 725Q400 620 440 600%22/%3E%3Cpath d=%22M360 725Q430 680 470 720%22/%3E%3Cpath d=%22M360 725Q300 740 312 800%22/%3E%3Cpath d=%22M360 725Q410 760 400 820%22/%3E%3C/g%3E%0A%3C/g%3E%0A%3Cg fill=%22%231A0C03%22 stroke=%22%231A0C03%22%3E%0A%3Cpath d=%22M383 580L418 566V846L383 892Z%22 stroke-width=%223%22/%3E%0A%3Crect x=%22410%22 y=%22846%22 width=%22144%22 height=%2236%22/%3E%0A%3Cpath d=%22M420 706L554 760M420 722L554 782%22 stroke-width=%225%22 fill=%22none%22/%3E%0A%3Cellipse cx=%22282%22 cy=%22846%22 rx=%2268%22 ry=%2210%22 fill=%22none%22 stroke-width=%226%22/%3E%0A%3Cpath d=%22M216 850L246 960M250 854L262 966M284 856L282 966M318 854L304 962M350 850L322 958M222 880Q282 900 346 880M232 915Q282 932 334 915%22 fill=%22none%22 stroke-width=%223%22/%3E%0A%3C/g%3E%3C/svg%3E") center bottom/cover no-repeat,linear-gradient(180deg,#7E3A0E 0%,#D86F14 32%,#FF8A1F 62%,#FF6A10 100%)}
 :root[data-design="orange"][data-theme="dark"] .bg::after{background:linear-gradient(180deg,rgba(30,10,2,.46) 0%,rgba(30,10,2,.26) 45%,rgba(30,10,2,.42) 100%)}
 :root[data-design="orange"][data-theme="light"] .bg::after{background:linear-gradient(180deg,rgba(255,244,228,.26) 0%,rgba(255,244,228,.08) 50%,rgba(255,244,228,.20) 100%)}
