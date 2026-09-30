@@ -19,7 +19,7 @@ Live site: `https://kkotsop.github.io/BasketballSchedule/` (on a phone: Share â†
   highlighted (logo, bold, red edge).
 - **Bottom bar icons**: WhatsApp (opens WhatsApp with a ready message that includes the next game), copy link, bell
   (updates) and refresh.
-- **Subscribe** (bell, bottom bar): subscribe to a **calendar feed** and turn on **notifications** (see below).
+- **Subscribe** (bell, bottom bar): icon-only pop-up with Apple Calendar, Google Calendar and (once set up) a notifications bell.
 - Refresh button next to the footnote.
 
 ## Calendar feed and notifications
@@ -27,7 +27,7 @@ Live site: `https://kkotsop.github.io/BasketballSchedule/` (on a phone: Share â†
   site (`tools/make_ics.py`). Every game keeps the same id, so when a tip-off time is published or a game moves,
   subscribed calendars update the existing event. Apple/Outlook refresh within about an hour, Google Calendar
   every few hours to a day (Google's own limit).
-- **Notifications inside the page (Web Push)**: tap the bell â†’ *Turn on notifications*. After every scrape
+- **Notifications inside the page (Web Push)**: tap the bell â†’ the bell icon in the pop-up. After every scrape
   `tools/notify.py` compares the games with the previous run and sends one push to each subscriber (only for the age
   groups they chose) when a time is set or changed, a game moves, a venue changes, a game is added or a result is
   posted. No app to install. On **iPhone** the page must first be added to the Home Screen (Apple's rule); Android

@@ -436,6 +436,15 @@ body{position:static;height:auto;min-height:100%;overflow:visible}
 .rfb svg{width:21px;height:21px}
 .rfb.wa svg{width:20px;height:20px}
 .rfb.dot::after{top:8px;right:8px}
+
+/* subscribe sheet: icons only */
+.iconrow{display:flex;justify-content:center;gap:16px;padding:10px 0 6px}
+.ibig{position:relative;width:84px;height:84px;border-radius:26px;display:grid;place-items:center;color:var(--text);background:var(--glass-strong);border:1px solid var(--edge);box-shadow:0 1px 0 var(--rim) inset,0 14px 26px -16px rgba(0,0,0,.6);text-decoration:none}
+.ibig svg{width:38px;height:38px}
+.ibig.on{box-shadow:0 0 0 3px rgba(34,197,94,.55),0 14px 26px -16px rgba(0,0,0,.6)}
+.ibig.on::after{content:"";position:absolute;top:9px;right:9px;width:11px;height:11px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 2px rgba(0,0,0,.25)}
+.ibig[disabled]{opacity:.5}
+.sheet .ibig{color:var(--text);text-decoration:none}
 </style>
 </head>
 <body>
@@ -472,6 +481,8 @@ var ICON = {
   cal:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" rx="2.5"/><path d="M3 8.5h14M7 3v3M13 3v3M10 11v4M8 13h4"/></svg>',
   whatsapp:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.52.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.195 2.105 3.195 5.1 4.485.714.3 1.27.48 1.704.629.714.227 1.365.195 1.88.121.574-.091 1.767-.721 2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345m-5.446 7.443h-.016c-1.77 0-3.524-.48-5.055-1.38l-.36-.214-3.75.975 1.005-3.645-.239-.375c-.99-1.576-1.516-3.391-1.516-5.26 0-5.445 4.455-9.885 9.942-9.885 2.654 0 5.145 1.035 7.021 2.91 1.875 1.859 2.909 4.35 2.909 6.99-.004 5.444-4.46 9.885-9.935 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.495-8.411"/></svg>',
   copy:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="9.5" height="9.5" rx="2.2"/><path d="M13 7V5.4A1.9 1.9 0 0011.1 3.5H5.4A1.9 1.9 0 003.5 5.4v5.7A1.9 1.9 0 005.4 13H7"/></svg>',
+  apple:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>',
+  gcal:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17.5" rx="3.2" fill="#fff" stroke="#4285F4" stroke-width="2"/><path d="M3 8.6h18" stroke="#4285F4" stroke-width="2"/><path d="M8 2v3.4M16 2v3.4" stroke="#EA4335" stroke-width="2" stroke-linecap="round"/><text x="12" y="18.2" text-anchor="middle" font-family="Arial,sans-serif" font-size="8.6" font-weight="700" fill="#4285F4">31</text></svg>',
   share:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12.5V3.5M6.6 6.8L10 3.4l3.4 3.4M5 10v5.5a1.2 1.2 0 001.2 1.2h7.6A1.2 1.2 0 0015 15.5V10"/></svg>',
   bell:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.2a4.6 4.6 0 00-4.6 4.6c0 3.9-1.6 5-1.6 5h12.4s-1.6-1.1-1.6-5A4.6 4.6 0 0010 3.2zM8.4 15.6a1.7 1.7 0 003.2 0"/></svg>',
   table:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="2.2"/><path d="M3 8.6h14M3 12.4h14M8 8.6V16"/></svg>',
@@ -922,45 +933,36 @@ function pushOff(){
     return pushPost("/unsubscribe", {endpoint:e}).catch(function(){}).then(function(){ return sub.unsubscribe(); });
   }).then(function(){ try { localStorage.removeItem("apop-push"); } catch (e) {} });
 }
-function pushSectionHTML(){
+function pushButtonHTML(){
   if (!pushCfg()) return "";
-  var head = '<p class="note" style="margin-top:18px">Notifications</p>';
-  if (!pushSupported() || (isIOS() && !isStandalone())) {
-    return head + '<p class="note" style="font-size:13px;line-height:1.5">' + (isIOS()
-      ? 'On iPhone, first add this page to your Home Screen: tap <b>Share</b> (the square with the arrow), then <b>Add to Home Screen</b>. Open it from the new icon and come back here to turn notifications on.'
-      : 'This browser does not support notifications. Try Chrome on Android or a desktop browser.') + '</p>';
-  }
-  var st = pushStored(), perm = Notification.permission;
-  if (perm === "denied") return head + '<p class="note" style="font-size:13px;line-height:1.5">Notifications are blocked for this page. Allow them in your browser or phone settings, then reopen this sheet.</p>';
-  if (st) {
-    var cur = leaguesNow().join() === (st.lg || []).join();
-    return head + '<div class="menu"><div class="stat"><span class="ok"></span>On for ' + esc((st.lg || []).join(" & ")) + '</div>'
-      + (cur ? "" : '<button data-x="pushon"><span>Switch to ' + esc(leaguesNow().join(" & ")) + '<small>Current filter</small></span>' + ICON.chev + '</button>')
-      + '<button data-x="pushoff"><span>Turn off notifications</span>' + ICON.chev + '</button></div>';
-  }
-  return head + '<div class="menu"><button data-x="pushon"><span>Turn on notifications<small>' + esc(leaguesNow().join(" & ")) + '</small></span>' + ICON.chev + '</button></div>';
+  var on = !!pushStored();
+  return '<button class="ibig' + (on ? " on" : "") + '" data-x="pushtoggle" aria-pressed="' + on + '" aria-label="' + (on ? "Turn off notifications" : "Turn on notifications") + '" title="' + (on ? "Turn off notifications" : "Turn on notifications") + '">' + ICON.bell + '</button>';
 }
 function updatesSheet(){
   try { localStorage.setItem("apop-seen-updates", "1"); } catch (e) {}
   var base = siteUrl(), feed = filt === "U14" ? "apop-u14.ics" : filt === "U16" ? "apop-u16.ics" : "apop.ics";
   var webcal = base.replace(/^https?:/, "webcal:") + "calendar/" + feed;
   var which = filt === "both" ? "U14 & U16" : filt;
-  var d = sheet('<h2>Subscribe</h2><p class="note">Add the ' + esc(which) + ' games to your calendar. New times and changes update by themselves.</p><div class="menu">'
-    + calOption(webcal, "Apple Calendar", "", 'target="_self"')
-    + calOption("https://calendar.google.com/calendar/r?cid=" + webcal, "Google Calendar", "")
-    + '</div>' + pushSectionHTML());
+  var d = sheet('<div class="iconrow">'
+    + '<a class="ibig" href="' + esc(webcal) + '" target="_self" aria-label="Subscribe with Apple Calendar" title="Apple Calendar">' + ICON.apple + '</a>'
+    + '<a class="ibig" href="' + esc("https://calendar.google.com/calendar/r?cid=" + webcal) + '" target="_blank" rel="noopener noreferrer" aria-label="Subscribe with Google Calendar" title="Google Calendar">' + ICON.gcal + '</a>'
+    + pushButtonHTML() + '</div>');
   d.addEventListener("click", function(ev){
-    var t = ev.target.closest ? ev.target : null, link = t && t.closest("a.calopt"), b = t && t.closest("[data-x]");
+    var t = ev.target.closest ? ev.target : null, link = t && t.closest("a.ibig"), b = t && t.closest("[data-x]");
     if (link) { setTimeout(function(){ d.close(); render(); }, 300); return; }
     if (!b) return;
-    var x = b.getAttribute("data-x");
-    if (x === "pushon") {
-      b.disabled = true;
-      pushOn().then(function(){ haptic("success"); d.close(); toast("Notifications are on"); render(); })
-        .catch(function(e){ b.disabled = false; toast(e && e.message === "blocked" ? "Notifications were not allowed" : "Could not turn on notifications. Try again."); });
-    } else if (x === "pushoff") {
+    if (pushStored()) {
       pushOff().then(function(){ d.close(); toast("Notifications are off"); render(); });
+      return;
     }
+    if (!pushSupported() || (isIOS() && !isStandalone())) {
+      toast(isIOS() ? "On iPhone: Share → Add to Home Screen, then open the app icon" : "This browser can't show notifications");
+      return;
+    }
+    if (Notification.permission === "denied") { toast("Notifications are blocked in your settings"); return; }
+    b.disabled = true;
+    pushOn().then(function(){ haptic("success"); d.close(); toast("Notifications are on"); render(); })
+      .catch(function(e){ b.disabled = false; toast(e && e.message === "blocked" ? "Notifications were not allowed" : "Could not turn on notifications. Try again."); });
   });
   render();
 }
@@ -991,7 +993,7 @@ function haptic(kind){
   } catch (e) {}
 }
 document.addEventListener("click", function(ev){
-  var t = ev.target && ev.target.closest ? ev.target.closest("button, a.calopt, a.rfb, [data-act]") : null;
+  var t = ev.target && ev.target.closest ? ev.target.closest("button, a.calopt, a.rfb, a.ibig, [data-act]") : null;
   if (t && !t.disabled) haptic();
 }, true);
 
