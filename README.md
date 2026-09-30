@@ -19,7 +19,7 @@ Live site: `https://kkotsop.github.io/BasketballSchedule/` (on a phone: Share â†
   highlighted (logo, bold, red edge).
 - **Bottom bar icons**: WhatsApp (opens WhatsApp with a ready message that includes the next game), copy link, bell
   (updates) and refresh.
-- **Subscribe** (bell, bottom bar): pop-up with Apple Calendar, Google Calendar and (once set up) a Notifications on/off row, each with an icon and a label.
+- **Subscribe** (bell, bottom bar): pop-up with Apple Calendar, Google Calendar and (once set up) a Notifications on/off tile: three tiles, each with an icon above its label.
 - Refresh button next to the footnote.
 
 ## Calendar feed and notifications
