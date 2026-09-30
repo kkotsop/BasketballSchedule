@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#EDF2F8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#04070E" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#04070E">
 <title>ΑΠΟΠ U14 &amp; U16 — Γ΄ Όμιλος</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -374,9 +373,7 @@ function relative(d){
 /* ---------- theme ---------- */
 
 function isDark(){
-  var t = document.documentElement.getAttribute("data-theme");
-  if (t) return t === "dark";
-  try { return window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) { return false; }
+  return document.documentElement.getAttribute("data-theme") !== "light";
 }
 function syncSwitch(){
   var sw = $(".sw");
@@ -513,7 +510,7 @@ function render(opts){
     + '<button class="jump glass hide" id="jump" data-act="jump" data-dir="down">' + (hasNext ? "Next game" : "Latest game") + ICON.down + '</button></div>'
     + '<button class="quote glass" id="q" data-act="quote" aria-live="polite" aria-label="Show another quote">'
     + '<span class="qmark" aria-hidden="true">“</span><span class="qbody"><span id="q-text"></span><span id="q-by" hidden></span></span>'
-    + '<span class="qref" aria-hidden="true">' + ICON.refresh + '</span></button>'
+    + '</button>'
     + '<p class="foot"><span>' + esc(updatedText()) + '</span><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></p></div>';
   paintQuote(false);
   var sc = $("#scroller");
@@ -667,8 +664,8 @@ document.addEventListener("click", function(ev){
 
 try {
   var saved = localStorage.getItem("apop-theme");
-  if (saved === "light" || saved === "dark") document.documentElement.setAttribute("data-theme", saved);
-} catch (e) {}
+  document.documentElement.setAttribute("data-theme", saved === "light" ? "light" : "dark");
+} catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
 try {
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", syncSwitch);
 } catch (e) {}
