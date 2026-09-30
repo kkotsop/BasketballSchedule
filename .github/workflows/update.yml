@@ -38,6 +38,19 @@ jobs:
           name: scraper-debug
           path: scraper/debug/
           if-no-files-found: ignore
+      - name: Publish debug files to a branch (only when failed)
+        if: steps.scrape.outcome == 'failure'
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/dbg && cp -r scraper/debug/. /tmp/dbg/ 2>/dev/null || true
+          git config user.name "fixtures-bot"
+          git config user.email "fixtures-bot@users.noreply.github.com"
+          git checkout --orphan debug-output
+          git rm -rf . -q
+          cp -r /tmp/dbg/. .
+          git add -f .
+          git commit -q -m "Scraper debug output" && git push -f origin debug-output
+          git checkout -f main
       - name: Save updated fixtures in the repository
         run: |
           git config user.name "fixtures-bot"
