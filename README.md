@@ -17,7 +17,8 @@ Live site: `https://kkotsop.github.io/BasketballSchedule/` (on a phone: Share �
   the phone has *Reduce Motion* on); the quote and the "last check" footnote stay pinned at the bottom.
 - **League table** (Table button next to the filter): standings from the federation for each group, with ΑΠΟΠ
   highlighted (logo, bold, red edge).
-- **Share** (bottom bar): WhatsApp with a ready message that includes the next game, the system share sheet, or copy link.
+- **Bottom bar icons**: WhatsApp (opens WhatsApp with a ready message that includes the next game), copy link, bell
+  (updates) and refresh.
 - **Get updates** (bell, bottom bar): subscribe to a **calendar feed** and turn on **notifications** (see below).
 - Refresh button next to the footnote.
 

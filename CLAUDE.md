@@ -59,8 +59,8 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 - System fonts only (no Google Fonts) for privacy and speed.
 
 ## Features added later
-- Table view (`view` = games|table, button in the filter row), share sheet (WhatsApp `wa.me` link, `navigator.share`,
-  copy) and updates sheet are opened from the bottom bar; the bell shows a red dot until opened once
+- Table view (`view` = games|table, button in the filter row). Bottom-bar icons: WhatsApp (`wa.me` link, `waUrl()`),
+  copy link (`copyLink()`), bell (updates sheet), refresh; the bell shows a red dot until opened once
   (localStorage `apop-seen-updates`).
 - Updates sheet: calendar subscription links (`webcal://`, Google `cid=`) and in-page **Web Push** (`pushOn/pushOff`,
   stored choice in localStorage `apop-push`). Hidden until `push.api` is set. iPhone needs the page on the Home Screen.
