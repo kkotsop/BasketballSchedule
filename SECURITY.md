@@ -12,6 +12,9 @@ from the public federation fixtures page. No player names or personal details ar
 - **Content Security Policy** (meta tag): only this site's own scripts/styles/images, `connect-src 'self'`, no
   frames, no objects, no forms, no base tag. The page makes **no third-party requests** (system fonts; Google Maps and
   Google Calendar are only opened when a visitor taps a link, with `noopener noreferrer`, and `no-referrer` is set).
+- **Third parties, only on request**: the ntfy subscribe links open ntfy.sh only when a visitor taps them. The
+  workflow (not the page) sends change alerts to ntfy.sh; the message contains only public schedule information.
+  The ntfy topic is public by design (long random name, not a secret).
 - **Storage**: the browser stores only the theme, the filter and the last quote (localStorage).
 - **Workflow least privilege**: default permission is read-only; only the build job may write to the repository
   and only the deploy job may publish Pages. It is not triggered by pull requests, so forks cannot run it.

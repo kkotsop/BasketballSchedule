@@ -402,6 +402,29 @@ body{position:static;height:auto;min-height:100%;overflow:visible}
   .it.next.rv.in{transform:none}
 }
 @media (prefers-reduced-motion:reduce){.bg .photo{transform:scale(1.08)!important}}
+
+/* ===== league table, share/updates buttons ===== */
+.fbar .vbtn{flex:none;height:42px;padding:0 14px;border-radius:14px;display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--text)}
+.fbar .vbtn svg{width:16px;height:16px}
+:root[data-theme] .fbar .vbtn[aria-pressed="true"]{background:var(--text);color:var(--bg-bot)}
+:root[data-theme="light"] .fbar .vbtn[aria-pressed="true"]{color:#fff}
+.tcard{margin:10px 0 14px;padding:12px 8px 8px;border-radius:18px}
+.tcard h3{margin:0 6px 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+.trow{display:grid;grid-template-columns:22px minmax(0,1fr) 26px 26px 26px 40px 34px;align-items:center;gap:4px;padding:9px 8px;border-top:1px solid var(--hair);font-size:13.5px}
+.trow.h{border-top:0;padding-bottom:5px;font-size:11px;font-weight:600;color:var(--text-3)}
+.trow .num{text-align:center;font-variant-numeric:tabular-nums}
+.trow .pos{color:var(--text-3)}
+.trow .tn{display:flex;align-items:center;gap:6px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow .tlogo{width:18px;height:18px;object-fit:contain;flex:none}
+.trow .pts{font-weight:700}
+.trow.me{border-top-color:transparent;border-radius:12px;font-weight:700;background:rgba(255,255,255,.14);box-shadow:inset 3px 0 0 #FF3B4E}
+:root[data-theme="light"] .trow.me{background:rgba(14,14,16,.07);box-shadow:inset 3px 0 0 #D7263D}
+.tables .brand{margin-top:8px}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.foot .fa{display:inline-flex;align-items:center}
+.rfb{position:relative}
+.rfb.dot::after{content:"";position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:#FF3B4E;box-shadow:0 0 0 2px rgba(0,0,0,.35)}
+.sheet a{color:var(--text);text-decoration:underline}
 </style>
 </head>
 <body>
@@ -416,7 +439,7 @@ var BG_HTML = '<div class="bg" aria-hidden="true"><i class="photo"></i></div>';
 
 var DEFAULT_QUOTES = ["I can accept failure, everyone fails at something. But I can't accept not trying. — Michael Jordan", "Talent wins games, but teamwork and intelligence win championships. — Michael Jordan", "You must expect great things of yourself before you can do them. — Michael Jordan", "Obstacles don't have to stop you. — Michael Jordan", "Failure is not fatal, but failure to change might be. — John Wooden", "Be quick, but don't hurry. — John Wooden", "It's the little details that are vital. Little things make big things happen. — John Wooden", "Do not let what you cannot do interfere with what you can do. — John Wooden", "Make each day your masterpiece. — John Wooden", "Never mistake activity for achievement. — John Wooden", "The main ingredient of stardom is the rest of the team. — John Wooden", "Rest at the end, not in the middle. — Kobe Bryant", "Make winning an attitude. — Pat Summitt", "Teamwork allows common people to obtain uncommon results. — Pat Summitt", "Success is a project that is always under construction. — Pat Summitt", "Here's how I'm going to beat you. I'm going to outwork you. — Pat Summitt", "The strength of the team is each individual member. — Phil Jackson", "I like criticism. It makes you strong. — LeBron James"];
 
-var state, LEAGUES = ["U14","U16"], filt = "both";
+var state, LEAGUES = ["U14","U16"], filt = "both", view = "games";
 try { var _f = localStorage.getItem("apop-filter"); if (_f === "U14" || _f === "U16" || _f === "both") filt = _f; } catch (e) {}
 try { state = JSON.parse(document.getElementById("data").textContent); }
 catch (e) { state = {team:"ΑΠΟΠ", player:"", league:"", group:"", games:[], places:{}}; }
@@ -436,6 +459,10 @@ var ICON = {
   chev:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5l5 5-5 5"/></svg>',
   pin:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M10 17.5s5.5-4.6 5.5-9A5.5 5.5 0 0 0 4.5 8.5c0 4.4 5.5 9 5.5 9z"/><circle cx="10" cy="8.5" r="2"/></svg>',
   cal:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" rx="2.5"/><path d="M3 8.5h14M7 3v3M13 3v3M10 11v4M8 13h4"/></svg>',
+  share:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12.5V3.5M6.6 6.8L10 3.4l3.4 3.4M5 10v5.5a1.2 1.2 0 001.2 1.2h7.6A1.2 1.2 0 0015 15.5V10"/></svg>',
+  bell:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.2a4.6 4.6 0 00-4.6 4.6c0 3.9-1.6 5-1.6 5h12.4s-1.6-1.1-1.6-5A4.6 4.6 0 0010 3.2zM8.4 15.6a1.7 1.7 0 003.2 0"/></svg>',
+  table:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="2.2"/><path d="M3 8.6h14M3 12.4h14M8 8.6V16"/></svg>',
+  list:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5.5h9M7 10h9M7 14.5h9M4 5.5h.01M4 10h.01M4 14.5h.01"/></svg>',
   refresh:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10a6 6 0 1 1-1.8-4.3M16 3.5v3h-3"/></svg>',
   home:'<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2.6 2.4 9.3h2.1V17h4V12h3v5h4V9.3h2.1z"/></svg>',
   away:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 14 14 6M7.5 6H14v6.5"/></svg>'
@@ -520,10 +547,15 @@ function subtitle(){
   var lg = (filt === "U14" || filt === "U16") ? filt : (leagueCount() > 1 ? "U14 & U16" : "U14");
   return (lg.length > 3 ? "" : "Γυναικών ") + lg + (g ? " · " + g : "");
 }
+function hasTables(){ var t = state.standings || {}; return Object.keys(t).some(function(k){ return t[k] && t[k].length; }); }
 function filterHTML(){
-  if (leagueCount() < 2) return "";
+  var many = leagueCount() > 1, tables = hasTables();
+  if (!many && !tables) return "";
   var opt = function(v, label){ return '<button role="radio" aria-checked="' + (filt === v) + '" data-act="filter" data-v="' + v + '">' + label + '</button>'; };
-  return '<div class="fbar"><div class="seg glass" role="radiogroup" aria-label="Show games for">' + opt("both", "Both") + opt("U14", "U14") + opt("U16", "U16") + '</div></div>';
+  return '<div class="fbar">'
+    + (many ? '<div class="seg glass" role="radiogroup" aria-label="Show games for">' + opt("both", "Both") + opt("U14", "U14") + opt("U16", "U16") + '</div>' : '<span class="sp"></span>')
+    + (tables ? '<button class="vbtn glass" data-act="view" aria-pressed="' + (view === "table") + '">' + (view === "table" ? ICON.list + "Games" : ICON.table + "Table") + '</button>' : "")
+    + '</div>';
 }
 function headerHTML(){
   return '<header class="bar">' + (state.logo ? '<img class="logo" src="' + esc(state.logo) + '" alt="APOP BC emblem">' : "") + '<div class="ttl"><h1>' + esc(state.team) + '</h1>'
@@ -586,6 +618,28 @@ function nextHTML(g){
     + '</div></div></article>';
 }
 
+function tableHTML(){
+  var leagues = filt === "both" ? LEAGUES : [filt], out = "", any = false;
+  leagues.forEach(function(lg){
+    var rows = ((state.standings || {})[lg] || []).map(function(r, i){ r.__i = i; return r; });
+    if (!rows.length) return;
+    any = true;
+    rows.sort(function(a, b){ return (b.pts - a.pts) || (b.diff - a.diff) || (b.pf - a.pf) || (a.__i - b.__i); });
+    out += '<section class="tcard glass" aria-label="' + esc(lg) + ' league table"><h3>' + esc(lg) + (state.group ? ' · ' + esc(state.group) : "") + '</h3>'
+      + '<div class="trow h"><span>#</span><span>Team</span><span class="num">P</span><span class="num">W</span><span class="num">L</span><span class="num">+/−</span><span class="num">Pts</span></div>';
+    rows.forEach(function(r, i){
+      var me = (r.team || "").indexOf(state.team) > -1;
+      out += '<div class="trow' + (me ? " me" : "") + '"' + (me ? ' aria-label="' + esc(state.team) + ' (us)"' : "") + '><span class="num pos">' + (i + 1) + '</span>'
+        + '<span class="tn">' + (me && state.logo ? '<img class="tlogo" src="' + esc(state.logo) + '" alt="">' : "") + esc(r.team) + '</span>'
+        + '<span class="num">' + esc(r.p) + '</span><span class="num">' + esc(r.w) + '</span><span class="num">' + esc(r.l) + '</span>'
+        + '<span class="num">' + (r.diff > 0 ? "+" : "") + esc(r.diff) + '</span><span class="num pts">' + esc(r.pts) + '</span></div>';
+    });
+    out += '</section>';
+  });
+  if (!any) return '<div class="empty"><h2>No table yet</h2><p>The federation has not published the league table.</p></div>';
+  return '<div class="tl tables">' + out + '<p class="brand glass">Table from the Cyprus Basketball Federation</p></div>';
+}
+
 function timelineHTML(){
   var all = sorted();
   if (!all.length) {
@@ -636,12 +690,12 @@ function render(opts){
   var hasNext = sorted().some(upcoming);
   document.getElementById("root").innerHTML =
     '<div class="app"><div class="top" id="top">' + headerHTML() + filterHTML() + widgetHTML() + '</div>'
-    + '<main class="scroller" id="scroller">' + timelineHTML() + '</main>'
+    + '<main class="scroller" id="scroller">' + (view === "table" ? tableHTML() : timelineHTML()) + '</main>'
     + '<button class="jump glass hide" id="jump" data-act="jump" data-dir="down">' + (hasNext ? "Next game" : "Latest game") + ICON.down + '</button>'
     + '<div class="bottom" id="bottom"><button class="quote glass" id="q" data-act="quote" aria-live="polite" aria-label="Show another quote">'
     + '<span class="qmark" aria-hidden="true">“</span><span class="qbody"><span id="q-text"></span><span id="q-by" hidden></span></span>'
     + '</button>'
-    + '<p class="foot"><span>' + esc(updatedText()) + '</span><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></p></div></div>';
+    + '<p class="foot"><span>' + esc(updatedText()) + '</span><span class="fa"><button class="rfb" data-act="share" aria-label="Share" title="Share">' + ICON.share + '</button><button class="rfb' + (seenUpdates() ? "" : " dot") + '" data-act="updates" aria-label="Get updates" title="Get updates">' + ICON.bell + '</button><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></span></p></div></div>';
   paintQuote(false);
   topHeight(); botHeight();
   initReveal(!revealed);
@@ -652,7 +706,7 @@ function render(opts){
 /* ---------- scroll animations ---------- */
 var revealed = false, io = null;
 function initReveal(animate){
-  var els = document.querySelectorAll(".it, h2.mo, .brand");
+  var els = document.querySelectorAll(".it, h2.mo, .brand, .tcard");
   if (io) { io.disconnect(); io = null; }
   var reduce = false;
   try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
@@ -791,13 +845,63 @@ function calSheet(games, name){
   d.addEventListener("click", function(ev){ if (ev.target.closest && ev.target.closest("a.calopt")) setTimeout(function(){ d.close(); }, 300); });
 }
 
+/* ---------- share and updates ---------- */
+function siteUrl(){ return location.origin + location.pathname.replace(/index\.html$/, ""); }
+function seenUpdates(){ try { return localStorage.getItem("apop-seen-updates") === "1"; } catch (e) { return true; } }
+function nextGameLine(){
+  var g = sorted().filter(upcoming)[0];
+  if (!g) return "";
+  var d = when(g);
+  return "Next: " + DAYS[d.getDay()] + " " + d.getDate() + " " + MONTHS[d.getMonth()] + (g.time ? " " + g.time : "") + " " + (isHome(g) ? "vs " : "at ") + opponent(g) + ". ";
+}
+function shareText(){ return "ΑΠΟΠ U14 & U16 fixtures. " + nextGameLine() + "Live schedule, calendar and updates: "; }
+function shareSheet(){
+  var url = siteUrl(), text = shareText();
+  var d = sheet('<h2>Share the schedule</h2><p class="note">Send the link to the team group.</p><div class="menu">'
+    + calOption("https://wa.me/?text=" + encodeURIComponent(text + url), "WhatsApp", "Opens WhatsApp with the message ready")
+    + (navigator.share ? '<button data-x="native"><span>More apps…<small>Messages, Mail, Telegram and others</small></span>' + ICON.chev + '</button>' : "")
+    + '<button data-x="copy"><span>Copy link<small>' + esc(url) + '</small></span>' + ICON.chev + '</button></div>');
+  d.addEventListener("click", function(ev){
+    var b = ev.target.closest ? ev.target.closest("[data-x]") : null, a = ev.target.closest ? ev.target.closest("a.calopt") : null;
+    if (a) { setTimeout(function(){ d.close(); }, 300); return; }
+    if (!b) return;
+    var x = b.getAttribute("data-x");
+    if (x === "native") { d.close(); navigator.share({title: "ΑΠΟΠ schedule", text: text, url: url}).catch(function(){}); }
+    else if (x === "copy") {
+      var done = function(){ d.close(); toast("Link copied"); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function(){ toast("Could not copy. Long-press the link instead."); });
+      else toast("Could not copy. Long-press the link instead.");
+    }
+  });
+}
+function updatesSheet(){
+  try { localStorage.setItem("apop-seen-updates", "1"); } catch (e) {}
+  var base = siteUrl(), feed = filt === "U14" ? "apop-u14.ics" : filt === "U16" ? "apop-u16.ics" : "apop.ics";
+  var webcal = base.replace(/^https?:/, "webcal:") + "calendar/" + feed;
+  var which = filt === "both" ? "U14 & U16" : filt;
+  var html = '<h2>Get updates</h2><p class="note">Calendar feed (' + esc(which) + ')</p><div class="menu">'
+    + calOption(webcal, "Apple Calendar or Outlook", "Subscribe. New times and changes appear by themselves", 'target="_self"')
+    + calOption("https://calendar.google.com/calendar/r?cid=" + webcal, "Google Calendar", "Subscribe. Google refreshes every few hours")
+    + '</div>';
+  if (state.ntfy) {
+    var t = encodeURIComponent(state.ntfy);
+    html += '<p class="note" style="margin-top:16px">Instant alerts when a time is set or changed, a game moves or a result is posted</p><div class="menu">'
+      + calOption("ntfy://ntfy.sh/" + t, "Subscribe in the ntfy app", "Free app. Tap, then Subscribe", 'target="_self"')
+      + calOption("https://ntfy.sh/" + t, "Open in the browser instead", "No app needed on Android and desktop")
+      + '</div><p class="note" style="margin-top:10px;font-size:12px">Get the free ntfy app: <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener noreferrer">iPhone</a> · <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener noreferrer">Android</a>. ntfy.sh is a free third-party service; it only learns that a device subscribed to this topic.</p>';
+  }
+  var d = sheet(html);
+  d.addEventListener("click", function(ev){ if (ev.target.closest && ev.target.closest("a.calopt")) setTimeout(function(){ d.close(); render(); }, 300); });
+  render();
+}
+
 function stamp(iso){
   var d = new Date(iso);
   return isNaN(d) ? "" : d.getDate() + " " + MONTHS[d.getMonth()] + ", " + pad(d.getHours()) + ":" + pad(d.getMinutes());
 }
 function updatedText(){
   var c = stamp(state.checked || state.updated);
-  return "Fixtures checked automatically" + (c ? " · last check " + c : "");
+  return "Checked automatically" + (c ? " · " + c : "");
 }
 
 /* ---------- events ---------- */
@@ -816,6 +920,9 @@ document.addEventListener("click", function(ev){
     try { localStorage.setItem("apop-filter", filt); } catch (e) {}
     render({center:true});
   }
+  else if (act === "view") { view = view === "table" ? "games" : "table"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
+  else if (act === "share") shareSheet();
+  else if (act === "updates") updatesSheet();
   else if (act === "refresh") {
     el.classList.add("spin");
     setTimeout(function(){ location.href = location.pathname + "?r=" + Date.now(); }, 350);

@@ -14,7 +14,8 @@ setup and everyday use and SECURITY.md for the security notes.
 - `index.html`: the entire site (HTML + CSS + JS). `fixtures.json`: data. `overrides.json`: manual tip-off/venue fixes.
 - `scraper/scrape.py`: reads the federation form (ASP.NET WebForms) for each entry of `CONFIG["competitions"]`.
 - `.github/workflows/update.yml` (copy in `workflow-copy.yml`): scrape, commit `fixtures.json`, embed data, publish Pages.
-- `tools/`: `mock_cbf.py` (fake federation for tests), `make_icons.py`, `embed_data.py`. `assets/`: logo, icons, the
+- `tools/`: `mock_cbf.py` (fake federation for tests), `make_icons.py`, `embed_data.py`, `make_ics.py` (calendar feeds),
+  `notify.py` (ntfy alerts). `assets/`: logo, icons, the
   two background photos (`bg-ball.webp` dark, `bg-wall.webp` light).
 
 ## The federation page
@@ -27,7 +28,11 @@ venue. Team names of each group come from the standings table (`group_teams`). A
 games and the run exits 1 (workflow shows red, site still deploys; debug pages go to branch `debug-output`).
 
 ## Data model (`fixtures.json`)
-`{team, league, group, source, updated, checked, logo, places, games[]}`. A game is
+`{team, league, group, source, site, ntfy, updated, checked, logo, places, standings, games[]}`. `standings` is
+`{"U14":[{team,p,w,l,pts,pf,pa,diff}], "U16":[...]}` read from the federation table (`standings_from` parses the raw
+HTML because the site writes unclosed `<td>` tags; 12 numbers follow the team name: played, wins, losses, forfeits,
+points, for, against, diff, home/away wins and losses). The table parser is verified only against pre-season (all
+zero) HTML and a synthetic sample; check it against real numbers once games are played. A game is
 `{id, league:"U14"|"U16", date:"YYYY-MM-DD", time:"HH:MM" or "", home, away, venue, hs, as}` (scores are strings, `"0"`
 before the game). `updated` changes when games change; `checked` changes every successful run (shown in the
 footnote). `places` maps a venue to a Google place id (`ChIJ…`), a plain search text, or a full `https://` link.
@@ -51,6 +56,13 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 - No player name anywhere on the page (it is shared with the whole team).
 - Quote bar: short attributed quotes (under 15 words). Do not copy lists from other sites.
 - System fonts only (no Google Fonts) for privacy and speed.
+
+## Features added later
+- Table view (`view` = games|table, button in the filter row), share sheet (WhatsApp `wa.me` link, `navigator.share`,
+  copy) and updates sheet (webcal / Google `cid=` subscription links, ntfy links) are opened from the bottom bar;
+  the bell shows a red dot until opened once (localStorage `apop-seen-updates`).
+- Workflow order: remember old games, scrape, (debug on failure), save fixtures, send ntfy alerts, build site
+  (embed data + `calendar/*.ics`), deploy.
 
 ## Conventions
 - Single-file site: HTML, CSS, JS in `index.html`; images only from `assets/`; no dependencies.

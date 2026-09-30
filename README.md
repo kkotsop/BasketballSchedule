@@ -15,7 +15,25 @@ Live site: `https://kkotsop.github.io/BasketballSchedule/` (on a phone: Share �
   from Cyprus time, so they are right wherever the phone is).
 - Dark (default) and light theme, each with its own photo background; soft scroll animations (switched off when
   the phone has *Reduce Motion* on); the quote and the "last check" footnote stay pinned at the bottom.
+- **League table** (Table button next to the filter): standings from the federation for each group, with ΑΠΟΠ
+  highlighted (logo, bold, red edge).
+- **Share** (bottom bar): WhatsApp with a ready message that includes the next game, the system share sheet, or copy link.
+- **Get updates** (bell, bottom bar): subscribe to a **calendar feed** and to **instant alerts** (see below).
 - Refresh button next to the footnote.
+
+## Calendar feed and alerts
+- **Calendar feed**: the workflow writes `calendar/apop.ics`, `apop-u14.ics` and `apop-u16.ics` into the published
+  site (`tools/make_ics.py`). Every game keeps the same id, so when a tip-off time is published or a game moves,
+  subscribed calendars update the existing event. Apple/Outlook refresh within about an hour, Google Calendar
+  every few hours to a day (Google's own limit).
+- **Instant alerts**: after each scrape `tools/notify.py` compares the games with the previous run and sends one
+  push message through the free service [ntfy.sh](https://ntfy.sh) when a time is set or changed, a game moves, a venue
+  changes, a new game appears or a result is posted. The topic name is stored in `fixtures.json` (`ntfy`). Parents
+  subscribe from the bell sheet (ntfy app, or the browser on Android/desktop). The topic is long and random but
+  **not secret**: anyone who knows it can subscribe (and could post to it). To change it, edit `ntfy` in
+  `fixtures.json` and tell the team to subscribe again.
+- `fixtures.json` also holds `site` (the public address, used in calendar descriptions and alerts) and
+  `standings` (the league tables).
 
 ## How it works
 | Part | File |
@@ -23,7 +41,8 @@ Live site: `https://kkotsop.github.io/BasketballSchedule/` (on a phone: Share �
 | The whole site (HTML, CSS, JS in one file) | `index.html` |
 | Games, venue map links, last check time | `fixtures.json` |
 | Manual fixes (tip-off time, venue) | `overrides.json` |
-| Reads the federation site | `scraper/scrape.py` |
+| Reads the federation site (games and league tables) | `scraper/scrape.py` |
+| Calendar feeds / change alerts | `tools/make_ics.py`, `tools/notify.py` |
 | Runs the scraper every 3 hours and publishes | `.github/workflows/update.yml` |
 | Images | `assets/` (logo, icons, two background photos) |
 
@@ -47,6 +66,7 @@ are published to a `debug-output` branch for diagnosis.
   (used for the home hall). Unknown venues get a Google Maps search link.
 - **New season**: the scraper uses the current season automatically (it switches in August). To follow another
   group, change `CONFIG["competitions"]` in `scraper/scrape.py`.
+- **Alerts test**: `python tools/notify.py OLD.json NEW.json --dry-run` prints what would be sent.
 - **Phase**: only *Κανονική Περίοδος* (regular season) is read. Playoffs/PlayOut are not included yet.
 - GitHub pauses scheduled runs after 60 days with no repository activity. The bot commits after every run, which
   counts as activity; if runs ever stop, press **Run workflow** once.

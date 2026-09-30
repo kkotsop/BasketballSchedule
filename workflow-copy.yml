@@ -28,6 +28,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests beautifulsoup4
+      - name: Remember the games before this run
+        run: cp fixtures.json /tmp/fixtures.before.json
       - name: Read fixtures from the federation site
         id: scrape
         continue-on-error: true
@@ -59,12 +61,16 @@ jobs:
           git config user.email "fixtures-bot@users.noreply.github.com"
           git add fixtures.json
           git diff --cached --quiet || (git commit -m "Update fixtures" && git pull --rebase -q origin main && git push) || echo "could not save fixtures.json (will retry next run)"
+      - name: Tell subscribers about schedule changes (ntfy)
+        if: steps.scrape.outcome == 'success'
+        run: python tools/notify.py /tmp/fixtures.before.json fixtures.json
       - uses: actions/configure-pages@v5
       - name: Assemble the website
         run: |
           mkdir _site
           cp -r index.html fixtures.json manifest.webmanifest assets _site/
           python tools/embed_data.py fixtures.json _site/index.html
+          python tools/make_ics.py fixtures.json _site/calendar
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

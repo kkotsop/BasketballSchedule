@@ -50,6 +50,7 @@ SCORE_RE = re.compile(r"^\s*(\d{1,3})\s*[-–:]\s*(\d{1,3})\s*$")
 DAY_RE = re.compile(r"^(ΔΕΥ|ΤΡΙ|ΤΕΤ|ΠΕΜ|ΠΑΡ|ΣΑΒ|ΚΥΡ|MON|TUE|WED|THU|FRI|SAT|SUN)[A-ZΑ-Ω]*\.?,?$")
 
 
+LAST_TABLE = []                      # league table of the group that was read last
 TEAMS = list(CONFIG["teams"])        # replaced by the real list of each group while reading it
 
 
@@ -301,6 +302,30 @@ def group_teams(soup):
     return []
 
 
+def standings_from(html):
+    """League table. The federation writes its cells without closing tags, so read the raw HTML.
+    Row layout: rank, logo, team, then 12 numbers: played, wins, losses, forfeits, points, for, against, diff,
+    wins home, wins away, losses home, losses away. Blank (before the first game) counts as 0."""
+    i = html.find("acTBLTopLine")
+    if i < 0:
+        return []
+    end = html.find("</table>", i)
+    chunk = html[i:end if end > i else len(html)]
+    rows = []
+    for tr in chunk.split("<tr")[2:]:                      # [0] table tag, [1] header row
+        cells = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", c)).strip() for c in re.split(r"<td[^>]*>", tr)[1:]]
+        name_i = next((k for k, c in enumerate(cells) if c and not re.fullmatch(r"[\d\W]+", c)), None)
+        if name_i is None or len(cells) < name_i + 13:
+            continue
+        nums = []
+        for c in cells[name_i + 1:name_i + 13]:
+            m = re.search(r"-?\d+", c)
+            nums.append(int(m.group()) if m else 0)
+        rows.append({"team": cells[name_i], "p": nums[0], "w": nums[1], "l": nums[2], "pts": nums[4],
+                     "pf": nums[5], "pa": nums[6], "diff": nums[7]})
+    return rows
+
+
 def fetch_games(competition):
     s = requests.Session()
     s.headers.update({"User-Agent": UA, "Accept-Language": "el,en;q=0.8"})
@@ -314,6 +339,7 @@ def fetch_games(competition):
              ("competition", competition),
              ("phase", CONFIG["phase"])]
     chosen = {}
+    table = []
     for n, (kind, wanted) in enumerate(steps, 1):
         name, opts = find_select(soup, kind)
         if not name:
@@ -327,6 +353,7 @@ def fetch_games(competition):
         soup = BeautifulSoup(html, "html.parser")
         # pages remember earlier choices; keep sending them in case they were reset
         if kind == "competition":
+            table = standings_from(html) or table
             global TEAMS
             TEAMS = group_teams(soup) or list(CONFIG["teams"])
             log("  teams: %s" % ", ".join(TEAMS))
@@ -347,6 +374,8 @@ def fetch_games(competition):
             games = games_from(soup2)
             if games:
                 break
+    global LAST_TABLE
+    LAST_TABLE = table
     return games
 
 
@@ -377,6 +406,7 @@ def main():
         data = {"team": CONFIG["team"], "league": "Γυναικών", "group": "Γ΄ Όμιλος", "places": {}}
     old_games = data.get("games") or []
     all_games, failed = [], []
+    standings = dict(data.get("standings") or {})      # keep the old table of a group that could not be read
     for comp in CONFIG["competitions"]:
         label = comp["label"]
         global DUMP_PREFIX
@@ -398,7 +428,9 @@ def main():
             g["league"] = label
             g["id"] = hashlib.sha1(("%s|%s|%s|%s" % (label, g["date"], norm(g["home"]), norm(g["away"]))).encode()).hexdigest()[:8]
         all_games += games
-        log("OK (%s): %d games for %s" % (label, len(games), CONFIG["team"]))
+        if LAST_TABLE:
+            standings[label] = LAST_TABLE
+        log("OK (%s): %d games for %s, %d teams in the table" % (label, len(games), CONFIG["team"], len(LAST_TABLE)))
     if len(failed) == len(CONFIG["competitions"]):
         return 1
     all_games.sort(key=lambda g: (g["date"], g["time"] or "99:99"))
@@ -408,6 +440,7 @@ def main():
     if old != json.dumps(all_games, ensure_ascii=False, sort_keys=True) or not data.get("updated"):
         data["updated"] = now
     data["checked"] = now
+    data["standings"] = standings
     data["league"] = "Γυναικών"
     data["source"] = URL
     with open(FIXTURES, "w", encoding="utf-8") as f:
