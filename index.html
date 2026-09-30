@@ -273,6 +273,35 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 :root[data-theme="dark"]{--next-a:rgba(249,115,22,.55);--next-b:rgba(30,20,14,.62)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .it.next .bd{box-shadow:0 1.5px 0 rgba(255,255,255,.3) inset,0 0 0 4px var(--accent-chip),0 30px 56px -18px rgba(249,115,22,.55),0 6px 16px rgba(0,0,0,.4)}}
 :root[data-theme="dark"] .it.next .bd{box-shadow:0 1.5px 0 rgba(255,255,255,.3) inset,0 0 0 4px var(--accent-chip),0 30px 56px -18px rgba(249,115,22,.55),0 6px 16px rgba(0,0,0,.4)}
+
+/* ---- palette v3: neutral controls, photo background in dark, one neon accent (from the hoop photo) ---- */
+.bg .photo{position:absolute;inset:0;display:none;background:linear-gradient(180deg,rgba(4,7,14,.62) 0%,rgba(4,7,14,.30) 22%,rgba(4,7,14,.12) 45%,rgba(4,7,14,.6) 100%),url("assets/bg-hoop.webp") center top/cover no-repeat}
+:root[data-theme="dark"] .bg .photo{display:block}
+:root[data-theme="dark"] .bg .ball3d,:root[data-theme="dark"] .bg .ballshadow{display:none}
+:root[data-theme="dark"]{--accent:#FF4D6A;--accent-text:#BBD0FF;--accent-chip:rgba(255,77,106,.18);--accent-line:rgba(255,77,106,.5);--bg-bot:#0A0710;--glass:rgba(18,12,26,.50);--glass-soft:rgba(18,12,26,.38)}
+:root[data-theme="light"]{--accent:#E11D48;--accent-text:#1D4ED8;--accent-chip:rgba(225,29,72,.10);--accent-line:rgba(225,29,72,.40)}
+/* buttons */
+:root[data-theme="dark"] .cta,:root[data-theme="dark"] .btn{background:linear-gradient(180deg,#fff,#DCE3F0);color:#0B1220;box-shadow:0 1px 0 #fff inset,0 10px 22px -10px rgba(0,0,0,.6)}
+:root[data-theme="light"] .cta,:root[data-theme="light"] .btn{background:linear-gradient(180deg,#1E293B,#0F172A);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 10px 20px -10px rgba(15,23,42,.55)}
+/* filter */
+:root[data-theme="dark"] .seg button[aria-checked="true"]{background:rgba(255,255,255,.16);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 10px -4px rgba(0,0,0,.5)}
+:root[data-theme="light"] .seg button[aria-checked="true"]{background:#fff;color:#0F172A;box-shadow:0 1px 0 #fff inset,0 4px 10px -4px rgba(15,23,42,.3)}
+/* theme switch */
+.sw .knob{background:linear-gradient(180deg,#fff,#CBD5E1);box-shadow:0 1px 0 #fff inset,0 5px 10px -4px rgba(0,0,0,.45)}
+.sw .sun,.sw[aria-checked="true"] .moon{color:#0F172A}
+.sw[aria-checked="true"] .sun,.sw .moon{color:var(--text-3)}
+.sw[aria-checked="true"] .moon{color:#0F172A}
+/* next game: bright frosted glass with a thin neon edge instead of an orange glow */
+.it.next .bd{position:relative;overflow:hidden;
+  background:linear-gradient(172deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.07) 42%),var(--glass-strong);
+  border:1px solid rgba(255,255,255,.34);
+  box-shadow:0 1.5px 0 rgba(255,255,255,.55) inset,0 26px 50px -22px rgba(0,0,0,.65),0 4px 14px rgba(0,0,0,.18)}
+.it.next .bd::before{content:"";position:absolute;left:14px;right:14px;top:0;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--accent) 30%,var(--accent) 70%,transparent);box-shadow:0 0 14px 1px var(--accent);opacity:.9}
+:root[data-theme="light"] .it.next .bd{background:linear-gradient(172deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.55) 60%),var(--glass-strong);border-color:rgba(255,255,255,.95);box-shadow:0 2px 0 #fff inset,0 26px 46px -22px rgba(15,23,42,.45),0 4px 12px rgba(15,23,42,.1)}
+.it.next .dt b{color:var(--text)}
+.it.next .dot::after{box-shadow:0 0 0 4px var(--accent-chip),0 0 12px var(--accent)}
+.chip{color:var(--text)}
+:root[data-theme="dark"] .foot{color:rgba(226,232,240,.72)}
 </style>
 </head>
 <body>
@@ -283,7 +312,7 @@ dialog::backdrop{background:rgba(2,6,23,.42);-webkit-backdrop-filter:blur(6px);b
 "use strict";
 
 
-var BG_HTML = '<div class="bg" aria-hidden="true"><i class="ballshadow"></i><i class="ball3d"></i></div>';
+var BG_HTML = '<div class="bg" aria-hidden="true"><i class="photo"></i><i class="ballshadow"></i><i class="ball3d"></i></div>';
 
 var DEFAULT_QUOTES = ["I can accept failure, everyone fails at something. But I can't accept not trying. — Michael Jordan", "Talent wins games, but teamwork and intelligence win championships. — Michael Jordan", "You must expect great things of yourself before you can do them. — Michael Jordan", "Obstacles don't have to stop you. — Michael Jordan", "Failure is not fatal, but failure to change might be. — John Wooden", "Be quick, but don't hurry. — John Wooden", "It's the little details that are vital. Little things make big things happen. — John Wooden", "Do not let what you cannot do interfere with what you can do. — John Wooden", "Make each day your masterpiece. — John Wooden", "Never mistake activity for achievement. — John Wooden", "The main ingredient of stardom is the rest of the team. — John Wooden", "Rest at the end, not in the middle. — Kobe Bryant", "Make winning an attitude. — Pat Summitt", "Teamwork allows common people to obtain uncommon results. — Pat Summitt", "Success is a project that is always under construction. — Pat Summitt", "Here's how I'm going to beat you. I'm going to outwork you. — Pat Summitt", "The strength of the team is each individual member. — Phil Jackson", "I like criticism. It makes you strong. — LeBron James"];
 
