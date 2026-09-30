@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.workers.dev; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0A0A0B">
@@ -425,6 +425,10 @@ body{position:static;height:auto;min-height:100%;overflow:visible}
 .rfb{position:relative}
 .rfb.dot::after{content:"";position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:#FF3B4E;box-shadow:0 0 0 2px rgba(0,0,0,.35)}
 .sheet a{color:var(--text);text-decoration:underline}
+
+.stat{display:flex;align-items:center;gap:10px;padding:14px 0;font-size:16px;font-weight:600}
+.stat .ok{width:10px;height:10px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 4px rgba(34,197,94,.25)}
+.menu button[disabled]{opacity:.5}
 </style>
 </head>
 <body>
@@ -868,30 +872,95 @@ function shareSheet(){
     var x = b.getAttribute("data-x");
     if (x === "native") { d.close(); navigator.share({title: "ΑΠΟΠ schedule", text: text, url: url}).catch(function(){}); }
     else if (x === "copy") {
-      var done = function(){ d.close(); toast("Link copied"); };
+      var done = function(){ haptic("success"); d.close(); toast("Link copied"); };
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function(){ toast("Could not copy. Long-press the link instead."); });
       else toast("Could not copy. Long-press the link instead.");
     }
   });
+}
+/* ---------- notifications (Web Push, inside the page) ---------- */
+function pushCfg(){ var p = state.push || {}; return (typeof p.api === "string" && p.api.indexOf("https://") === 0 && p.publicKey) ? p : null; }
+function pushSupported(){ return "serviceWorker" in navigator && "PushManager" in window && "Notification" in window; }
+function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
+function isStandalone(){ try { return navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches; } catch (e) { return false; } }
+function pushStored(){ try { return JSON.parse(localStorage.getItem("apop-push") || "null"); } catch (e) { return null; } }
+function leaguesNow(){ return filt === "both" ? LEAGUES.slice() : [filt]; }
+function b64uBytes(str){
+  var t = str.replace(/-/g, "+").replace(/_/g, "/"); while (t.length % 4) t += "=";
+  var raw = atob(t), out = new Uint8Array(raw.length);
+  for (var i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+  return out;
+}
+function pushPost(path, body){
+  return fetch(pushCfg().api.replace(/\/$/, "") + path, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)});
+}
+function pushOn(){                                   /* must start inside a tap */
+  var cfg = pushCfg(), lg = leaguesNow();
+  return Notification.requestPermission().then(function(perm){
+    if (perm !== "granted") throw new Error("blocked");
+    return navigator.serviceWorker.register("sw.js");
+  }).then(function(){ return navigator.serviceWorker.ready; }).then(function(reg){
+    return reg.pushManager.getSubscription().then(function(existing){
+      return existing || reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:b64uBytes(cfg.publicKey)});
+    }).then(function(sub){
+      var j = sub.toJSON();
+      return pushPost("/subscribe", {endpoint:j.endpoint, keys:j.keys, lg:lg}).then(function(r){
+        if (!r.ok) throw new Error("server");
+        try { localStorage.setItem("apop-push", JSON.stringify({lg:lg})); } catch (e) {}
+        return reg.showNotification("Notifications are on", {body:"You will hear when a time, venue or result changes.", icon:"assets/icon-192.png", tag:"apop-welcome"});
+      });
+    });
+  });
+}
+function pushOff(){
+  return navigator.serviceWorker.getRegistration().then(function(reg){
+    return reg ? reg.pushManager.getSubscription() : null;
+  }).then(function(sub){
+    if (!sub) return null;
+    var e = sub.endpoint;
+    return pushPost("/unsubscribe", {endpoint:e}).catch(function(){}).then(function(){ return sub.unsubscribe(); });
+  }).then(function(){ try { localStorage.removeItem("apop-push"); } catch (e) {} });
+}
+function pushSectionHTML(){
+  if (!pushCfg()) return "";
+  var head = '<p class="note" style="margin-top:16px">Notifications when a time is set or changed, a game moves or a result is posted</p>';
+  if (!pushSupported() || (isIOS() && !isStandalone())) {
+    return head + '<p class="note" style="font-size:13px;line-height:1.5">' + (isIOS()
+      ? 'On iPhone, first add this page to your Home Screen: tap <b>Share</b> (the square with the arrow), then <b>Add to Home Screen</b>. Open it from the new icon and come back here to turn notifications on.'
+      : 'This browser does not support notifications. Try Chrome on Android or a desktop browser.') + '</p>';
+  }
+  var st = pushStored(), perm = Notification.permission;
+  if (perm === "denied") return head + '<p class="note" style="font-size:13px;line-height:1.5">Notifications are blocked for this page. Allow them in your browser or phone settings, then reopen this sheet.</p>';
+  if (st) {
+    var cur = leaguesNow().join() === (st.lg || []).join();
+    return head + '<div class="menu"><div class="stat"><span class="ok"></span>On for ' + esc((st.lg || []).join(" & ")) + '</div>'
+      + (cur ? "" : '<button data-x="pushon"><span>Switch to ' + esc(leaguesNow().join(" & ")) + '<small>Uses the filter you have selected now</small></span>' + ICON.chev + '</button>')
+      + '<button data-x="pushoff"><span>Turn off notifications<small>On this device</small></span>' + ICON.chev + '</button></div>';
+  }
+  return head + '<div class="menu"><button data-x="pushon"><span>Turn on notifications<small>For ' + esc(leaguesNow().join(" & ")) + ' (the filter you selected)</small></span>' + ICON.chev + '</button></div>';
 }
 function updatesSheet(){
   try { localStorage.setItem("apop-seen-updates", "1"); } catch (e) {}
   var base = siteUrl(), feed = filt === "U14" ? "apop-u14.ics" : filt === "U16" ? "apop-u16.ics" : "apop.ics";
   var webcal = base.replace(/^https?:/, "webcal:") + "calendar/" + feed;
   var which = filt === "both" ? "U14 & U16" : filt;
-  var html = '<h2>Get updates</h2><p class="note">Calendar feed (' + esc(which) + ')</p><div class="menu">'
+  var d = sheet('<h2>Get updates</h2><p class="note">Calendar feed (' + esc(which) + ')</p><div class="menu">'
     + calOption(webcal, "Apple Calendar or Outlook", "Subscribe. New times and changes appear by themselves", 'target="_self"')
     + calOption("https://calendar.google.com/calendar/r?cid=" + webcal, "Google Calendar", "Subscribe. Google refreshes every few hours")
-    + '</div>';
-  if (state.ntfy) {
-    var t = encodeURIComponent(state.ntfy);
-    html += '<p class="note" style="margin-top:16px">Instant alerts when a time is set or changed, a game moves or a result is posted</p><div class="menu">'
-      + calOption("ntfy://ntfy.sh/" + t, "Subscribe in the ntfy app", "Free app. Tap, then Subscribe", 'target="_self"')
-      + calOption("https://ntfy.sh/" + t, "Open in the browser instead", "No app needed on Android and desktop")
-      + '</div><p class="note" style="margin-top:10px;font-size:12px">Get the free ntfy app: <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener noreferrer">iPhone</a> · <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener noreferrer">Android</a>. ntfy.sh is a free third-party service; it only learns that a device subscribed to this topic.</p>';
-  }
-  var d = sheet(html);
-  d.addEventListener("click", function(ev){ if (ev.target.closest && ev.target.closest("a.calopt")) setTimeout(function(){ d.close(); render(); }, 300); });
+    + '</div>' + pushSectionHTML());
+  d.addEventListener("click", function(ev){
+    var t = ev.target.closest ? ev.target : null, link = t && t.closest("a.calopt"), b = t && t.closest("[data-x]");
+    if (link) { setTimeout(function(){ d.close(); render(); }, 300); return; }
+    if (!b) return;
+    var x = b.getAttribute("data-x");
+    if (x === "pushon") {
+      b.disabled = true;
+      pushOn().then(function(){ haptic("success"); d.close(); toast("Notifications are on"); render(); })
+        .catch(function(e){ b.disabled = false; toast(e && e.message === "blocked" ? "Notifications were not allowed" : "Could not turn on notifications. Try again."); });
+    } else if (x === "pushoff") {
+      pushOff().then(function(){ d.close(); toast("Notifications are off"); render(); });
+    }
+  });
   render();
 }
 
@@ -903,6 +972,27 @@ function updatedText(){
   var c = stamp(state.checked || state.updated);
   return "Checked automatically" + (c ? " · " + c : "");
 }
+
+/* ---------- haptic feedback ---------- */
+var hapticEl = null;
+function haptic(kind){
+  try { if (navigator.vibrate) { navigator.vibrate(kind === "success" ? [10, 50, 14] : 8); return; } } catch (e) {}
+  try {                                              /* iPhone (Safari 17.4+): toggling a native switch gives a tap */
+    if (!hapticEl) {
+      hapticEl = document.createElement("label");
+      hapticEl.setAttribute("aria-hidden", "true");
+      hapticEl.style.cssText = "position:fixed;left:-99px;top:-99px;width:1px;height:1px;opacity:0;pointer-events:none";
+      var sw = document.createElement("input"); sw.type = "checkbox"; sw.setAttribute("switch", "");
+      hapticEl.appendChild(sw); document.body.appendChild(hapticEl);
+    }
+    hapticEl.click();
+    if (kind === "success") setTimeout(function(){ hapticEl.click(); }, 90);
+  } catch (e) {}
+}
+document.addEventListener("click", function(ev){
+  var t = ev.target && ev.target.closest ? ev.target.closest("button, a.calopt, [data-act]") : null;
+  if (t && !t.disabled) haptic();
+}, true);
 
 /* ---------- events ---------- */
 

@@ -15,7 +15,8 @@ setup and everyday use and SECURITY.md for the security notes.
 - `scraper/scrape.py`: reads the federation form (ASP.NET WebForms) for each entry of `CONFIG["competitions"]`.
 - `.github/workflows/update.yml` (copy in `workflow-copy.yml`): scrape, commit `fixtures.json`, embed data, publish Pages.
 - `tools/`: `mock_cbf.py` (fake federation for tests), `make_icons.py`, `embed_data.py`, `make_ics.py` (calendar feeds),
-  `notify.py` (ntfy alerts). `assets/`: logo, icons, the
+  `notify.py` (web push sender), `gen_vapid.py`. `sw.js`: service worker (push display only). `worker/`: Cloudflare Worker that
+  stores push subscriptions (see worker/README.md; tested with a fake KV in node). `assets/`: logo, icons, the
   two background photos (`bg-ball.webp` dark, `bg-wall.webp` light).
 
 ## The federation page
@@ -28,7 +29,7 @@ venue. Team names of each group come from the standings table (`group_teams`). A
 games and the run exits 1 (workflow shows red, site still deploys; debug pages go to branch `debug-output`).
 
 ## Data model (`fixtures.json`)
-`{team, league, group, source, site, ntfy, updated, checked, logo, places, standings, games[]}`. `standings` is
+`{team, league, group, source, site, push:{api,publicKey}, updated, checked, logo, places, standings, games[]}`. `standings` is
 `{"U14":[{team,p,w,l,pts,pf,pa,diff}], "U16":[...]}` read from the federation table (`standings_from` parses the raw
 HTML because the site writes unclosed `<td>` tags; 12 numbers follow the team name: played, wins, losses, forfeits,
 points, for, against, diff, home/away wins and losses). The table parser is verified only against pre-season (all
@@ -59,10 +60,15 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 
 ## Features added later
 - Table view (`view` = games|table, button in the filter row), share sheet (WhatsApp `wa.me` link, `navigator.share`,
-  copy) and updates sheet (webcal / Google `cid=` subscription links, ntfy links) are opened from the bottom bar;
-  the bell shows a red dot until opened once (localStorage `apop-seen-updates`).
-- Workflow order: remember old games, scrape, (debug on failure), save fixtures, send ntfy alerts, build site
-  (embed data + `calendar/*.ics`), deploy.
+  copy) and updates sheet are opened from the bottom bar; the bell shows a red dot until opened once
+  (localStorage `apop-seen-updates`).
+- Updates sheet: calendar subscription links (`webcal://`, Google `cid=`) and in-page **Web Push** (`pushOn/pushOff`,
+  stored choice in localStorage `apop-push`). Hidden until `push.api` is set. iPhone needs the page on the Home Screen.
+  Subscribing must start inside a tap (`Notification.requestPermission`). The sender is `tools/notify.py`
+  (pywebpush; `sub` claim must be the site ORIGIN without a path, else py-vapid rejects it).
+- Haptics: `haptic()` uses `navigator.vibrate` (Android) or a hidden `<input type=checkbox switch>` click (iPhone).
+- Workflow order: remember old games, scrape, (debug on failure), save fixtures, send push notifications, build site
+  (embed data + `calendar/*.ics`, copy `sw.js`), deploy. Secrets: `VAPID_PRIVATE_KEY`, `PUSH_ADMIN_TOKEN`.
 
 ## Conventions
 - Single-file site: HTML, CSS, JS in `index.html`; images only from `assets/`; no dependencies.

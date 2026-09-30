@@ -125,7 +125,6 @@
  "updated": "2026-09-30T18:09:55Z",
  "checked": "2026-09-30T19:51:22Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
- "ntfy": "apop-wu14u16-610e682f1586",
  "standings": {
   "U14": [
    {
@@ -251,5 +250,9 @@
     "diff": 0
    }
   ]
+ },
+ "push": {
+  "api": "",
+  "publicKey": "BI329d2dNJigQk9hQNgqDEIgn6vsJlf-tvzs3kTzFnYCd7d5nXGOevckvoJe4vXF5EsUiVcip6YP05GR__63TKs"
  }
 }
