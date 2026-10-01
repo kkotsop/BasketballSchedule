@@ -484,6 +484,27 @@ dialog{border:0}
 :root[data-theme="light"] .quote.glass{background:rgba(255,255,255,.14)}
 :root[data-theme="dark"] .it .bd,:root[data-theme="dark"] .it .dt,:root[data-theme="dark"] .widget{text-shadow:0 1px 8px rgba(0,0,0,.55)}
 :root[data-theme="light"] .it .bd,:root[data-theme="light"] .it .dt,:root[data-theme="light"] .widget{text-shadow:0 0 9px rgba(255,255,255,.75)}
+
+/* ===== nearly clear glass ===== */
+:root[data-theme="dark"]{--glass:rgba(14,14,16,.035);--glass-soft:rgba(14,14,16,.03);--gloss:rgba(255,255,255,.035);--next-bg:rgba(16,16,18,.18)}
+:root[data-theme="light"]{--glass:rgba(255,255,255,.03);--glass-soft:rgba(255,255,255,.04);--gloss:rgba(255,255,255,.20);--next-bg:rgba(255,255,255,.24)}
+.glass{-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
+:root[data-theme="dark"] .grp{background:rgba(255,255,255,.05)}
+:root[data-theme="dark"] .quote.glass{background:rgba(14,14,16,.04)}
+:root[data-theme="light"] .quote.glass{background:rgba(255,255,255,.08)}
+:root[data-theme="dark"] .top{background:linear-gradient(180deg,rgba(8,8,10,.55),rgba(8,8,10,.34))}
+:root[data-theme="light"] .top{background:linear-gradient(180deg,rgba(246,246,248,.56),rgba(246,246,248,.32))}
+:root[data-theme="dark"] .it .bd,:root[data-theme="dark"] .it .dt,:root[data-theme="dark"] .widget{text-shadow:0 1px 10px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.4)}
+:root[data-theme="light"] .it .bd,:root[data-theme="light"] .it .dt,:root[data-theme="light"] .widget{text-shadow:0 0 12px rgba(255,255,255,.95),0 0 3px rgba(255,255,255,.7)}
+
+/* top bar: clear but blurred enough that scrolled text does not bleed behind the title */
+.top{-webkit-backdrop-filter:blur(40px) saturate(160%);backdrop-filter:blur(40px) saturate(160%)}
+:root[data-theme="dark"] .top{background:linear-gradient(180deg,rgba(8,8,10,.72),rgba(8,8,10,.52))}
+:root[data-theme="light"] .top{background:linear-gradient(180deg,rgba(246,246,248,.74),rgba(246,246,248,.52))}
+
+/* top bar keeps a firmer tint so scrolled text never shows behind the title */
+:root[data-theme="dark"] .top{background:linear-gradient(180deg,rgba(8,8,10,.88),rgba(8,8,10,.74))}
+:root[data-theme="light"] .top{background:linear-gradient(180deg,rgba(246,246,248,.90),rgba(246,246,248,.76))}
 </style>
 </head>
 <body>
