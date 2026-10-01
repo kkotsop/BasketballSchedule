@@ -463,6 +463,17 @@ dialog{border:0}
 .sheet a.lrow{color:var(--text);text-decoration:none}
 .menu button.lrow{font-size:16px;font-weight:500;padding:8px 14px 8px 12px;min-height:50px}
 .sheet:has(.grp){padding-top:16px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+
+/* ===== more transparent cards (both themes) ===== */
+:root[data-theme="dark"]{--glass:rgba(14,14,16,.20);--glass-soft:rgba(14,14,16,.16);--gloss:rgba(255,255,255,.07);--next-bg:rgba(16,16,18,.46)}
+:root[data-theme="light"]{--glass:rgba(255,255,255,.17);--glass-soft:rgba(255,255,255,.16);--gloss:rgba(255,255,255,.42);--next-bg:rgba(255,255,255,.52)}
+:root[data-theme="dark"] .it.next .bd{background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.22),rgba(255,255,255,0) 60%),var(--next-bg)}
+:root[data-theme="light"] .it.next .bd{background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.85),rgba(255,255,255,.2) 60%),var(--next-bg)}
+:root[data-theme="dark"] .grp{background:rgba(255,255,255,.07)}
+:root[data-theme="dark"] .quote.glass{background:rgba(14,14,16,.14)}
+:root[data-theme="light"] .quote.glass{background:rgba(255,255,255,.24)}
+:root[data-theme="dark"] .top{background:linear-gradient(180deg,rgba(8,8,10,.70),rgba(8,8,10,.50))}
+:root[data-theme="light"] .top{background:linear-gradient(180deg,rgba(246,246,248,.72),rgba(246,246,248,.50))}
 </style>
 </head>
 <body>
