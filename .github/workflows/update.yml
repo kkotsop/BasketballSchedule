@@ -36,7 +36,7 @@ jobs:
         run: python scraper/scrape.py
       - name: Keep what the scraper saw (only when it failed)
         if: steps.scrape.outcome == 'failure'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: scraper-debug
           path: scraper/debug/
