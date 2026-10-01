@@ -474,6 +474,16 @@ dialog{border:0}
 :root[data-theme="light"] .quote.glass{background:rgba(255,255,255,.24)}
 :root[data-theme="dark"] .top{background:linear-gradient(180deg,rgba(8,8,10,.70),rgba(8,8,10,.50))}
 :root[data-theme="light"] .top{background:linear-gradient(180deg,rgba(246,246,248,.72),rgba(246,246,248,.50))}
+
+/* ===== even more transparent cards ===== */
+:root[data-theme="dark"]{--glass:rgba(14,14,16,.09);--glass-soft:rgba(14,14,16,.08);--gloss:rgba(255,255,255,.05);--next-bg:rgba(16,16,18,.30)}
+:root[data-theme="light"]{--glass:rgba(255,255,255,.07);--glass-soft:rgba(255,255,255,.08);--gloss:rgba(255,255,255,.30);--next-bg:rgba(255,255,255,.36)}
+.glass{-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%)}
+:root[data-theme="dark"] .grp{background:rgba(255,255,255,.06)}
+:root[data-theme="dark"] .quote.glass{background:rgba(14,14,16,.08)}
+:root[data-theme="light"] .quote.glass{background:rgba(255,255,255,.14)}
+:root[data-theme="dark"] .it .bd,:root[data-theme="dark"] .it .dt,:root[data-theme="dark"] .widget{text-shadow:0 1px 8px rgba(0,0,0,.55)}
+:root[data-theme="light"] .it .bd,:root[data-theme="light"] .it .dt,:root[data-theme="light"] .widget{text-shadow:0 0 9px rgba(255,255,255,.75)}
 </style>
 </head>
 <body>
