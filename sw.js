@@ -17,7 +17,11 @@ self.addEventListener("push", function (event) {
 
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
-  var url = (event.notification.data && event.notification.data.url) || "./";
+  var url = "./";
+  try {
+    var u = new URL((event.notification.data && event.notification.data.url) || "./", self.registration.scope);
+    if (u.origin === self.location.origin) url = u.href;
+  } catch (e) {}
   event.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (list) {
     for (var i = 0; i < list.length; i++) { if ("focus" in list[i]) return list[i].focus(); }
     return self.clients.openWindow(url);
