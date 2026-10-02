@@ -10,7 +10,7 @@
    "away": "ΑΠΟΠ",
    "venue": "Λύκ. Αγ. Φύλας",
    "hs": "0",
-   "as": "0",
+   "as": "20",
    "league": "U14",
    "id": "036d57c5"
   },
@@ -122,8 +122,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-09-30T18:09:55Z",
- "checked": "2026-10-02T09:31:14Z",
+ "updated": "2026-10-02T12:35:18Z",
+ "checked": "2026-10-02T12:35:18Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
