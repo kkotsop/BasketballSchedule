@@ -518,10 +518,17 @@ dialog{border:0}
 .play h3{margin:16px 0 6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
 .play ul,.play ol{margin:0;padding-left:20px;font-size:14px;line-height:1.5;color:var(--text)}
 .play li+li{margin-top:4px}
-.frames{display:grid;gap:12px}
-.frame{margin:0}
-.frame figcaption{margin:6px 2px 0;font-size:13px;line-height:1.4;color:var(--text-2)}
-.frame figcaption b{color:var(--text)}
+.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:14px}
+.slides::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;margin:0}
+.slide .stp{margin:2px 2px 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+.slide figcaption{margin:8px 2px 0;font-size:13px;line-height:1.4;color:var(--text-2);min-height:2.8em}
+.slide figcaption b{color:var(--text)}
+.dots{display:flex;justify-content:center;align-items:center;margin-top:8px}
+.dots button{position:relative;width:26px;height:26px}
+.dots button::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:4px;background:var(--text);opacity:.3;transition:width .2s,margin .2s,opacity .2s}
+.dots button[aria-selected="true"]::after{width:22px;margin-left:-11px;opacity:1}
+.dots button:focus-visible{outline:2px solid var(--text);outline-offset:-2px;border-radius:8px}
 .court{display:block;width:100%;height:auto;border-radius:14px;background:var(--field)}
 .court .ln{fill:none;stroke:var(--text-3);stroke-width:1.6}
 .court .cut{fill:none;stroke:var(--text);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
@@ -533,8 +540,6 @@ dialog{border:0}
 .court .pn{fill:var(--bg-bot);font:700 12px system-ui,sans-serif;text-anchor:middle;dominant-baseline:central}
 .court .mk{fill:var(--text)}
 .court .mkp{fill:#FF3B4E}
-.seg.steps{margin:0 0 10px}
-.seg.steps button{font-size:12.5px;padding:0 2px;white-space:nowrap}
 .play .coach{margin-top:14px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.45;color:var(--text-2);border:1px dashed var(--hair)}
 </style>
 </head>
@@ -828,14 +833,13 @@ function courtSVG(f){
 }
 var pbPlay = 0, pbFrame = 0;
 function playbookHTML(){
-  var pl = PLAYBOOK[pbPlay] || PLAYBOOK[0], f = pl.frames[pbFrame] || pl.frames[0];
+  var pl = PLAYBOOK[pbPlay] || PLAYBOOK[0];
   var tab = function(act, i, label, on){ return '<button role="radio" aria-checked="' + on + '" data-act="' + act + '" data-v="' + i + '">' + esc(label) + '</button>'; };
   var out = '<div class="pbk"><div class="seg glass" role="radiogroup" aria-label="Choose a system">'
     + PLAYBOOK.map(function(x, i){ return tab("pbplay", i, x.name, i === pbPlay); }).join("") + '</div>'
     + '<article class="play glass" aria-label="' + esc(pl.name) + '"><h2>' + esc(pl.name) + '</h2><p class="alt">' + esc(pl.alt) + '</p><p class="why">' + esc(pl.why) + '</p>'
-    + '<div class="seg steps" role="radiogroup" aria-label="Diagram step">'
-    + pl.frames.map(function(x, i){ return tab("pbframe", i, x.title, i === pbFrame); }).join("") + '</div>'
-    + '<figure class="frame">' + courtSVG(f) + '<figcaption>' + f.caption + '</figcaption></figure>'
+    + '<div class="slides" id="slides">' + pl.frames.map(function(x){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + courtSVG(x) + '<figcaption>' + x.caption + '</figcaption></figure>'; }).join("") + '</div>'
+    + '<div class="dots" role="tablist" aria-label="Steps">' + pl.frames.map(function(x, i){ return '<button role="tab" aria-selected="' + (i === pbFrame) + '" aria-label="' + esc(x.title) + '" data-act="pbdot" data-v="' + i + '"></button>'; }).join("") + '</div>'
     + '</article></div>';
   return out;
 }
@@ -919,6 +923,7 @@ function render(opts){
     + '</button>'
     + '<p class="foot"><span>' + esc(updatedText()) + '</span><span class="fa"><a class="rfb wa" href="' + esc(waUrl()) + '" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" title="Share on WhatsApp">' + ICON.whatsapp + '</a><button class="rfb" data-act="copy" aria-label="Copy link" title="Copy link">' + ICON.copy + '</button><button class="rfb' + (seenUpdates() ? "" : " dot") + '" data-act="updates" aria-label="Subscribe" title="Subscribe">' + ICON.bell + '</button><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></span></p></div></div>';
   paintQuote(false);
+  var slx = $("#slides"); if (slx && pbFrame) slx.scrollLeft = pbFrame * slx.clientWidth;
   topHeight(); botHeight();
   initReveal(!revealed);
   revealed = true;
@@ -986,6 +991,14 @@ function updateJump(){
   pill.setAttribute("data-dir", above ? "up" : "down");
 }
 window.addEventListener("scroll", updateJump, {passive:true});
+document.addEventListener("scroll", function(ev){
+  var sl = ev.target;
+  if (!sl || sl.id !== "slides") return;
+  var i = Math.round(sl.scrollLeft / Math.max(1, sl.clientWidth));
+  if (i === pbFrame) return;
+  pbFrame = i;
+  sl.parentNode.querySelectorAll(".dots button").forEach(function(b, k){ b.setAttribute("aria-selected", k === i ? "true" : "false"); });
+}, true);
 window.addEventListener("resize", function(){ topHeight(); botHeight(); });
 
 /* ---------- sheets ---------- */
@@ -1213,7 +1226,7 @@ document.addEventListener("click", function(ev){
   else if (act === "view") { view = view === "table" ? "games" : "table"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
   else if (act === "playbook") { view = view === "play" ? "games" : "play"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
   else if (act === "pbplay") { pbPlay = Number(el.getAttribute("data-v")) || 0; pbFrame = 0; render(); }
-  else if (act === "pbframe") { pbFrame = Number(el.getAttribute("data-v")) || 0; render(); }
+  else if (act === "pbdot") { var sl = $("#slides"); if (sl) sl.scrollTo({left: Number(el.getAttribute("data-v")) * sl.clientWidth, behavior: "smooth"}); }
   else if (act === "copy") copyLink();
   else if (act === "updates") updatesSheet();
   else if (act === "refresh") {
