@@ -532,6 +532,9 @@ dialog{border:0}
 .court .pn{fill:var(--bg-bot);font:700 12px system-ui,sans-serif;text-anchor:middle;dominant-baseline:central}
 .court .mk{fill:var(--text)}
 .court .mkp{fill:#FF3B4E}
+.seg.tabs{flex:none;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.seg.tabs::-webkit-scrollbar{display:none}
+.seg.tabs button{flex:none;min-width:64px;padding:0 16px;white-space:nowrap;scroll-snap-align:center}
 .seg.steps{margin:0 0 10px}
 .seg.steps button{font-size:13px;padding:0 4px}
 .play .coach{margin-top:14px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.45;color:var(--text-2);border:1px dashed var(--hair)}
@@ -862,7 +865,7 @@ var pbPlay = 0, pbFrame = 0;
 function playbookHTML(){
   var pl = PLAYBOOK[pbPlay] || PLAYBOOK[0], f = pl.frames[pbFrame] || pl.frames[0];
   var tab = function(act, i, label, on){ return '<button role="radio" aria-checked="' + on + '" data-act="' + act + '" data-v="' + i + '">' + esc(label) + '</button>'; };
-  var out = '<div class="pbk"><div class="seg glass" role="radiogroup" aria-label="Choose a system">'
+  var out = '<div class="pbk"><div class="seg glass tabs" role="radiogroup" aria-label="Choose a system">'
     + PLAYBOOK.map(function(x, i){ return tab("pbplay", i, x.name, i === pbPlay); }).join("") + '</div>'
     + '<article class="play glass" aria-label="' + esc(pl.name) + '"><h2>' + esc(pl.name) + '</h2><p class="alt">' + esc(pl.alt) + '</p><p class="why">' + esc(pl.why) + '</p>'
     + '<div class="seg steps" role="radiogroup" aria-label="Diagram step">'
@@ -955,6 +958,7 @@ function render(opts){
     + '</button>'
     + '<p class="foot"><span>' + esc(updatedText()) + '</span><span class="fa"><a class="rfb wa" href="' + esc(waUrl()) + '" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" title="Share on WhatsApp">' + ICON.whatsapp + '</a><button class="rfb" data-act="copy" aria-label="Copy link" title="Copy link">' + ICON.copy + '</button><button class="rfb' + (seenUpdates() ? "" : " dot") + '" data-act="updates" aria-label="Subscribe" title="Subscribe">' + ICON.bell + '</button><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></span></p></div></div>';
   paintQuote(false);
+  if (view === "play") { var on = document.querySelector('.seg.tabs [aria-checked="true"]'); if (on && on.scrollIntoView) { try { on.scrollIntoView({inline:"center", block:"nearest"}); } catch (e) {} } }
   topHeight(); botHeight();
   initReveal(!revealed);
   revealed = true;
