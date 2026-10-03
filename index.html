@@ -836,25 +836,28 @@ var PLAYBOOK = [
     ]
   },
   {
-    name: "Motion 1", alt: "Coach\u2019s play \u00b7 4 and 5 swap, 2 cuts",
-    why: "A quick set: the two big players swap places, the wing cuts to the basket, and the ball finds the cutter for a layup or the next read.",
+    name: "Motion 1", alt: "Coach\u2019s play \u00b7 4 and 5 swap, then 2 cuts",
+    why: "A quick set to the right wing: the ball goes to 2 while 4 and 5 swap sides, 2 feeds 4 in the post and cuts to the basket, and the ball comes back for a layup or the next read.",
     frames: [
-      { title: "Set-up", caption: "<b>1</b> at the top with the ball, <b>2</b> and <b>3</b> on the wings, <b>4</b> and <b>5</b> on the blocks (the post).",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,102,196],[5,198,196]], moves: [] },
-      { title: "4 and 5 swap", caption: "<b>4</b> and <b>5</b> swap blocks across the lane, so <b>4</b> ends in the post on the side opposite to where she started. <b>1</b> passes to <b>4</b>.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,102,196],[5,198,196]],
-        moves: [{t:"cut",pts:[[102,196],[150,210],[190,200]]},{t:"cut",pts:[[198,196],[150,180],[112,192]]},{t:"pass",pts:[[150,72],[198,184]]}] },
-      { title: "2 cuts", caption: "<b>2</b> cuts to the basket and <b>4</b> passes to <b>2</b>. Then decide: layup if open, otherwise the next read.",
-        players: [[1,150,72],[2,258,118],[3,42,118],[4,198,196,1],[5,102,196]],
-        moves: [{t:"cut",pts:[[258,118],[215,150],[170,176]]},{t:"pass",pts:[[198,196],[176,182]]}] }
+      { title: "Set-up", caption: "<b>1</b> at the top with the ball, <b>2</b> on the right wing, <b>3</b> on the left wing, <b>4</b> in the left corner and <b>5</b> in the right corner.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
+      { title: "Pass and swap", caption: "<b>1</b> passes to <b>2</b> while <b>4</b> and <b>5</b> swap sides. <b>4</b> ends in the post on the right, opposite to where she started.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
+        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[24,212],[100,236],[190,208]]},{t:"cut",pts:[[276,212],[210,176],[150,170],[112,190]]}] },
+      { title: "Pass to 4, 2 cuts", caption: "<b>2</b> passes to <b>4</b> in the post and cuts to the basket.",
+        players: [[1,150,72],[2,258,118,1],[3,42,118],[4,198,196],[5,102,196]],
+        moves: [{t:"pass",pts:[[258,118],[206,186]]},{t:"cut",pts:[[258,118],[230,150],[172,172]]}] },
+      { title: "Finish", caption: "<b>4</b> passes to <b>2</b> for the layup. If it is not there, take the next read.",
+        players: [[1,150,72],[2,172,172],[3,42,118],[4,198,196,1],[5,102,196]],
+        moves: [{t:"pass",pts:[[198,196],[178,178]]}] }
     ],
     rules: [
-      "Start with the swap: 4 and 5 change sides.",
-      "2 cuts to the basket as the ball comes to 4.",
-      "4 passes to 2, then everyone decides: layup if it is there."
+      "1 passes to 2 as 4 and 5 swap sides.",
+      "2 passes to 4 in the post and cuts to the basket.",
+      "4 looks for 2 on the cut. Layup if it is there, otherwise the next read."
     ],
     mistakes: [],
-    coach: "Started from a short description: the set-up, who has the ball, and 2\u2019s exact cut are my best guess. Ask the coach to check the diagrams and what happens after the layup option.",
+    coach: "From a short description. The exact paths of the swap and 2\u2019s cut are my best guess, and the options after the layup are not drawn yet. Ask the coach to check.",
     videos: []
   }
 ];
