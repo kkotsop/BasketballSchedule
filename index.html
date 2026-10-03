@@ -512,9 +512,6 @@ dialog{border:0}
 .pbk{display:flex;flex-direction:column;gap:14px;margin:6px 0 4px}
 .pbk .note{padding:10px 14px;border-radius:14px;font-size:12.5px;color:var(--text-2)}
 .play{padding:16px 14px 14px;border-radius:20px}
-.play h2{margin:0;font-size:20px;font-weight:700;color:var(--text)}
-.play .alt{margin:2px 0 0;font-size:13px;font-weight:600;color:var(--text-2)}
-.play .why{margin:10px 0 12px;font-size:14.5px;line-height:1.45;color:var(--text)}
 .play h3{margin:16px 0 6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
 .play ul,.play ol{margin:0;padding-left:20px;font-size:14px;line-height:1.5;color:var(--text)}
 .play li+li{margin-top:4px}
@@ -741,7 +738,7 @@ function nextHTML(g){
 /* Half court, basket at the bottom. viewBox 300 x 250, 6 units per foot. */
 var PLAYBOOK = [
   {
-    name: "Motion", alt: "Circle motion",
+    name: "Motion",
     why: "After you pass, cut and rotate one spot.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> top, <b>2</b>\u2013<b>3</b> wings, <b>4</b>\u2013<b>5</b> corners.",
@@ -755,7 +752,7 @@ var PLAYBOOK = [
     ]
   },
   {
-    name: "Motion 1A", alt: "Plan A",
+    name: "Motion 1A",
     why: "Ball to 2, 4 and 5 swap, 2 cuts for the layup.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>4</b> left corner, <b>5</b> right corner.",
@@ -772,7 +769,7 @@ var PLAYBOOK = [
     ]
   },
   {
-    name: "Motion 1B", alt: "Plan B",
+    name: "Motion 1B",
     why: "If 2 does not get the ball: rotate, hand off to 1 for the layup.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>4</b> left corner, <b>5</b> right corner.",
@@ -792,7 +789,7 @@ var PLAYBOOK = [
     ]
   },
   {
-    name: "Box", alt: "Κουτί",
+    name: "Box",
     why: "Four players in a box; screens free a shooter.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> ball, <b>2</b>\u2013<b>3</b> elbows, <b>4</b>\u2013<b>5</b> blocks.",
@@ -837,8 +834,8 @@ function playbookHTML(){
   var tab = function(act, i, label, on){ return '<button role="radio" aria-checked="' + on + '" data-act="' + act + '" data-v="' + i + '">' + esc(label) + '</button>'; };
   var out = '<div class="pbk"><div class="seg glass" role="radiogroup" aria-label="Choose a system">'
     + PLAYBOOK.map(function(x, i){ return tab("pbplay", i, x.name, i === pbPlay); }).join("") + '</div>'
-    + '<article class="play glass" aria-label="' + esc(pl.name) + '"><h2>' + esc(pl.name) + '</h2><p class="alt">' + esc(pl.alt) + '</p><p class="why">' + esc(pl.why) + '</p>'
-    + '<div class="slides" id="slides">' + pl.frames.map(function(x){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + courtSVG(x) + '<figcaption>' + x.caption + '</figcaption></figure>'; }).join("") + '</div>'
+    + '<article class="play glass" aria-label="' + esc(pl.name) + '">'
+    + '<div class="slides" id="slides">' + pl.frames.map(function(x, i){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + courtSVG(x) + '<figcaption>' + (i === 0 && pl.why ? esc(pl.why) + ' ' : "") + x.caption + '</figcaption></figure>'; }).join("") + '</div>'
     + '<div class="dots" role="tablist" aria-label="Steps">' + pl.frames.map(function(x, i){ return '<button role="tab" aria-selected="' + (i === pbFrame) + '" aria-label="' + esc(x.title) + '" data-act="pbdot" data-v="' + i + '"></button>'; }).join("") + '</div>'
     + '</article></div>';
   return out;

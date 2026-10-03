@@ -71,10 +71,11 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
   (embed data + `calendar/*.ics`, copy `sw.js`), deploy. Secrets: `VAPID_PRIVATE_KEY`, `PUSH_ADMIN_TOKEN`.
 
 ## Playbook
-- `view = "play"` (book icon next to Table) renders `playbookHTML()` from the `PLAYBOOK` array in `index.html`: name, purpose,
-  court diagrams (`courtSVG`, half court 300x250, 6 units/ft; players `[n,x,y,ball]`, moves `cut|pass|scr`), rules, mistakes,
-  YouTube links, coach's note. English only for now; players use numbers 1-5. Content so far is generic (public sources):
-  replace with the coach's own version when known. No player names.
+- `view = "play"` (book icon next to Table) renders `playbookHTML()` from the `PLAYBOOK` array in `index.html`: tabs per system
+  (Motion, Motion 1A, Motion 1B, Box), then swipeable step cards (scroll-snap `.slides` + dot indicator, `pbFrame` keeps the
+  step). Each system: `{name, why, frames[{title, caption, players, moves}]}`; `why` is shown with the first caption.
+  Diagrams: `courtSVG`, half court 300x250, 6 units/ft; players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now;
+  players use numbers 1-5, no names, no video links. Motion, Motion 1A/1B come from the coach; Box is generic (unconfirmed).
 
 ## Conventions
 - Single-file site: HTML, CSS, JS in `index.html`; images only from `assets/`; no dependencies.
