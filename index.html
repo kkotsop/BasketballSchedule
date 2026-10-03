@@ -739,27 +739,25 @@ function nextHTML(g){
 var PLAYBOOK = [
   {
     name: "Motion",
-    why: "After you pass, cut and rotate one spot.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> top, <b>2</b>\u2013<b>3</b> wings, <b>4</b>\u2013<b>5</b> corners.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
       { title: "Pass, cut, fill", caption: "<b>1</b> passes to <b>2</b>, cuts, fills the left corner. Others rotate up.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
         moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[150,72],[150,190],[60,212]]},{t:"cut",pts:[[42,118],[150,76]]},{t:"cut",pts:[[24,212],[42,124]]}] },
-      { title: "Corner pass", caption: "<b>2</b> passes to the corner <b>5</b>, who passes back and fakes a cut.",
+      { title: "Corner pass", caption: "If <b>2</b> passes to the corner, <b>5</b> passes back and fakes a cut.",
         players: [[1,150,72],[2,258,118,1],[3,42,118],[4,24,212],[5,276,212]],
         moves: [{t:"pass",pts:[[250,132],[266,198]]},{t:"pass",pts:[[286,196],[270,130]]},{t:"fake",pts:[[266,200],[232,176]]}] }
     ]
   },
   {
     name: "Motion 1A",
-    why: "Ball to 2, 4 and 5 swap, 2 cuts for the layup.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>4</b> left corner, <b>5</b> right corner.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
-      { title: "Swap", caption: "<b>1</b> passes to <b>2</b>. <b>4</b> and <b>5</b> swap; <b>4</b> ends in the right post.",
+      { title: "Swap", caption: "<b>1</b> passes to <b>2</b>. <b>4</b> and <b>5</b> swap: <b>5</b> screens <b>4</b>\u2019s defender, and <b>4</b> ends in the right post.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
-        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[24,212],[100,236],[190,208]]},{t:"cut",pts:[[276,212],[210,176],[150,170],[112,190]]}] },
+        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[24,212],[100,230],[170,214],[198,200]]},{t:"scr",pts:[[276,212],[236,186],[182,188]]}] },
       { title: "Cut", caption: "<b>2</b> passes to <b>4</b> and cuts.",
         players: [[1,150,72],[2,258,118,1],[3,42,118],[4,198,196],[5,102,196]],
         moves: [{t:"pass",pts:[[258,118],[206,186]]},{t:"cut",pts:[[258,118],[230,150],[172,172]]}] },
@@ -770,13 +768,12 @@ var PLAYBOOK = [
   },
   {
     name: "Motion 1B",
-    why: "If 2 does not get the ball: rotate, hand off to 1 for the layup.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>4</b> left corner, <b>5</b> right corner.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
-      { title: "Swap", caption: "<b>1</b> passes to <b>2</b>. <b>4</b> and <b>5</b> swap; <b>4</b> ends in the right post.",
+      { title: "Swap", caption: "<b>1</b> passes to <b>2</b>. <b>4</b> and <b>5</b> swap: <b>5</b> screens <b>4</b>\u2019s defender, and <b>4</b> ends in the right post.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
-        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[24,212],[100,236],[190,208]]},{t:"cut",pts:[[276,212],[210,176],[150,170],[112,190]]}] },
+        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[24,212],[100,230],[170,214],[198,200]]},{t:"scr",pts:[[276,212],[236,186],[182,188]]}] },
       { title: "Cut", caption: "<b>2</b> passes to <b>4</b> and cuts.",
         players: [[1,150,72],[2,258,118,1],[3,42,118],[4,198,196],[5,102,196]],
         moves: [{t:"pass",pts:[[258,118],[206,186]]},{t:"cut",pts:[[258,118],[230,150],[172,172]]}] },
@@ -790,7 +787,6 @@ var PLAYBOOK = [
   },
   {
     name: "Box",
-    why: "Four players in a box; screens free a shooter.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> ball, <b>2</b>\u2013<b>3</b> elbows, <b>4</b>\u2013<b>5</b> blocks.",
         players: [[1,150,72,1],[2,198,126],[3,102,126],[4,102,196],[5,198,196]], moves: [] },
@@ -835,7 +831,7 @@ function playbookHTML(){
   var out = '<div class="pbk"><div class="seg glass" role="radiogroup" aria-label="Choose a system">'
     + PLAYBOOK.map(function(x, i){ return tab("pbplay", i, x.name, i === pbPlay); }).join("") + '</div>'
     + '<article class="play glass" aria-label="' + esc(pl.name) + '">'
-    + '<div class="slides" id="slides">' + pl.frames.map(function(x, i){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + '<figcaption>' + (i === 0 && pl.why ? esc(pl.why) + ' ' : "") + x.caption + '</figcaption>' + courtSVG(x) + '</figure>'; }).join("") + '</div>'
+    + '<div class="slides" id="slides">' + pl.frames.map(function(x, i){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + '<figcaption>' + x.caption + '</figcaption>' + courtSVG(x) + '</figure>'; }).join("") + '</div>'
     + '<div class="dots" role="tablist" aria-label="Steps">' + pl.frames.map(function(x, i){ return '<button role="tab" aria-selected="' + (i === pbFrame) + '" aria-label="' + esc(x.title) + '" data-act="pbdot" data-v="' + i + '"></button>'; }).join("") + '</div>'
     + '</article></div>';
   return out;
