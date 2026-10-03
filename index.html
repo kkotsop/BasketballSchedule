@@ -797,6 +797,38 @@ var PLAYBOOK = [
     videos: [
       {t:"5 easy box offense plays", u:"https://www.youtube.com/watch?v=BiDYZneGS0M"}
     ]
+  },
+  {
+    name: "Motion", alt: "Circle motion offense",
+    why: "A 5-out set with one simple rule: after you pass, cut to the basket, and everyone rotates one spot in the same direction to fill. Three or more players are always moving.",
+    frames: [
+      { title: "Set-up", caption: "Same spacing as 5-0: <b>1</b> top, <b>2</b> and <b>3</b> on the wings, <b>4</b> and <b>5</b> in the corners, about 12\u201315 feet apart.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
+      { title: "Pass, cut, fill", caption: "<b>1</b> passes to <b>2</b>, cuts through the lane, and fills the left corner. <b>4</b> moves up to the wing and <b>3</b> to the top. The circle keeps turning.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
+        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[150,72],[150,190],[60,212]]},{t:"cut",pts:[[42,118],[150,76]]},{t:"cut",pts:[[24,212],[42,124]]}] },
+      { title: "Down screen", caption: "When the ball moves to <b>2</b>, <b>3</b> can set a down screen for <b>4</b>, who curls up to the wing. If the defender jumps the screen, slip to the basket instead.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
+        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"scr",pts:[[42,118],[34,172]]},{t:"cut",pts:[[24,212],[70,168],[84,110]]}] }
+    ],
+    rules: [
+      "Pass, then cut to the basket.",
+      "Everyone behind the cutter moves up one spot, always in the same direction.",
+      "Keep about 12\u201315 feet between players so the gaps stay open.",
+      "At least three players are moving at any time.",
+      "Defender plays the pass tight? Back cut or slip."
+    ],
+    mistakes: [
+      "Stopping after the pass.",
+      "Rotating the wrong way, or not at all, which leaves two players in one spot.",
+      "Cutting but not filling the empty spot.",
+      "Moving too early, before the pass is made."
+    ],
+    coach: "This is the usual circle motion from public coaching sites. Ask the coach which way we rotate and when we use the down screen.",
+    videos: [
+      {t:"Learn the circle motion offense in 60 seconds", u:"https://www.youtube.com/watch?v=_EVv6DHDQuQ"},
+      {t:"Circle motion: slip the down screen", u:"https://www.youtube.com/watch?v=UeDpXKQcN3Q"}
+    ]
   }
 ];
 var courtN = 0;
