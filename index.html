@@ -538,10 +538,6 @@ dialog{border:0}
 .seg.steps{margin:0 0 10px}
 .seg.steps button{font-size:13px;padding:0 4px}
 .play .coach{margin-top:14px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.45;color:var(--text-2);border:1px dashed var(--hair)}
-.vids{display:flex;flex-direction:column;gap:6px;padding:0;margin:0;list-style:none}
-.vids a{display:block;padding:10px 12px;border-radius:12px;min-height:44px;font-size:14px;font-weight:600;color:var(--text);text-decoration:none;background:var(--glass-soft);border:1px solid var(--hair)}
-.vids a:focus-visible{outline:2px solid var(--text);outline-offset:2px}
-.vids span{display:block;font-size:12px;font-weight:500;color:var(--text-2)}
 </style>
 </head>
 <body>
@@ -753,10 +749,6 @@ var PLAYBOOK = [
       { title: "Down screen", caption: "<b>3</b> screens down for <b>4</b>, who curls up. Slip if jumped.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
         moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"scr",pts:[[42,118],[34,172]]},{t:"cut",pts:[[24,212],[70,168],[84,110]]}] }
-    ],
-    videos: [
-      {t:"Learn the circle motion offense in 60 seconds", u:"https://www.youtube.com/watch?v=_EVv6DHDQuQ"},
-      {t:"Circle motion: slip the down screen", u:"https://www.youtube.com/watch?v=UeDpXKQcN3Q"}
     ]
   },
   {
@@ -774,8 +766,7 @@ var PLAYBOOK = [
       { title: "Finish", caption: "<b>4</b> passes to <b>2</b>: layup or next read.",
         players: [[1,150,72],[2,172,172],[3,42,118],[4,198,196,1],[5,102,196]],
         moves: [{t:"pass",pts:[[198,196],[178,178]]}] }
-    ],
-    videos: []
+    ]
   },
   {
     name: "Box", alt: "Κουτί",
@@ -789,9 +780,6 @@ var PLAYBOOK = [
       { title: "Screen the screener", caption: "<b>2</b> screens for <b>4</b>, who pops to the wing.",
         players: [[1,150,72],[2,198,126],[3,102,126,1],[4,102,196],[5,198,196]],
         moves: [{t:"scr",pts:[[198,126],[120,160]]},{t:"cut",pts:[[102,196],[82,152],[48,112]]},{t:"pass",pts:[[102,126],[52,112]]}] }
-    ],
-    videos: [
-      {t:"5 easy box offense plays", u:"https://www.youtube.com/watch?v=BiDYZneGS0M"}
     ]
   },
   {
@@ -806,10 +794,6 @@ var PLAYBOOK = [
       { title: "Back cut", caption: "Defender overplays: <b>2</b> back cuts, <b>1</b> passes.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
         moves: [{t:"cut",pts:[[258,118],[225,100],[170,175]]},{t:"pass",pts:[[150,72],[168,170]]}] }
-    ],
-    videos: [
-      {t:"Master the 5-out motion offense: plays and drills", u:"https://www.youtube.com/watch?v=usAhqCsPTW0"},
-      {t:"5-out motion offense playlist", u:"https://www.youtube.com/playlist?list=PLOcVeFI53GG5ogKiTCB-hX2HVva80qL6B"}
     ]
   }
 ];
@@ -848,7 +832,6 @@ function playbookHTML(){
     + '<div class="seg steps" role="radiogroup" aria-label="Diagram step">'
     + pl.frames.map(function(x, i){ return tab("pbframe", i, x.title, i === pbFrame); }).join("") + '</div>'
     + '<figure class="frame">' + courtSVG(f) + '<figcaption>' + f.caption + '</figcaption></figure>'
-    + (pl.videos.length ? '<ul class="vids">' + pl.videos.map(function(v){ return '<li><a href="' + esc(v.u) + '" target="_blank" rel="noopener noreferrer">' + esc(v.t) + '</a></li>'; }).join("") + '</ul>' : "")
     + '</article></div>';
   return out;
 }
