@@ -510,15 +510,16 @@ dialog{border:0}
 .fbar .pbtn{width:44px;padding:0;justify-content:center}
 .fbar .pbtn svg{width:19px;height:19px}
 .pbk{display:flex;flex-direction:column;gap:14px;margin:6px 0 4px}
-.pbk .note{padding:10px 14px;border-radius:14px;font-size:12.5px;color:var(--text-2)}
-.play{padding:16px 14px 14px;border-radius:20px}
+.pbk .note{padding:10px 14px;border-radius:24px;font-size:12.5px;color:var(--text-2)}
+.play{padding:20px 18px 16px;border-radius:44px}
 .play h3{margin:16px 0 6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
 .play ul,.play ol{margin:0;padding-left:20px;font-size:14px;line-height:1.5;color:var(--text)}
 .play li+li{margin-top:4px}
 .pbk{min-height:calc(100vh - var(--top-h,200px) - var(--bot-h,150px) - 40px);min-height:calc(100svh - var(--top-h,200px) - var(--bot-h,150px) - 40px)}
-.pbk>.seg{flex:none}
+.pbk>.seg{flex:none;border-radius:999px;padding:4px}
+.pbk>.seg button{border-radius:999px}
 .play{flex:1;display:flex;flex-direction:column;justify-content:center}
-.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:14px}
+.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .slides::-webkit-scrollbar{display:none}
 .slide{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;cursor:pointer;flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;margin:0}
 .slide .stp{margin:2px 2px 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
@@ -529,7 +530,7 @@ dialog{border:0}
 .dots button::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:4px;background:var(--text);opacity:.3;transition:width .2s,margin .2s,opacity .2s}
 .dots button[aria-selected="true"]::after{width:22px;margin-left:-11px;opacity:1}
 .dots button:focus-visible{outline:2px solid var(--text);outline-offset:-2px;border-radius:8px}
-.court{display:block;width:100%;height:auto;border-radius:14px;background:var(--field)}
+.court{display:block;width:100%;height:auto;border-radius:32px;background:var(--field)}
 .court .ln{fill:none;stroke:var(--text-3);stroke-width:1.6}
 .court .cut{fill:none;stroke:var(--text);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .court .pass{fill:none;stroke:#FF3B4E;stroke-width:2.2;stroke-dasharray:6 5;stroke-linecap:round}
@@ -825,7 +826,7 @@ function courtSVG(f){
   f.players.forEach(function(p){
     m += '<circle class="pl' + (p[3] ? " ball" : "") + '" cx="' + p[1] + '" cy="' + p[2] + '" r="12"/><text class="pn" x="' + p[1] + '" y="' + p[2] + '">' + p[0] + '</text>';
   });
-  return '<svg class="court" viewBox="0 -42 300 282" role="img" aria-label="' + esc(f.title) + ' diagram">' + lines + a + m + '</svg>';
+  return '<svg class="court" viewBox="-12 -54 324 306" role="img" aria-label="' + esc(f.title) + ' diagram">' + lines + a + m + '</svg>';
 }
 var pbPlay = 0, pbFrame = 0;
 function playbookHTML(){
