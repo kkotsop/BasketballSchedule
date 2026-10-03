@@ -77,6 +77,11 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
   Diagrams: `courtSVG`, full half court, viewBox `-12 -54 324 306`, 6 units/ft, basket at (150,222); players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now;
   players use numbers 1-5, no names, no video links. Motion, Motion 1A/1B come from the coach; Box is generic (unconfirmed).
 
+## Opening splash
+- `#splash` (HTML right after `<body>`, CSS "opening splash" block, JS before the `lastSig` interval): logo, bouncing ball,
+  "OBSESSION BEATS TALENT" words and a red progress bar, ~2 s, then fades out. Skipped on `?r=` (refresh button); shortened for
+  Reduce Motion. It is drawn in code, not an image; to use a real image put it in `assets/` and swap it into `#splash`.
+
 ## Conventions
 - Single-file site: HTML, CSS, JS in `index.html`; images only from `assets/`; no dependencies.
 - Everything from the federation must go through `esc()` before it is put in HTML.
