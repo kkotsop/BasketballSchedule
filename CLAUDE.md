@@ -78,9 +78,9 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
   players use numbers 1-5, no names, no video links. Motion, Motion 1A/1B come from the coach; Box is generic (unconfirmed).
 
 ## Opening splash
-- `#splash` (HTML right after `<body>`, CSS "opening splash" block, JS before the `lastSig` interval): logo, bouncing ball,
-  "OBSESSION BEATS TALENT" words and a red progress bar, ~2 s, then fades out. Skipped on `?r=` (refresh button); shortened for
-  Reduce Motion. It is drawn in code, not an image; to use a real image put it in `assets/` and swap it into `#splash`.
+- `#splash` (HTML right after `<body>`, CSS "opening splash" block, JS before the `lastSig` interval): the full-screen image
+  `assets/obsession-beats-talent.webp` (the owner's own image) fades in with a slow zoom and a red progress bar, ~2.3 s, then
+  fades out. Skipped on `?r=` (refresh button); no motion for Reduce Motion. Keep it an image, not a drawn replacement.
 
 ## Conventions
 - Single-file site: HTML, CSS, JS in `index.html`; images only from `assets/`; no dependencies.
