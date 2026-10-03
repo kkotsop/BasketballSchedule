@@ -520,7 +520,7 @@ dialog{border:0}
 .play{flex:1;display:flex;flex-direction:column;justify-content:center}
 .slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:14px}
 .slides::-webkit-scrollbar{display:none}
-.slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;margin:0}
+.slide{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;cursor:pointer;flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;margin:0}
 .slide .stp{margin:2px 2px 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
 .slide figcaption{margin:0 2px 10px;font-size:13.5px;line-height:1.4;color:var(--text-2);min-height:4.2em}
 .slide figcaption b{color:var(--text)}
@@ -987,6 +987,16 @@ function updateJump(){
   pill.setAttribute("data-dir", above ? "up" : "down");
 }
 window.addEventListener("scroll", updateJump, {passive:true});
+/* tap the right side of a step card for the next step, the left third for the previous one (like stories) */
+document.addEventListener("click", function(ev){
+  var card = ev.target.closest ? ev.target.closest(".slide") : null;
+  if (!card) return;
+  var sl = card.parentNode, n = sl.children.length, r = card.getBoundingClientRect();
+  var i = Math.round(sl.scrollLeft / Math.max(1, sl.clientWidth));
+  var to = ev.clientX - r.left < r.width / 3 ? i - 1 : i + 1;
+  if (to < 0 || to >= n) return;
+  sl.scrollTo({left: to * sl.clientWidth, behavior: "smooth"});
+});
 document.addEventListener("scroll", function(ev){
   var sl = ev.target;
   if (!sl || sl.id !== "slides") return;
