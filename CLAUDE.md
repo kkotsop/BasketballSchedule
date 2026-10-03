@@ -74,7 +74,7 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 - `view = "play"` (book icon next to Table) renders `playbookHTML()` from the `PLAYBOOK` array in `index.html`: tabs per system
   (Motion, Motion 1A, Motion 1B, Box), then swipeable step cards (scroll-snap `.slides` + dot indicator, `pbFrame` keeps the
   step). Each system: `{name, frames[{title, caption, players, moves}]}`; a caption describes only its own step.
-  Diagrams: `courtSVG`, half court 300x250, 6 units/ft; players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now;
+  Diagrams: `courtSVG`, full half court, viewBox `0 -42 300 282`, 6 units/ft, basket at (150,222); players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now;
   players use numbers 1-5, no names, no video links. Motion, Motion 1A/1B come from the coach; Box is generic (unconfirmed).
 
 ## Conventions

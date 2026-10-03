@@ -515,6 +515,9 @@ dialog{border:0}
 .play h3{margin:16px 0 6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
 .play ul,.play ol{margin:0;padding-left:20px;font-size:14px;line-height:1.5;color:var(--text)}
 .play li+li{margin-top:4px}
+.pbk{min-height:calc(100vh - var(--top-h,200px) - var(--bot-h,150px) - 40px);min-height:calc(100svh - var(--top-h,200px) - var(--bot-h,150px) - 40px)}
+.pbk>.seg{flex:none}
+.play{flex:1;display:flex;flex-direction:column;justify-content:center}
 .slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:14px}
 .slides::-webkit-scrollbar{display:none}
 .slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;margin:0}
@@ -550,7 +553,7 @@ dialog{border:0}
 
 var BG_HTML = '<div class="bg" aria-hidden="true"><i class="photo"></i></div>';
 
-var DEFAULT_QUOTES = ["I can accept failure, everyone fails at something. But I can't accept not trying. — Michael Jordan", "Talent wins games, but teamwork and intelligence win championships. — Michael Jordan", "You must expect great things of yourself before you can do them. — Michael Jordan", "Obstacles don't have to stop you. — Michael Jordan", "Failure is not fatal, but failure to change might be. — John Wooden", "Be quick, but don't hurry. — John Wooden", "It's the little details that are vital. Little things make big things happen. — John Wooden", "Do not let what you cannot do interfere with what you can do. — John Wooden", "Make each day your masterpiece. — John Wooden", "Never mistake activity for achievement. — John Wooden", "The main ingredient of stardom is the rest of the team. — John Wooden", "Rest at the end, not in the middle. — Kobe Bryant", "Make winning an attitude. — Pat Summitt", "Teamwork allows common people to obtain uncommon results. — Pat Summitt", "Success is a project that is always under construction. — Pat Summitt", "Here's how I'm going to beat you. I'm going to outwork you. — Pat Summitt", "The strength of the team is each individual member. — Phil Jackson", "I like criticism. It makes you strong. — LeBron James"];
+var DEFAULT_QUOTES = ["I can accept failure, everyone fails at something. But I can't accept not trying. — Michael Jordan", "Talent wins games, but teamwork and intelligence win championships. — Michael Jordan", "You must expect great things of yourself before you can do them. — Michael Jordan", "Obstacles don't have to stop you. — Michael Jordan", "Failure is not fatal, but failure to change might be. — John Wooden", "Be quick, but don't hurry. — John Wooden", "It's the little details that are vital. Little things make big things happen. — John Wooden", "Do not let what you cannot do interfere with what you can do. — John Wooden", "Make each day your masterpiece. — John Wooden", "Never mistake activity for achievement. — John Wooden", "The main ingredient of stardom is the rest of the team. — John Wooden", "Rest at the end, not in the middle. — Kobe Bryant", "Make winning an attitude. — Pat Summitt", "Teamwork allows common people to obtain uncommon results. — Pat Summitt", "Success is a project that is always under construction. — Pat Summitt", "Here's how I'm going to beat you. I'm going to outwork you. — Pat Summitt", "The strength of the team is each individual member. — Phil Jackson", "I like criticism. It makes you strong. — LeBron James", "Hard work beats talent when talent doesn't work hard. — Tim Notke", "Never say never, because limits, like fears, are often just an illusion. — Michael Jordan", "Heart is what separates the good from the great. — Michael Jordan", "Ability may get you to the top, but character keeps you there. — John Wooden", "Discipline yourself so no one else has to. — Pat Summitt", "Concentration and mental toughness are the margins of victory. — Bill Russell", "Your mind is what makes everything else work. — Kareem Abdul-Jabbar", "Everybody has talent, it's just a matter of who's willing to cultivate it. — Magic Johnson", "The moment you give up is the moment you let someone else win. — Kobe Bryant", "If you're afraid to fail, then you're probably going to fail. — Kobe Bryant"];
 
 var state, LEAGUES = ["U14","U16"], filt = "both", view = "games";
 try { var _f = localStorage.getItem("apop-filter"); if (_f === "U14" || _f === "U16" || _f === "both") filt = _f; } catch (e) {}
@@ -802,7 +805,7 @@ var PLAYBOOK = [
 var courtN = 0;
 function courtSVG(f){
   var id = "mk" + (++courtN), a = '', m = '';
-  var lines = '<path class="ln" d="M4 240H296M4 4V240M296 4V240"/>'
+  var lines = '<path class="ln" d="M4 240H296M4 -42V240M296 -42V240M4 -42H296"/><path class="ln" d="M114 -42a36 36 0 0 0 72 0"/>'
     + '<rect class="ln" x="102" y="126" width="96" height="114"/>'
     + '<path class="ln" d="M102 126a48 48 0 0 1 96 0"/>'
     + '<path class="ln" d="M18 240V206A133 133 0 0 1 282 206V240"/>'
@@ -822,7 +825,7 @@ function courtSVG(f){
   f.players.forEach(function(p){
     m += '<circle class="pl' + (p[3] ? " ball" : "") + '" cx="' + p[1] + '" cy="' + p[2] + '" r="12"/><text class="pn" x="' + p[1] + '" y="' + p[2] + '">' + p[0] + '</text>';
   });
-  return '<svg class="court" viewBox="0 0 300 250" role="img" aria-label="' + esc(f.title) + ' diagram">' + lines + a + m + '</svg>';
+  return '<svg class="court" viewBox="0 -42 300 282" role="img" aria-label="' + esc(f.title) + ' diagram">' + lines + a + m + '</svg>';
 }
 var pbPlay = 0, pbFrame = 0;
 function playbookHTML(){
