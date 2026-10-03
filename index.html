@@ -532,6 +532,8 @@ dialog{border:0}
 .court .pn{fill:var(--bg-bot);font:700 12px system-ui,sans-serif;text-anchor:middle;dominant-baseline:central}
 .court .mk{fill:var(--text)}
 .court .mkp{fill:#FF3B4E}
+.seg.steps{margin:0 0 10px}
+.seg.steps button{font-size:13px;padding:0 4px}
 .play .coach{margin-top:14px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.45;color:var(--text-2);border:1px dashed var(--hair)}
 .vids{display:flex;flex-direction:column;gap:6px;padding:0;margin:0;list-style:none}
 .vids a{display:block;padding:10px 12px;border-radius:12px;min-height:44px;font-size:14px;font-weight:600;color:var(--text);text-decoration:none;background:var(--glass-soft);border:1px solid var(--hair)}
@@ -856,18 +858,22 @@ function courtSVG(f){
   });
   return '<svg class="court" viewBox="0 0 300 250" role="img" aria-label="' + esc(f.title) + ' diagram">' + lines + a + m + '</svg>';
 }
+var pbPlay = 0, pbFrame = 0;
 function playbookHTML(){
-  var out = '<div class="pbk"><p class="note glass">Draft. Based on public coaching sites; the coach’s own version may differ. Players are numbered 1–5. Solid line: cut. Dashed red: pass. Bar: screen.</p>';
-  PLAYBOOK.forEach(function(pl){
-    out += '<article class="play glass" aria-label="' + esc(pl.name) + '"><h2>' + esc(pl.name) + '</h2><p class="alt">' + esc(pl.alt) + '</p><p class="why">' + esc(pl.why) + '</p>'
-      + '<div class="frames">';
-    pl.frames.forEach(function(f){ out += '<figure class="frame">' + courtSVG(f) + '<figcaption><b>' + esc(f.title) + '.</b> ' + f.caption + '</figcaption></figure>'; });
-    out += '</div><h3>Rules</h3><ul>' + pl.rules.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>'
-      + '<h3>Common mistakes</h3><ul>' + pl.mistakes.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>'
-      + '<h3>Videos</h3><ul class="vids">' + pl.videos.map(function(v){ return '<li><a href="' + esc(v.u) + '" target="_blank" rel="noopener noreferrer">' + esc(v.t) + '<span>Opens YouTube</span></a></li>'; }).join("") + '</ul>'
-      + '<p class="coach"><b>Coach’s note:</b> ' + esc(pl.coach) + '</p></article>';
-  });
-  return out + '</div>';
+  var pl = PLAYBOOK[pbPlay] || PLAYBOOK[0], f = pl.frames[pbFrame] || pl.frames[0];
+  var tab = function(act, i, label, on){ return '<button role="radio" aria-checked="' + on + '" data-act="' + act + '" data-v="' + i + '">' + esc(label) + '</button>'; };
+  var out = '<div class="pbk"><div class="seg glass" role="radiogroup" aria-label="Choose a system">'
+    + PLAYBOOK.map(function(x, i){ return tab("pbplay", i, x.name, i === pbPlay); }).join("") + '</div>'
+    + '<article class="play glass" aria-label="' + esc(pl.name) + '"><h2>' + esc(pl.name) + '</h2><p class="alt">' + esc(pl.alt) + '</p><p class="why">' + esc(pl.why) + '</p>'
+    + '<div class="seg steps" role="radiogroup" aria-label="Diagram step">'
+    + pl.frames.map(function(x, i){ return tab("pbframe", i, x.title, i === pbFrame); }).join("") + '</div>'
+    + '<figure class="frame">' + courtSVG(f) + '<figcaption>' + f.caption + '</figcaption></figure>'
+    + '<h3>Rules</h3><ul>' + pl.rules.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>'
+    + '<h3>Common mistakes</h3><ul>' + pl.mistakes.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>'
+    + '<h3>Videos</h3><ul class="vids">' + pl.videos.map(function(v){ return '<li><a href="' + esc(v.u) + '" target="_blank" rel="noopener noreferrer">' + esc(v.t) + '<span>Opens YouTube</span></a></li>'; }).join("") + '</ul>'
+    + '<p class="coach"><b>Coach\u2019s note:</b> ' + esc(pl.coach) + '</p></article>'
+    + '<p class="note glass">Draft, from public coaching sites; the coach\u2019s own version may differ. Players are numbered 1\u20135. Solid line: cut. Dashed red: pass. Bar: screen.</p></div>';
+  return out;
 }
 
 function tableHTML(){
@@ -1242,6 +1248,8 @@ document.addEventListener("click", function(ev){
   }
   else if (act === "view") { view = view === "table" ? "games" : "table"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
   else if (act === "playbook") { view = view === "play" ? "games" : "play"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
+  else if (act === "pbplay") { pbPlay = Number(el.getAttribute("data-v")) || 0; pbFrame = 0; render(); }
+  else if (act === "pbframe") { pbFrame = Number(el.getAttribute("data-v")) || 0; render(); }
   else if (act === "copy") copyLink();
   else if (act === "updates") updatesSheet();
   else if (act === "refresh") {
