@@ -742,123 +742,75 @@ function nextHTML(g){
 /* Half court, basket at the bottom. viewBox 300 x 250, 6 units per foot. */
 var PLAYBOOK = [
   {
-    name: "5-0", alt: "Πέντε μηδέν · 5-out motion",
-    why: "All five players start outside the three-point line. With no player waiting near the basket, the lane stays open for cuts and drives. Everybody keeps moving: pass, cut, fill.",
+    name: "Motion", alt: "Circle motion",
+    why: "After you pass, cut and rotate one spot.",
     frames: [
-      { title: "Set-up", caption: "<b>1</b> top, <b>2</b> and <b>3</b> wings, <b>4</b> and <b>5</b> corners. Start about an arm's length behind the line.",
+      { title: "Set-up", caption: "<b>1</b> top, <b>2</b>\u2013<b>3</b> wings, <b>4</b>\u2013<b>5</b> corners.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
-      { title: "Pass and cut", caption: "<b>1</b> passes to <b>2</b> and cuts hard to the basket. Then <b>1</b> fills the empty left corner, <b>4</b> slides up to the wing and <b>3</b> slides to the top.",
+      { title: "Pass, cut, fill", caption: "<b>1</b> passes to <b>2</b>, cuts, fills the left corner. Others rotate up.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
         moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[150,72],[150,190],[60,212]]},{t:"cut",pts:[[42,118],[150,76]]},{t:"cut",pts:[[24,212],[42,124]]}] },
-      { title: "Back cut", caption: "If the defender plays the pass tight, <b>2</b> goes behind them straight to the basket and <b>1</b> passes to the cutter.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
-        moves: [{t:"cut",pts:[[258,118],[225,100],[170,175]]},{t:"pass",pts:[[150,72],[168,170]]}] }
-    ],
-    rules: [
-      "Every pass, cut or dribble starts a circle: move around the ring, never stand still.",
-      "Defender plays above the line? Back cut.",
-      "Pass through a single gap, drive through a double gap.",
-      "Square up to the basket whenever you catch the ball.",
-      "Cut hard to the basket, then fill an empty spot."
-    ],
-    mistakes: [
-      "Standing and watching after you pass.",
-      "Running toward the ball. This clogs the lane. Move into the space the ball left.",
-      "Crowding: two players in the same spot.",
-      "Thinking about the system instead of looking to score."
-    ],
-    coach: "This is the standard 5-out pattern from public coaching sites. Ask the coach for our exact cut order and any extra rules.",
-    videos: [
-      {t:"Master the 5-out motion offense: plays and drills", u:"https://www.youtube.com/watch?v=usAhqCsPTW0"},
-      {t:"5-out motion offense playlist", u:"https://www.youtube.com/playlist?list=PLOcVeFI53GG5ogKiTCB-hX2HVva80qL6B"}
-    ]
-  },
-  {
-    name: "Box", alt: "Κουτί · box set",
-    why: "A quick-hitting set. Four players form a box around the lane and use screens to free a shooter or a player near the basket in the first few seconds.",
-    frames: [
-      { title: "Set-up", caption: "<b>1</b> with the ball at the top. <b>2</b> and <b>3</b> at the elbows, <b>4</b> and <b>5</b> on the blocks. The four of them make the box.",
-        players: [[1,150,72,1],[2,198,126],[3,102,126],[4,102,196],[5,198,196]], moves: [] },
-      { title: "Cross screen", caption: "<b>1</b> passes to <b>3</b>. <b>4</b> screens across the lane for <b>5</b>, who cuts to the left block. <b>3</b> looks for the post-up pass.",
-        players: [[1,150,72,1],[2,198,126],[3,102,126],[4,102,196],[5,198,196]],
-        moves: [{t:"pass",pts:[[150,72],[102,126]]},{t:"scr",pts:[[102,196],[126,196]]},{t:"cut",pts:[[198,196],[150,200],[110,205]]}] },
-      { title: "Screen the screener", caption: "Next, <b>2</b> sets a down screen for <b>4</b>, who pops out to the wing for a shot. Take the shot or reverse the ball.",
-        players: [[1,150,72],[2,198,126],[3,102,126,1],[4,102,196],[5,198,196]],
-        moves: [{t:"scr",pts:[[198,126],[120,160]]},{t:"cut",pts:[[102,196],[82,152],[48,112]]},{t:"pass",pts:[[102,126],[52,112]]}] }
-    ],
-    rules: [
-      "Screens must be set and used with good timing: set it, wait, then cut off it.",
-      "Screen the screener: the player who just set a screen is often the next one open.",
-      "Read the defence. If the first option is closed, move to the next one.",
-      "Cut shoulder to shoulder with the screener so the defender cannot slip through."
-    ],
-    mistakes: [
-      "Cutting before the screen is set.",
-      "Bunching up, with the box too small or too lopsided.",
-      "Forgetting to look for the second option.",
-      "Screening and then standing still."
-    ],
-    coach: "This is a generic box set. Ask the coach who starts with the ball and which screens come first in our version.",
-    videos: [
-      {t:"5 easy box offense plays", u:"https://www.youtube.com/watch?v=BiDYZneGS0M"}
-    ]
-  },
-  {
-    name: "Motion", alt: "Circle motion offense",
-    why: "A 5-out set with one simple rule: after you pass, cut to the basket, and everyone rotates one spot in the same direction to fill. Three or more players are always moving.",
-    frames: [
-      { title: "Set-up", caption: "Same spacing as 5-0: <b>1</b> top, <b>2</b> and <b>3</b> on the wings, <b>4</b> and <b>5</b> in the corners, about 12\u201315 feet apart.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
-      { title: "Pass, cut, fill", caption: "<b>1</b> passes to <b>2</b>, cuts through the lane, and fills the left corner. <b>4</b> moves up to the wing and <b>3</b> to the top. The circle keeps turning.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
-        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[150,72],[150,190],[60,212]]},{t:"cut",pts:[[42,118],[150,76]]},{t:"cut",pts:[[24,212],[42,124]]}] },
-      { title: "Down screen", caption: "When the ball moves to <b>2</b>, <b>3</b> can set a down screen for <b>4</b>, who curls up to the wing. If the defender jumps the screen, slip to the basket instead.",
+      { title: "Down screen", caption: "<b>3</b> screens down for <b>4</b>, who curls up. Slip if jumped.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
         moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"scr",pts:[[42,118],[34,172]]},{t:"cut",pts:[[24,212],[70,168],[84,110]]}] }
     ],
-    rules: [
-      "Pass, then cut to the basket.",
-      "Everyone behind the cutter moves up one spot, always in the same direction.",
-      "Keep about 12\u201315 feet between players so the gaps stay open.",
-      "At least three players are moving at any time.",
-      "Defender plays the pass tight? Back cut or slip."
-    ],
-    mistakes: [
-      "Stopping after the pass.",
-      "Rotating the wrong way, or not at all, which leaves two players in one spot.",
-      "Cutting but not filling the empty spot.",
-      "Moving too early, before the pass is made."
-    ],
-    coach: "This is the usual circle motion from public coaching sites. Ask the coach which way we rotate and when we use the down screen.",
     videos: [
       {t:"Learn the circle motion offense in 60 seconds", u:"https://www.youtube.com/watch?v=_EVv6DHDQuQ"},
       {t:"Circle motion: slip the down screen", u:"https://www.youtube.com/watch?v=UeDpXKQcN3Q"}
     ]
   },
   {
-    name: "Motion 1", alt: "Coach\u2019s play \u00b7 4 and 5 swap, then 2 cuts",
-    why: "A quick set to the right wing: the ball goes to 2 while 4 and 5 swap sides, 2 feeds 4 in the post and cuts to the basket, and the ball comes back for a layup or the next read.",
+    name: "Motion 1", alt: "",
+    why: "Ball to 2, 4 and 5 swap, 2 cuts for the layup.",
     frames: [
-      { title: "Set-up", caption: "<b>1</b> at the top with the ball, <b>2</b> on the right wing, <b>3</b> on the left wing, <b>4</b> in the left corner and <b>5</b> in the right corner.",
+      { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>4</b> left corner, <b>5</b> right corner.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
-      { title: "Pass and swap", caption: "<b>1</b> passes to <b>2</b> while <b>4</b> and <b>5</b> swap sides. <b>4</b> ends in the post on the right, opposite to where she started.",
+      { title: "Swap", caption: "<b>1</b> passes to <b>2</b>. <b>4</b> and <b>5</b> swap; <b>4</b> ends in the right post.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
         moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[24,212],[100,236],[190,208]]},{t:"cut",pts:[[276,212],[210,176],[150,170],[112,190]]}] },
-      { title: "Pass to 4, 2 cuts", caption: "<b>2</b> passes to <b>4</b> in the post and cuts to the basket.",
+      { title: "Cut", caption: "<b>2</b> passes to <b>4</b> and cuts.",
         players: [[1,150,72],[2,258,118,1],[3,42,118],[4,198,196],[5,102,196]],
         moves: [{t:"pass",pts:[[258,118],[206,186]]},{t:"cut",pts:[[258,118],[230,150],[172,172]]}] },
-      { title: "Finish", caption: "<b>4</b> passes to <b>2</b> for the layup. If it is not there, take the next read.",
+      { title: "Finish", caption: "<b>4</b> passes to <b>2</b>: layup or next read.",
         players: [[1,150,72],[2,172,172],[3,42,118],[4,198,196,1],[5,102,196]],
         moves: [{t:"pass",pts:[[198,196],[178,178]]}] }
     ],
-    rules: [
-      "1 passes to 2 as 4 and 5 swap sides.",
-      "2 passes to 4 in the post and cuts to the basket.",
-      "4 looks for 2 on the cut. Layup if it is there, otherwise the next read."
-    ],
-    mistakes: [],
-    coach: "From a short description. The exact paths of the swap and 2\u2019s cut are my best guess, and the options after the layup are not drawn yet. Ask the coach to check.",
     videos: []
+  },
+  {
+    name: "Box", alt: "Κουτί",
+    why: "Four players in a box; screens free a shooter.",
+    frames: [
+      { title: "Set-up", caption: "<b>1</b> ball, <b>2</b>\u2013<b>3</b> elbows, <b>4</b>\u2013<b>5</b> blocks.",
+        players: [[1,150,72,1],[2,198,126],[3,102,126],[4,102,196],[5,198,196]], moves: [] },
+      { title: "Cross screen", caption: "<b>1</b> passes to <b>3</b>. <b>4</b> screens for <b>5</b>, who cuts across.",
+        players: [[1,150,72,1],[2,198,126],[3,102,126],[4,102,196],[5,198,196]],
+        moves: [{t:"pass",pts:[[150,72],[102,126]]},{t:"scr",pts:[[102,196],[126,196]]},{t:"cut",pts:[[198,196],[150,200],[110,205]]}] },
+      { title: "Screen the screener", caption: "<b>2</b> screens for <b>4</b>, who pops to the wing.",
+        players: [[1,150,72],[2,198,126],[3,102,126,1],[4,102,196],[5,198,196]],
+        moves: [{t:"scr",pts:[[198,126],[120,160]]},{t:"cut",pts:[[102,196],[82,152],[48,112]]},{t:"pass",pts:[[102,126],[52,112]]}] }
+    ],
+    videos: [
+      {t:"5 easy box offense plays", u:"https://www.youtube.com/watch?v=BiDYZneGS0M"}
+    ]
+  },
+  {
+    name: "5-0", alt: "Πέντε μηδέν",
+    why: "Five out, everyone moving: pass, cut, fill.",
+    frames: [
+      { title: "Set-up", caption: "<b>1</b> top, <b>2</b>\u2013<b>3</b> wings, <b>4</b>\u2013<b>5</b> corners.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
+      { title: "Pass and cut", caption: "<b>1</b> passes to <b>2</b>, cuts, fills the left corner. <b>4</b> and <b>3</b> slide up.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
+        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[150,72],[150,190],[60,212]]},{t:"cut",pts:[[42,118],[150,76]]},{t:"cut",pts:[[24,212],[42,124]]}] },
+      { title: "Back cut", caption: "Defender overplays: <b>2</b> back cuts, <b>1</b> passes.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
+        moves: [{t:"cut",pts:[[258,118],[225,100],[170,175]]},{t:"pass",pts:[[150,72],[168,170]]}] }
+    ],
+    videos: [
+      {t:"Master the 5-out motion offense: plays and drills", u:"https://www.youtube.com/watch?v=usAhqCsPTW0"},
+      {t:"5-out motion offense playlist", u:"https://www.youtube.com/playlist?list=PLOcVeFI53GG5ogKiTCB-hX2HVva80qL6B"}
+    ]
   }
 ];
 var courtN = 0;
@@ -896,11 +848,8 @@ function playbookHTML(){
     + '<div class="seg steps" role="radiogroup" aria-label="Diagram step">'
     + pl.frames.map(function(x, i){ return tab("pbframe", i, x.title, i === pbFrame); }).join("") + '</div>'
     + '<figure class="frame">' + courtSVG(f) + '<figcaption>' + f.caption + '</figcaption></figure>'
-    + (pl.rules.length ? '<h3>Rules</h3><ul>' + pl.rules.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>' : "")
-    + (pl.mistakes.length ? '<h3>Common mistakes</h3><ul>' + pl.mistakes.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join("") + '</ul>' : "")
-    + (pl.videos.length ? '<h3>Videos</h3><ul class="vids">' + pl.videos.map(function(v){ return '<li><a href="' + esc(v.u) + '" target="_blank" rel="noopener noreferrer">' + esc(v.t) + '<span>Opens YouTube</span></a></li>'; }).join("") + '</ul>' : "")
-    + '<p class="coach"><b>Coach\u2019s note:</b> ' + esc(pl.coach) + '</p></article>'
-    + '<p class="note glass">Draft, from public coaching sites; the coach\u2019s own version may differ. Players are numbered 1\u20135. Solid line: cut. Dashed red: pass. Bar: screen.</p></div>';
+    + (pl.videos.length ? '<ul class="vids">' + pl.videos.map(function(v){ return '<li><a href="' + esc(v.u) + '" target="_blank" rel="noopener noreferrer">' + esc(v.t) + '</a></li>'; }).join("") + '</ul>' : "")
+    + '</article></div>';
   return out;
 }
 
