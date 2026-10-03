@@ -519,7 +519,7 @@ dialog{border:0}
 .slides::-webkit-scrollbar{display:none}
 .slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;margin:0}
 .slide .stp{margin:2px 2px 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
-.slide figcaption{margin:8px 2px 0;font-size:13px;line-height:1.4;color:var(--text-2);min-height:2.8em}
+.slide figcaption{margin:0 2px 10px;font-size:13.5px;line-height:1.4;color:var(--text-2);min-height:4.2em}
 .slide figcaption b{color:var(--text)}
 .dots{display:flex;justify-content:center;align-items:center;margin-top:8px}
 .dots button{position:relative;width:26px;height:26px}
@@ -835,7 +835,7 @@ function playbookHTML(){
   var out = '<div class="pbk"><div class="seg glass" role="radiogroup" aria-label="Choose a system">'
     + PLAYBOOK.map(function(x, i){ return tab("pbplay", i, x.name, i === pbPlay); }).join("") + '</div>'
     + '<article class="play glass" aria-label="' + esc(pl.name) + '">'
-    + '<div class="slides" id="slides">' + pl.frames.map(function(x, i){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + courtSVG(x) + '<figcaption>' + (i === 0 && pl.why ? esc(pl.why) + ' ' : "") + x.caption + '</figcaption></figure>'; }).join("") + '</div>'
+    + '<div class="slides" id="slides">' + pl.frames.map(function(x, i){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + '<figcaption>' + (i === 0 && pl.why ? esc(pl.why) + ' ' : "") + x.caption + '</figcaption>' + courtSVG(x) + '</figure>'; }).join("") + '</div>'
     + '<div class="dots" role="tablist" aria-label="Steps">' + pl.frames.map(function(x, i){ return '<button role="tab" aria-selected="' + (i === pbFrame) + '" aria-label="' + esc(x.title) + '" data-act="pbdot" data-v="' + i + '"></button>'; }).join("") + '</div>'
     + '</article></div>';
   return out;
