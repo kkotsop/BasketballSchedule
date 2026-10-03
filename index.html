@@ -534,7 +534,7 @@ dialog{border:0}
 .court .mk{fill:var(--text)}
 .court .mkp{fill:#FF3B4E}
 .seg.steps{margin:0 0 10px}
-.seg.steps button{font-size:13px;padding:0 4px}
+.seg.steps button{font-size:12.5px;padding:0 2px;white-space:nowrap}
 .play .coach{margin-top:14px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.45;color:var(--text-2);border:1px dashed var(--hair)}
 </style>
 </head>
@@ -751,7 +751,7 @@ var PLAYBOOK = [
   },
   {
     name: "Motion 1", alt: "",
-    why: "Ball to 2, 4 and 5 swap, 2 cuts for the layup.",
+    why: "Ball to 2, 4 and 5 swap, 2 cuts for the layup. Plan B: handoff.",
     frames: [
       { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>4</b> left corner, <b>5</b> right corner.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
@@ -763,7 +763,13 @@ var PLAYBOOK = [
         moves: [{t:"pass",pts:[[258,118],[206,186]]},{t:"cut",pts:[[258,118],[230,150],[172,172]]}] },
       { title: "Finish", caption: "<b>4</b> passes to <b>2</b>: layup or next read.",
         players: [[1,150,72],[2,172,172],[3,42,118],[4,198,196,1],[5,102,196]],
-        moves: [{t:"pass",pts:[[198,196],[178,178]]}] }
+        moves: [{t:"pass",pts:[[198,196],[178,178]]}] },
+      { title: "Plan B", caption: "No layup for <b>2</b>: <b>2</b> fills the top, <b>1</b> takes the right wing, <b>4</b> passes out to <b>2</b>.",
+        players: [[1,150,72],[2,172,172],[3,42,118],[4,198,196,1],[5,102,196]],
+        moves: [{t:"cut",pts:[[172,172],[160,120],[150,84]]},{t:"cut",pts:[[150,72],[210,94],[256,116]]},{t:"pass",pts:[[198,196],[156,92]]}] },
+      { title: "Handoff", caption: "<b>2</b> dribbles to <b>1</b> and hands off. <b>1</b> lays up from the 45\u00b0 spot.",
+        players: [[1,258,118],[2,150,76,1],[3,42,118],[4,198,196],[5,102,196]],
+        moves: [{t:"cut",pts:[[150,76],[200,94],[236,108]]},{t:"cut",pts:[[258,118],[222,160],[180,192]]}] }
     ]
   },
   {
