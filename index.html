@@ -553,6 +553,9 @@ dialog{border:0}
 @keyframes spZoom{from{transform:scale(1.14)}to{transform:scale(1)}}
 @keyframes spBar{to{transform:scaleX(1)}}
 @media (prefers-reduced-motion: reduce){#splash img{transform:none;transition:none}#splash img.on{animation:none}#splash .sp-bar{animation-duration:.01s}}
+/* ===== light theme: no white card borders ===== */
+:root[data-theme="light"]{--edge:transparent;--rim:transparent}
+:root[data-theme="light"] .it.next .bd{border-color:transparent;box-shadow:0 34px 58px -22px rgba(215,38,61,.50),0 6px 16px rgba(0,0,0,.10)}
 </style>
 </head>
 <body>
