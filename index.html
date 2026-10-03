@@ -839,14 +839,14 @@ var PLAYBOOK = [
     name: "Motion 1", alt: "Coach\u2019s play \u00b7 4 and 5 swap, 2 cuts",
     why: "A quick set: the two big players swap places, the wing cuts to the basket, and the ball finds the cutter for a layup or the next read.",
     frames: [
-      { title: "Set-up", caption: "<b>1</b> at the top with the ball, <b>2</b> and <b>3</b> on the wings, <b>4</b> and <b>5</b> at the elbows.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,102,126],[5,198,126]], moves: [] },
-      { title: "4 and 5 swap", caption: "<b>4</b> and <b>5</b> swap sides across the lane. <b>1</b> passes to <b>4</b> at the right elbow.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,102,126],[5,198,126]],
-        moves: [{t:"cut",pts:[[102,126],[150,142],[190,138]]},{t:"cut",pts:[[198,126],[150,108],[112,114]]},{t:"pass",pts:[[150,72],[196,116]]}] },
+      { title: "Set-up", caption: "<b>1</b> at the top with the ball, <b>2</b> and <b>3</b> on the wings, <b>4</b> and <b>5</b> on the blocks (the post).",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,102,196],[5,198,196]], moves: [] },
+      { title: "4 and 5 swap", caption: "<b>4</b> and <b>5</b> swap blocks across the lane, so <b>4</b> ends in the post on the side opposite to where she started. <b>1</b> passes to <b>4</b>.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,102,196],[5,198,196]],
+        moves: [{t:"cut",pts:[[102,196],[150,210],[190,200]]},{t:"cut",pts:[[198,196],[150,180],[112,192]]},{t:"pass",pts:[[150,72],[198,184]]}] },
       { title: "2 cuts", caption: "<b>2</b> cuts to the basket and <b>4</b> passes to <b>2</b>. Then decide: layup if open, otherwise the next read.",
-        players: [[1,150,72],[2,258,118],[3,42,118],[4,198,126,1],[5,102,126]],
-        moves: [{t:"cut",pts:[[258,118],[225,175],[168,205]]},{t:"pass",pts:[[198,126],[176,200]]}] }
+        players: [[1,150,72],[2,258,118],[3,42,118],[4,198,196,1],[5,102,196]],
+        moves: [{t:"cut",pts:[[258,118],[215,150],[170,176]]},{t:"pass",pts:[[198,196],[176,182]]}] }
     ],
     rules: [
       "Start with the swap: 4 and 5 change sides.",
@@ -854,7 +854,7 @@ var PLAYBOOK = [
       "4 passes to 2, then everyone decides: layup if it is there."
     ],
     mistakes: [],
-    coach: "Started from a short description: the set-up, who has the ball, and the exact cuts are my best guess. Ask the coach to check the diagrams and what happens after the layup option.",
+    coach: "Started from a short description: the set-up, who has the ball, and 2\u2019s exact cut are my best guess. Ask the coach to check the diagrams and what happens after the layup option.",
     videos: []
   }
 ];
