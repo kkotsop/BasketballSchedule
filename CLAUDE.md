@@ -70,6 +70,12 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 - Workflow order: remember old games, scrape, (debug on failure), save fixtures, send push notifications, build site
   (embed data + `calendar/*.ics`, copy `sw.js`), deploy. Secrets: `VAPID_PRIVATE_KEY`, `PUSH_ADMIN_TOKEN`.
 
+## Playbook
+- `view = "play"` (book icon next to Table) renders `playbookHTML()` from the `PLAYBOOK` array in `index.html`: name, purpose,
+  court diagrams (`courtSVG`, half court 300x250, 6 units/ft; players `[n,x,y,ball]`, moves `cut|pass|scr`), rules, mistakes,
+  YouTube links, coach's note. English only for now; players use numbers 1-5. Content so far is generic (public sources):
+  replace with the coach's own version when known. No player names.
+
 ## Conventions
 - Single-file site: HTML, CSS, JS in `index.html`; images only from `assets/`; no dependencies.
 - Everything from the federation must go through `esc()` before it is put in HTML.
