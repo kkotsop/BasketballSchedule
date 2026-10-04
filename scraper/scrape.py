@@ -355,7 +355,7 @@ def fetch_games(competition):
         if kind == "competition":
             table = standings_from(html) or table
             global TEAMS
-            TEAMS = group_teams(soup) or list(CONFIG["teams"])
+            TEAMS = [r["team"] for r in table] or group_teams(soup) or list(CONFIG["teams"])
             log("  teams: %s" % ", ".join(TEAMS))
         found = games_from(soup)
         if found:                                     # the list can appear before the last drop-down is set;
