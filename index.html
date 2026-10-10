@@ -157,6 +157,24 @@ h2.mo{width:max-content;margin:16px 0 8px calc(var(--dw) + var(--rw) + 4px);padd
 .ic{width:36px;height:36px;display:grid;place-items:center;border-radius:12px;color:var(--text-2);background:var(--glass-strong);border:1px solid var(--edge);box-shadow:0 1px 2px rgba(15,23,42,.12);transition:color .15s,transform .15s}
 .ic:hover{color:var(--text)}.ic:active{transform:scale(.94)}
 .ic svg{width:18px;height:18px}
+.ic{position:relative}
+.nb{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:700;line-height:1;background:#F7F7F8;color:#0E0E10;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+:root[data-theme="light"] .nb{background:#0E0E10;color:#fff}
+.nb.ok{opacity:.8}
+/* game notes sheet */
+.nlist{display:flex;flex-direction:column;margin:-4px 0 12px;max-height:44dvh;overflow:auto}
+.nit{display:flex;align-items:center;gap:8px;border-top:1px solid var(--hair);min-height:52px}
+.nit:first-child{border-top:0}
+.nit label{flex:1;display:flex;align-items:center;gap:12px;padding:10px 0;font-size:16px;line-height:1.35;min-width:0;cursor:pointer}
+.nit label span{overflow-wrap:anywhere}
+.nit input[type=checkbox]{width:22px;height:22px;flex:none;accent-color:var(--text);margin:0}
+.nit.done label span{text-decoration:line-through;color:var(--text-3)}
+.nx{width:44px;height:44px;flex:none;font-size:22px;line-height:1;color:var(--text-3);border-radius:12px}
+.nx:hover{color:var(--text)}
+.note.nempty{margin:8px 0 4px}
+.nadd{display:flex;gap:8px;align-items:center}
+.nadd input{flex:1;min-width:0;height:44px;background:var(--field);border:1px solid var(--hair);border-radius:12px;padding:0 12px;font:inherit;font-size:16px;color:var(--text)}
+.note.nfoot{margin:14px 0 0;font-size:13px;color:var(--text-3)}
 
 /* home / away */
 .lg{display:inline-flex;align-items:center;height:22px;margin:0 0 6px 6px;padding:0 7px;border-radius:7px;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--text-2);border:1px solid var(--hair);vertical-align:top}
@@ -583,6 +601,7 @@ var DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 var DAYS_LONG = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 var ICON = {
+  notes:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5l1.7 1.7L8 3.8M3 11.5l1.7 1.7L8 9.8M11 5.5h6M11 11.5h6M3.5 17h4.5M11 17h6"/></svg>',
   book:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H16v12H5.5A1.5 1.5 0 0 0 4 16.5z"/><path d="M4 16.5A1.5 1.5 0 0 0 5.5 18H16v-3"/></svg>',
   sun:'<svg class="sun" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="3.2"/><path d="M10 2.5v1.8M10 15.7v1.8M2.5 10h1.8M15.7 10h1.8M4.7 4.7l1.3 1.3M14 14l1.3 1.3M15.3 4.7L14 6M6 14l-1.3 1.3"/></svg>',
   moon:'<svg class="moon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 11.6A6.6 6.6 0 0 1 8.4 3.5a6.6 6.6 0 1 0 8.1 8.1z"/></svg>',
@@ -721,6 +740,79 @@ function calBtn(g){
   return '<button class="ic" data-act="cal" data-id="' + esc(g.id) + '" aria-label="Add to calendar" title="Add to calendar">' + ICON.cal + '</button>';
 }
 
+/* ---------- game notes: a private checklist per game, kept only in this browser (localStorage) ---------- */
+var NOTES_KEY = "apop-notes-v1";
+function notesAll(){
+  try { var o = JSON.parse(localStorage.getItem(NOTES_KEY) || "{}"); return (o && typeof o === "object" && !Array.isArray(o)) ? o : {}; } catch (e) { return {}; }
+}
+function notesOf(id){ var a = notesAll()[id]; return Array.isArray(a) ? a : []; }
+function notesSave(id, list){
+  try {
+    var o = notesAll();
+    if (list.length) o[id] = list; else delete o[id];
+    localStorage.setItem(NOTES_KEY, JSON.stringify(o));
+    return true;
+  } catch (e) { return false; }
+}
+function notesBadge(id){
+  var list = notesOf(id), open = list.filter(function(n){ return !n.d; }).length;
+  if (!list.length) return "";
+  return open ? '<i class="nb">' + open + '</i>' : '<i class="nb ok" aria-hidden="true">✓</i>';
+}
+function notesBtn(g){
+  return '<button class="ic" data-act="notes" data-id="' + esc(g.id) + '" aria-label="Game notes" title="Game notes">' + ICON.notes + notesBadge(g.id) + '</button>';
+}
+function notesRefresh(id){
+  document.querySelectorAll('[data-act="notes"]').forEach(function(b){
+    if (b.getAttribute("data-id") === id) b.innerHTML = ICON.notes + notesBadge(id);
+  });
+}
+function notesSheet(id){
+  var g = state.games.filter(function(x){ return x.id === id; })[0];
+  if (!g) return;
+  var dd = when(g);
+  var d = sheet('<h2>Game notes</h2>'
+    + '<p class="note">' + esc(gameTitle(g)) + ' · ' + DAYS_LONG[dd.getDay()] + ' ' + dd.getDate() + ' ' + MONTHS_LONG[dd.getMonth()] + '</p>'
+    + '<div class="nlist" id="nlist"></div>'
+    + '<form class="nadd" id="nform" autocomplete="off"><input id="ninp" type="text" maxlength="140" enterkeyhint="done" placeholder="What to improve…" aria-label="New note"><button class="btn" type="submit">Add</button></form>'
+    + '<p class="note nfoot">Only on this phone. Not shared with anyone.</p>');
+  var box = d.querySelector("#nlist"), form = d.querySelector("#nform"), inp = d.querySelector("#ninp");
+  function paint(){
+    var list = notesOf(id);
+    box.innerHTML = list.length ? list.map(function(n, i){
+      return '<div class="nit' + (n.d ? " done" : "") + '"><label><input type="checkbox" data-n="' + i + '"' + (n.d ? " checked" : "") + '><span>' + esc(n.t) + '</span></label>'
+        + '<button type="button" class="nx" data-del="' + i + '" aria-label="Delete note">×</button></div>';
+    }).join("") : '<p class="note nempty">No notes yet. Add what to work on after the game.</p>';
+  }
+  function commit(list){
+    if (!notesSave(id, list)) toast("Notes can’t be saved in this browser");
+    paint(); notesRefresh(id);
+  }
+  box.addEventListener("change", function(ev){
+    var i = ev.target && ev.target.getAttribute ? ev.target.getAttribute("data-n") : null;
+    if (i === null) return;
+    var list = notesOf(id); i = Number(i);
+    if (list[i]) { list[i].d = !!ev.target.checked; commit(list); }
+  });
+  box.addEventListener("click", function(ev){
+    var b = ev.target.closest ? ev.target.closest("[data-del]") : null;
+    if (!b) return;
+    var list = notesOf(id); list.splice(Number(b.getAttribute("data-del")), 1); commit(list);
+  });
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var t = inp.value.replace(/\s+/g, " ").trim();
+    if (!t) return;
+    var list = notesOf(id);
+    if (list.length >= 30) { toast("Up to 30 notes per game"); return; }
+    list.push({t: t, d: false});
+    inp.value = "";
+    commit(list);
+    inp.focus();
+  });
+  paint();
+}
+
 function rowHTML(g, isFocus){
   var d = when(g), fut = upcoming(g), cls = "future", right;
   if (played(g)) {
@@ -734,7 +826,7 @@ function rowHTML(g, isFocus){
     + '<div class="bd glass"><div class="mid">' + sideHTML(g, false)
     + '<p class="opp"><span class="vs">' + (isHome(g) ? "vs" : "at") + '</span> ' + esc(opponent(g)) + '</p>'
     + venueHTML(g) + '</div>'
-    + '<div class="end">' + right + '<div class="rowtools">' + (fut ? calBtn(g) : "") + '</div></div>'
+    + '<div class="end">' + right + '<div class="rowtools">' + notesBtn(g) + (fut ? calBtn(g) : "") + '</div></div>'
     + '</div></article>';
 }
 
@@ -749,6 +841,7 @@ function nextHTML(g){
     + '<div class="acts">'
     + (url ? '<a class="cta" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + ICON.pin + 'Directions</a>' : "")
     + '<button class="pill" data-act="cal" data-id="' + esc(g.id) + '">' + ICON.cal + 'Add to calendar</button>'
+    + notesBtn(g)
     + '</div></div></article>';
 }
 
@@ -1239,6 +1332,7 @@ document.addEventListener("click", function(ev){
     var cg = state.games.filter(function(x){ return x.id === id; })[0];
     if (cg) calSheet([cg], "apop-" + cg.date + ".ics");
   }
+  else if (act === "notes") notesSheet(id);
   else if (act === "filter") {
     filt = el.getAttribute("data-v");
     try { localStorage.setItem("apop-filter", filt); } catch (e) {}

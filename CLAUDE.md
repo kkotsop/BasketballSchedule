@@ -77,6 +77,13 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
   Diagrams: `courtSVG`, full half court, viewBox `0 -42 300 282`, 6 units/ft, basket at (150,222); players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now;
   players use numbers 1-5, no names, no video links. Motion, Motion 1A/1B come from the coach; Box is generic (unconfirmed).
 
+## Game notes
+- Each game has a notes button (`data-act="notes"`, checklist icon, small badge = open items; next-game card and every row). It opens
+  `notesSheet(id)`: a private checklist (tick, delete, add; max 30 per game, 140 characters each).
+- Stored only in the visitor's browser: localStorage `apop-notes-v1` = `{gameId: [{t, d}]}`. No server, never synced or shared, not in
+  any export. Survives deploys because it is not in the repo. Keyed by `game.id`, which includes the date, so a rescheduled game
+  starts with an empty list. On iPhone the Home Screen app and Safari have separate storage.
+
 ## Opening splash
 - `#splash` (HTML right after `<body>`, CSS "opening splash" block, JS before the `lastSig` interval): the full-screen image
   `assets/obsession-beats-talent.webp` (the owner's own image) fades in with a slow zoom and a red progress bar, ~2.3 s, then
