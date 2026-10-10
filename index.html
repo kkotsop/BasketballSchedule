@@ -528,32 +528,6 @@ dialog{border:0}
 /* ===== playbook ===== */
 .fbar .pbtn{width:44px;padding:0;justify-content:center}
 .fbar .pbtn svg{width:19px;height:19px}
-.pbk{display:flex;flex-direction:column;gap:14px;margin:6px 0 4px}
-.pbk .note{padding:10px 14px;border-radius:14px;font-size:12.5px;color:var(--text-2)}
-.play{padding:16px 14px 14px;border-radius:20px}
-.play h3{margin:16px 0 6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
-.play ul,.play ol{margin:0;padding-left:20px;font-size:14px;line-height:1.5;color:var(--text)}
-.play li+li{margin-top:4px}
-.pbk{min-height:calc(100vh - var(--top-h,200px) - var(--bot-h,150px) - 40px);min-height:calc(100svh - var(--top-h,200px) - var(--bot-h,150px) - 40px)}
-.pbk>.seg{flex:none}
-.pbk>.seg button{white-space:nowrap;font-size:13px;padding:0 4px}
-.play{flex:1;display:flex;flex-direction:column;justify-content:center}
-.play.go-r{animation:playGoR .38s cubic-bezier(.2,.7,.2,1)}
-.play.go-l{animation:playGoL .38s cubic-bezier(.2,.7,.2,1)}
-@keyframes playGoR{from{opacity:0;transform:translateX(34px) scale(.98)}to{opacity:1;transform:none}}
-@keyframes playGoL{from{opacity:0;transform:translateX(-34px) scale(.98)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion: reduce){.play.go-r,.play.go-l{animation:none}}
-.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:14px}
-.slides::-webkit-scrollbar{display:none}
-.slide{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;cursor:pointer;flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;margin:0}
-.slide .stp{margin:2px 2px 8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
-.slide figcaption{margin:0 2px 10px;font-size:13.5px;line-height:1.4;color:var(--text-2);min-height:4.2em}
-.slide figcaption b{color:var(--text)}
-.dots{display:flex;justify-content:center;align-items:center;margin-top:8px}
-.dots button{position:relative;width:26px;height:26px}
-.dots button::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:4px;background:var(--text);opacity:.3;transition:width .2s,margin .2s,opacity .2s}
-.dots button[aria-selected="true"]::after{width:22px;margin-left:-11px;opacity:1}
-.dots button:focus-visible{outline:2px solid var(--text);outline-offset:-2px;border-radius:8px}
 .court{display:block;width:100%;height:auto;border-radius:14px;background:var(--field)}
 .court .ln{fill:none;stroke:var(--text-3);stroke-width:1.6}
 .court .cut{fill:none;stroke:var(--text);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
@@ -565,7 +539,44 @@ dialog{border:0}
 .court .pn{fill:var(--bg-bot);font:700 12px system-ui,sans-serif;text-anchor:middle;dominant-baseline:central}
 .court .mk{fill:var(--text)}
 .court .mkp{fill:#FF3B4E}
-.play .coach{margin-top:14px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.45;color:var(--text-2);border:1px dashed var(--hair)}
+
+/* playbook stories: a full-screen viewer, tap right = next, left = previous */
+html.story-open,html.story-open body{overflow:hidden;overscroll-behavior:none}
+#story{--text:#fff;--text-2:rgba(255,255,255,.74);--text-3:rgba(255,255,255,.4);--bg-bot:#000;position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;box-sizing:border-box;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);background:radial-gradient(120% 80% at 50% 28%,#1c1d22 0%,#000 66%);color:#fff;opacity:0;transform:translateY(16px) scale(.985);transition:opacity .26s ease,transform .26s ease;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none;overscroll-behavior:none;cursor:pointer}
+#story.on{opacity:1;transform:none}
+.st-top{padding:10px 12px 0}
+.st-bars{display:flex;gap:4px}
+.st-bars i{position:relative;flex:1;height:3px;border-radius:2px;overflow:hidden;background:rgba(255,255,255,.28)}
+.st-bars i.done{background:#fff}
+.st-bars i.cur::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:0 50%;animation:stFill .45s ease-out forwards}
+.st-head{display:flex;align-items:center;gap:10px;padding:12px 2px 0}
+.st-head img{width:34px;height:34px;box-sizing:border-box;padding:2px;border-radius:50%;border:2px solid #FF3B4E;object-fit:contain}
+.st-head b{font-size:16px;font-weight:700}
+.st-head span{margin-right:auto;font-size:13px;color:var(--text-2)}
+.st-x{width:44px;height:44px;margin:-6px -10px -6px 0;display:grid;place-items:center;color:#fff;cursor:pointer}
+.st-x svg{width:22px;height:22px}
+.st-stage{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:0 18px 12px}
+.st-title{margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#FF3B4E}
+.st-cap{margin:0 0 18px;min-height:3.9em;font-size:20px;line-height:1.35;font-weight:600}
+.st-cap b{padding:0 5px;border-radius:6px;background:rgba(255,255,255,.16)}
+.st-next{margin:0;padding:0 18px 20px;min-height:1.2em;text-align:center;font-size:14px;font-weight:600;color:var(--text-2)}
+#story .court{border-radius:22px;background:rgba(255,255,255,.05)}
+#story .court .cut,#story .court .scr{stroke-dasharray:1;stroke-dashoffset:1;animation:stDraw .7s .18s ease-out forwards}
+#story .court .pass{animation:stFade .4s .25s both}
+#story .court .fake{animation:stFade .4s .35s both}
+#story .court .mk,#story .court .mkp{animation:stFade .2s .72s both}
+.st-stage.sp-r{animation:stSpR .34s cubic-bezier(.2,.7,.2,1)}
+.st-stage.sp-l{animation:stSpL .34s cubic-bezier(.2,.7,.2,1)}
+.st-stage.pl-r{animation:stPlR .44s cubic-bezier(.2,.7,.2,1)}
+.st-stage.pl-l{animation:stPlL .44s cubic-bezier(.2,.7,.2,1)}
+@keyframes stFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes stDraw{to{stroke-dashoffset:0}}
+@keyframes stFade{from{opacity:0}to{opacity:1}}
+@keyframes stSpR{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes stSpL{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes stPlR{from{opacity:0;transform:translateX(70px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes stPlL{from{opacity:0;transform:translateX(-70px) scale(.94)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){#story,.st-stage,#story .court *,.st-bars i.cur::after{animation:none!important;transition:none!important}#story .court .cut,#story .court .scr{stroke-dashoffset:0}}
 
 /* ===== opening splash ===== */
 #splash{position:fixed;inset:0;z-index:100;background:#000;overflow:hidden;transition:opacity .6s ease,visibility .6s}
@@ -708,11 +719,11 @@ function subtitle(){
 }
 function hasTables(){ var t = state.standings || {}; return Object.keys(t).some(function(k){ return t[k] && t[k].length; }); }
 function filterHTML(){
-  var many = leagueCount() > 1, tables = hasTables(), play = view === "play";
+  var many = leagueCount() > 1, tables = hasTables();
   var opt = function(v, label){ return '<button role="radio" aria-checked="' + (filt === v) + '" data-act="filter" data-v="' + v + '">' + label + '</button>'; };
   return '<div class="fbar">'
-    + (many && !play ? '<div class="seg glass" role="radiogroup" aria-label="Show games for">' + opt("both", "Both") + opt("U14", "U14") + opt("U16", "U16") + '</div>' : '<span class="sp" style="flex:1"></span>')
-    + '<button class="vbtn glass pbtn" data-act="playbook" aria-pressed="' + play + '" aria-label="Playbook" title="Playbook">' + ICON.book + '</button>'
+    + (many ? '<div class="seg glass" role="radiogroup" aria-label="Show games for">' + opt("both", "Both") + opt("U14", "U14") + opt("U16", "U16") + '</div>' : '<span class="sp" style="flex:1"></span>')
+    + '<button class="vbtn glass pbtn" data-act="playbook" aria-label="Playbook" title="Playbook">' + ICON.book + '</button>'
     + (tables ? '<button class="vbtn glass" data-act="view" aria-pressed="' + (view === "table") + '">' + (view === "table" ? ICON.list + "Games" : ICON.table + "Table") + '</button>' : "")
     + '</div>';
 }
@@ -957,9 +968,9 @@ function courtSVG(f){
     var ang = Math.atan2(end[1] - prev[1], end[0] - prev[0]) * 180 / Math.PI;
     if (mv.t === "scr") {
       var px = -Math.sin(ang * Math.PI / 180) * 9, py = Math.cos(ang * Math.PI / 180) * 9;
-      a += '<path class="scr" d="' + d + '"/><path class="scr" d="M' + (end[0] - px) + ' ' + (end[1] - py) + 'L' + (end[0] + px) + ' ' + (end[1] + py) + '"/>';
+      a += '<path class="scr" pathLength="1" d="' + d + '"/><path class="scr" pathLength="1" d="M' + (end[0] - px) + ' ' + (end[1] - py) + 'L' + (end[0] + px) + ' ' + (end[1] + py) + '"/>';
     } else {
-      a += '<path class="' + mv.t + '" d="' + d + '"/>'
+      a += '<path class="' + mv.t + '"' + (mv.t === "cut" ? ' pathLength="1"' : '') + ' d="' + d + '"/>'
         + '<path class="' + (mv.t === "pass" ? "mkp" : "mk") + '" transform="translate(' + end[0] + ' ' + end[1] + ') rotate(' + ang + ')" d="M0 0L-9 -5V5z"/>';
     }
   });
@@ -968,18 +979,75 @@ function courtSVG(f){
   });
   return '<svg class="court" viewBox="0 -42 300 282" role="img" aria-label="' + esc(f.title) + ' diagram">' + lines + a + m + '</svg>';
 }
-var pbPlay = 0, pbFrame = 0;
-function playbookHTML(){
-  var pl = PLAYBOOK[pbPlay] || PLAYBOOK[0];
-  var tab = function(act, i, label, on){ return '<button role="radio" aria-checked="' + on + '" data-act="' + act + '" data-v="' + i + '">' + esc(label) + '</button>'; };
-  var out = '<div class="pbk"><div class="seg glass" role="radiogroup" aria-label="Choose a system">'
-    + PLAYBOOK.map(function(x, i){ return tab("pbplay", i, x.name, i === pbPlay); }).join("") + '</div>'
-    + '<article class="play glass" aria-label="' + esc(pl.name) + '">'
-    + '<div class="slides" id="slides">' + pl.frames.map(function(x, i){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + '<figcaption>' + x.caption + '</figcaption>' + courtSVG(x) + '</figure>'; }).join("") + '</div>'
-    + '<div class="dots" role="tablist" aria-label="Steps">' + pl.frames.map(function(x, i){ return '<button role="tab" aria-selected="' + (i === pbFrame) + '" aria-label="' + esc(x.title) + '" data-act="pbdot" data-v="' + i + '"></button>'; }).join("") + '</div>'
-    + '</article></div>';
-  return out;
+var pbPlay = 0, pbFrame = 0, storyEl = null, swipedAt = 0;
+function storyHTML(){
+  var pl = PLAYBOOK[pbPlay], f = pl.frames[pbFrame], n = pl.frames.length, nx = PLAYBOOK[pbPlay + 1], bars = "";
+  for (var i = 0; i < n; i++) bars += '<i class="' + (i < pbFrame ? "done" : i === pbFrame ? "cur" : "") + '"></i>';
+  return '<div class="st-top"><div class="st-bars" aria-hidden="true">' + bars + '</div>'
+    + '<div class="st-head"><img src="assets/logo.png" alt=""><b>' + esc(pl.name) + '</b><span>' + (pbFrame + 1) + ' / ' + n + '</span>'
+    + '<button class="st-x" data-act="storyx" aria-label="Close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16"/></svg></button></div></div>'
+    + '<div class="st-stage"><p class="st-title">' + esc(f.title) + '</p><p class="st-cap">' + f.caption + '</p>' + courtSVG(f) + '</div>'
+    + '<p class="st-next">' + (pbFrame === n - 1 ? (nx ? "Next: " + esc(nx.name) + " ›" : "Last play") : "") + '</p>';
 }
+function paintStory(dir, kind){
+  if (!storyEl) return;
+  storyEl.innerHTML = storyHTML();
+  var st = storyEl.querySelector(".st-stage");
+  if (dir && st) st.classList.add((kind === "play" ? "pl-" : "sp-") + (dir > 0 ? "r" : "l"));
+}
+function openStory(){
+  if (storyEl) return;
+  storyEl = document.createElement("div");
+  storyEl.id = "story"; storyEl.setAttribute("role", "dialog"); storyEl.setAttribute("aria-modal", "true"); storyEl.setAttribute("aria-label", "Playbook");
+  document.body.appendChild(storyEl);
+  document.documentElement.classList.add("story-open");
+  paintStory(0);
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ if (storyEl) storyEl.classList.add("on"); }); });
+}
+function closeStory(){
+  if (!storyEl) return;
+  var el = storyEl; storyEl = null;
+  document.documentElement.classList.remove("story-open");
+  el.classList.remove("on");
+  setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 300);
+}
+function storyNext(){
+  if (pbFrame < PLAYBOOK[pbPlay].frames.length - 1) { pbFrame++; paintStory(1, "step"); }
+  else if (pbPlay < PLAYBOOK.length - 1) { pbPlay++; pbFrame = 0; paintStory(1, "play"); }
+  else { pbPlay = 0; pbFrame = 0; closeStory(); }
+}
+function storyPrev(){
+  if (pbFrame > 0) { pbFrame--; paintStory(-1, "step"); }
+  else if (pbPlay > 0) { pbPlay--; pbFrame = PLAYBOOK[pbPlay].frames.length - 1; paintStory(-1, "play"); }
+  else paintStory(0);
+}
+function storyPlay(dir){
+  var np = pbPlay + dir;
+  if (np < 0) return;
+  if (np >= PLAYBOOK.length) { pbPlay = 0; pbFrame = 0; closeStory(); return; }
+  pbPlay = np; pbFrame = 0; paintStory(dir, "play");
+}
+(function(){
+  var sx = 0, sy = 0;
+  document.addEventListener("touchstart", function(e){ if (storyEl && e.touches[0]) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; } }, {passive:true});
+  document.addEventListener("touchend", function(e){
+    if (!storyEl || !e.changedTouches[0]) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.4) { swipedAt = Date.now(); storyPlay(dx < 0 ? 1 : -1); }
+    else if (dy > 110 && dy > Math.abs(dx) * 1.4) { swipedAt = Date.now(); closeStory(); }
+  }, {passive:true});
+  document.addEventListener("click", function(ev){
+    if (!storyEl || !storyEl.contains(ev.target) || Date.now() - swipedAt < 400) return;
+    if (ev.target.closest && ev.target.closest(".st-x")) { closeStory(); return; }
+    if (ev.clientX < window.innerWidth / 3) storyPrev(); else storyNext();
+  });
+  document.addEventListener("keydown", function(ev){
+    if (!storyEl) return;
+    if (ev.key === "Escape") closeStory();
+    else if (ev.key === "ArrowRight") storyNext();
+    else if (ev.key === "ArrowLeft") storyPrev();
+  });
+})();
 
 function tableHTML(){
   var leagues = filt === "both" ? LEAGUES : [filt], out = "", any = false;
@@ -1052,15 +1120,14 @@ function render(opts){
   var keep = window.scrollY || 0;
   var hasNext = sorted().some(upcoming);
   document.getElementById("root").innerHTML =
-    '<div class="app"><div class="top" id="top">' + headerHTML() + filterHTML() + (view === "play" ? "" : widgetHTML()) + '</div>'
-    + '<main class="scroller" id="scroller">' + (view === "table" ? tableHTML() : view === "play" ? playbookHTML() : timelineHTML()) + '</main>'
+    '<div class="app"><div class="top" id="top">' + headerHTML() + filterHTML() + widgetHTML() + '</div>'
+    + '<main class="scroller" id="scroller">' + (view === "table" ? tableHTML() : timelineHTML()) + '</main>'
     + '<button class="jump glass hide" id="jump" data-act="jump" data-dir="down">' + (hasNext ? "Next game" : "Latest game") + ICON.down + '</button>'
     + '<div class="bottom" id="bottom"><button class="quote glass" id="q" data-act="quote" aria-live="polite" aria-label="Show another quote">'
     + '<span class="qmark" aria-hidden="true">“</span><span class="qbody"><span id="q-text"></span><span id="q-by" hidden></span></span>'
     + '</button>'
     + '<p class="foot"><span>' + esc(updatedText()) + '</span><span class="fa"><a class="rfb wa" href="' + esc(waUrl()) + '" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" title="Share on WhatsApp">' + ICON.whatsapp + '</a><button class="rfb" data-act="copy" aria-label="Copy link" title="Copy link">' + ICON.copy + '</button><button class="rfb' + (seenUpdates() ? "" : " dot") + '" data-act="updates" aria-label="Subscribe" title="Subscribe">' + ICON.bell + '</button><button class="rfb" data-act="refresh" aria-label="Refresh schedule" title="Refresh">' + ICON.refresh + '</button></span></p></div></div>';
   paintQuote(false);
-  var slx = $("#slides"); if (slx && pbFrame) slx.scrollLeft = pbFrame * slx.clientWidth;
   topHeight(); botHeight();
   initReveal(!revealed);
   revealed = true;
@@ -1128,32 +1195,6 @@ function updateJump(){
   pill.setAttribute("data-dir", above ? "up" : "down");
 }
 window.addEventListener("scroll", updateJump, {passive:true});
-/* move to another play (tapping past the last step of one play opens the next, past the first step the previous) */
-function goPlay(i, frame, dir){
-  pbPlay = i; pbFrame = frame;
-  render();
-  var card = $(".play");
-  if (card) { card.classList.add(dir > 0 ? "go-r" : "go-l"); setTimeout(function(){ card.classList.remove("go-r", "go-l"); }, 450); }
-}
-/* tap the right side of a step card for the next step, the left third for the previous one (like stories) */
-document.addEventListener("click", function(ev){
-  var card = ev.target.closest ? ev.target.closest(".slide") : null;
-  if (!card) return;
-  var sl = card.parentNode, n = sl.children.length, r = card.getBoundingClientRect();
-  var i = Math.round(sl.scrollLeft / Math.max(1, sl.clientWidth));
-  var to = ev.clientX - r.left < r.width / 3 ? i - 1 : i + 1;
-  if (to >= n) { if (pbPlay < PLAYBOOK.length - 1) goPlay(pbPlay + 1, 0, 1); return; }
-  if (to < 0) { if (pbPlay > 0) goPlay(pbPlay - 1, PLAYBOOK[pbPlay - 1].frames.length - 1, -1); return; }
-  sl.scrollTo({left: to * sl.clientWidth, behavior: "smooth"});
-});
-document.addEventListener("scroll", function(ev){
-  var sl = ev.target;
-  if (!sl || sl.id !== "slides") return;
-  var i = Math.round(sl.scrollLeft / Math.max(1, sl.clientWidth));
-  if (i === pbFrame) return;
-  pbFrame = i;
-  sl.parentNode.querySelectorAll(".dots button").forEach(function(b, k){ b.setAttribute("aria-selected", k === i ? "true" : "false"); });
-}, true);
 window.addEventListener("resize", function(){ topHeight(); botHeight(); });
 
 /* ---------- sheets ---------- */
@@ -1380,9 +1421,7 @@ document.addEventListener("click", function(ev){
     render({center:true});
   }
   else if (act === "view") { view = view === "table" ? "games" : "table"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
-  else if (act === "playbook") { view = view === "play" ? "games" : "play"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
-  else if (act === "pbplay") { var np = Number(el.getAttribute("data-v")) || 0; if (np !== pbPlay) goPlay(np, 0, np > pbPlay ? 1 : -1); }
-  else if (act === "pbdot") { var sl = $("#slides"); if (sl) sl.scrollTo({left: Number(el.getAttribute("data-v")) * sl.clientWidth, behavior: "smooth"}); }
+  else if (act === "playbook") openStory();
   else if (act === "copy") copyLink();
   else if (act === "updates") updatesSheet();
   else if (act === "refresh") {

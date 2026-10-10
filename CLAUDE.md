@@ -71,11 +71,17 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
   (embed data + `calendar/*.ics`, copy `sw.js`), deploy. Secrets: `VAPID_PRIVATE_KEY`, `PUSH_ADMIN_TOKEN`.
 
 ## Playbook
-- `view = "play"` (book icon next to Table) renders `playbookHTML()` from the `PLAYBOOK` array in `index.html`: tabs per system
-  (Motion, Motion 1, Motion 2, Motion 3), then swipeable step cards (scroll-snap `.slides` + dot indicator; tap right side = next, left third = previous, past the last/first step opens the next/previous play (`goPlay`, slide animation); `pbFrame` keeps the
-  step). Each system: `{name, frames[{title, caption, players, moves}]}`; a caption describes only its own step.
-  Diagrams: `courtSVG`, full half court, viewBox `0 -42 300 282`, 6 units/ft, basket at (150,222); players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now;
-  players use numbers 1-5, no names, no video links. Motion 1 (sheet 1, one play again), Motion 2 (also called Box, noted in its Set-up caption) and Motion 3 come from the coach's handwritten sheets (his numbering, post player of Motion 1 is 5); Motion is circle motion.
+- The book icon (`data-act="playbook"`, next to Table) opens `#story`, a full-screen dark story viewer (`openStory/closeStory`,
+  `storyHTML`, `PLAYBOOK` array in `index.html`). It is not a page view any more and not a card. Segmented progress bars at the top
+  (one per step of the current play), play name + step count + close button in the header, step title, caption and court below,
+  "Next: <play>" hint on a play's last step. The whole screen is tappable: right two thirds = next step, left third = previous;
+  past the last step opens the next play, past the last play closes; swipe left/right = next/previous play, swipe down or X = close.
+  Reopening resumes where it was (reset after finishing). Arrows draw in (`pathLength="1"` + dash animation), cards slide; no
+  motion for Reduce Motion. `#story` uses `touch-action:none; overscroll-behavior:none` so the browser's edge swipe-back does not fire.
+- Plays: Motion (circle motion), Motion 1, Motion 2 (also called Box, noted in its Set-up caption), Motion 3. Each: `{name, frames[{title,
+  caption, players, moves}]}`; a caption describes only its own step. Diagrams: `courtSVG`, full half court, viewBox `0 -42 300 282`,
+  6 units/ft, basket at (150,222); players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now; numbers 1-5, no names,
+  no video links. Motion 1-3 come from the coach's handwritten sheets (his numbering, post player of Motion 1 is 5).
 
 ## Game notes
 - Each game has a notes button (`data-act="notes"`, checklist icon, small badge = open items; next-game card and every row). It opens
