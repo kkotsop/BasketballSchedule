@@ -72,10 +72,10 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 
 ## Playbook
 - `view = "play"` (book icon next to Table) renders `playbookHTML()` from the `PLAYBOOK` array in `index.html`: tabs per system
-  (Motion, Motion 1A, Motion 1B, Box), then swipeable step cards (scroll-snap `.slides` + dot indicator; tap right side = next, left third = previous; `pbFrame` keeps the
+  (Motion, Motion 1, Motion 2, Motion 3, Box), then swipeable step cards (scroll-snap `.slides` + dot indicator; tap right side = next, left third = previous; `pbFrame` keeps the
   step). Each system: `{name, frames[{title, caption, players, moves}]}`; a caption describes only its own step.
   Diagrams: `courtSVG`, full half court, viewBox `0 -42 300 282`, 6 units/ft, basket at (150,222); players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now;
-  players use numbers 1-5, no names, no video links. Motion, Motion 1A/1B come from the coach; Box is generic (unconfirmed).
+  players use numbers 1-5, no names, no video links. Motion 1-3 come from the coach's handwritten sheets 1-3 (his numbering, post player of Motion 1 is 5); Motion is circle motion; Box is generic (unconfirmed).
 
 ## Game notes
 - Each game has a notes button (`data-act="notes"`, checklist icon, small badge = open items; next-game card and every row). It opens

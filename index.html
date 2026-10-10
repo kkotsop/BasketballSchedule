@@ -536,6 +536,7 @@ dialog{border:0}
 .play li+li{margin-top:4px}
 .pbk{min-height:calc(100vh - var(--top-h,200px) - var(--bot-h,150px) - 40px);min-height:calc(100svh - var(--top-h,200px) - var(--bot-h,150px) - 40px)}
 .pbk>.seg{flex:none}
+.pbk>.seg button{white-space:nowrap;font-size:13px;padding:0 4px}
 .play{flex:1;display:flex;flex-direction:column;justify-content:center}
 .slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:14px}
 .slides::-webkit-scrollbar{display:none}
@@ -862,38 +863,78 @@ var PLAYBOOK = [
     ]
   },
   {
-    name: "Motion 1A",
+    name: "Motion 1",
     frames: [
-      { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>4</b> left corner, <b>5</b> right corner.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
-      { title: "Swap", caption: "<b>1</b> passes to <b>2</b>. <b>4</b> and <b>5</b> swap: <b>5</b> screens <b>4</b>\u2019s defender, and <b>4</b> ends in the right post.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
-        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[24,212],[100,230],[170,214],[198,200]]},{t:"scr",pts:[[276,212],[236,186],[182,188]]}] },
-      { title: "Cut", caption: "<b>2</b> passes to <b>4</b> and cuts.",
-        players: [[1,150,72],[2,258,118,1],[3,42,118],[4,198,196],[5,102,196]],
-        moves: [{t:"pass",pts:[[258,118],[206,186]]},{t:"cut",pts:[[258,118],[230,150],[172,172]]}] },
-      { title: "Finish", caption: "<b>4</b> passes to <b>2</b>: layup or next read.",
-        players: [[1,150,72],[2,172,172],[3,42,118],[4,198,196,1],[5,102,196]],
-        moves: [{t:"pass",pts:[[198,196],[178,178]]}] }
+      { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>5</b> left corner, <b>4</b> right corner.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[5,24,212],[4,276,212]], moves: [] },
+      { title: "Screens", caption: "<b>1</b> passes to <b>2</b> and screens away for <b>3</b>. At the same time <b>4</b> screens for <b>5</b>, who ends in the right post.",
+        players: [[1,150,72,1],[2,258,118],[3,42,118],[5,24,212],[4,276,212]],
+        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"scr",pts:[[150,72],[116,96]]},{t:"cut",pts:[[42,118],[96,134],[150,110],[196,96]]},{t:"cut",pts:[[24,212],[100,230],[170,214],[206,200]]},{t:"scr",pts:[[276,212],[236,186],[172,186]]}] },
+      { title: "Drive", caption: "If <b>2</b> finds a gap, she drives.",
+        players: [[1,116,96],[2,258,118,1],[3,196,96],[4,170,184],[5,206,200]],
+        moves: [{t:"cut",pts:[[258,118],[262,176],[226,222],[172,224]]}] },
+      { title: "Feed the post", caption: "If not, <b>2</b> passes to <b>5</b> in the post and cuts.",
+        players: [[1,116,96],[2,258,118,1],[3,196,96],[4,170,184],[5,206,200]],
+        moves: [{t:"pass",pts:[[258,118],[212,190]]},{t:"cut",pts:[[258,118],[240,140],[190,160]]}] },
+      { title: "Layup", caption: "<b>5</b> passes back to <b>2</b> on the cut for the layup.",
+        players: [[1,116,96],[2,190,160],[3,196,96],[4,160,192],[5,206,200,1]],
+        moves: [{t:"pass",pts:[[206,190],[194,172]]}] },
+      { title: "Rotate", caption: "If there is no layup, <b>3</b> moves to the 45° spot, <b>1</b> goes back to the top, and <b>4</b> and <b>2</b> go wide.",
+        players: [[1,116,96],[2,190,160],[3,196,96],[4,160,192],[5,206,200,1]],
+        moves: [{t:"cut",pts:[[196,96],[232,146]]},{t:"cut",pts:[[116,96],[150,72]]},{t:"cut",pts:[[160,192],[110,170],[44,126]]},{t:"cut",pts:[[190,160],[100,205],[34,212]]}] },
+      { title: "Handoff", caption: "<b>5</b> comes up and hands off to <b>3</b>, who goes for the layup, or passes to <b>5</b> cutting to the basket.",
+        players: [[1,150,72],[2,24,212],[3,232,146],[4,42,118],[5,206,200,1]],
+        moves: [{t:"cut",pts:[[206,200],[216,172]]},{t:"cut",pts:[[232,146],[226,192],[178,208]]}] },
+      { title: "Weak side", caption: "If there is no layup, <b>3</b> passes to <b>4</b> on the weak side. <b>4</b> shoots if open, otherwise passes to <b>2</b> in the corner for the shot.",
+        players: [[1,150,72],[2,24,212],[3,226,180,1],[4,42,118],[5,206,206]],
+        moves: [{t:"pass",pts:[[226,180],[50,124]]},{t:"pass",pts:[[42,118],[26,204]]}] }
     ]
   },
   {
-    name: "Motion 1B",
+    name: "Motion 2",
     frames: [
-      { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>4</b> left corner, <b>5</b> right corner.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
-      { title: "Swap", caption: "<b>1</b> passes to <b>2</b>. <b>4</b> and <b>5</b> swap: <b>5</b> screens <b>4</b>\u2019s defender, and <b>4</b> ends in the right post.",
-        players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]],
-        moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"cut",pts:[[24,212],[100,230],[170,214],[198,200]]},{t:"scr",pts:[[276,212],[236,186],[182,188]]}] },
-      { title: "Cut", caption: "<b>2</b> passes to <b>4</b> and cuts.",
-        players: [[1,150,72],[2,258,118,1],[3,42,118],[4,198,196],[5,102,196]],
-        moves: [{t:"pass",pts:[[258,118],[206,186]]},{t:"cut",pts:[[258,118],[230,150],[172,172]]}] },
-      { title: "Rotate", caption: "<b>1</b> moves to the 45\u00b0 spot. <b>3</b> to the top, <b>5</b> to the left wing, <b>2</b> to the corner. <b>4</b> dribbles toward <b>1</b>.",
-        players: [[1,150,72],[2,172,172],[3,42,118],[4,198,196,1],[5,102,196]],
-        moves: [{t:"cut",pts:[[150,72],[196,104],[232,146]]},{t:"cut",pts:[[42,118],[150,76]]},{t:"cut",pts:[[102,196],[60,150],[42,124]]},{t:"cut",pts:[[172,172],[90,205],[34,212]]},{t:"cut",pts:[[198,196],[210,176],[214,166]]}] },
-      { title: "Handoff", caption: "<b>4</b> hands off to <b>1</b>, who lays up from the 45\u00b0 spot.",
-        players: [[1,232,146],[2,24,212],[3,150,72],[4,214,166,1],[5,42,118]],
-        moves: [{t:"cut",pts:[[232,146],[222,190],[178,206]]}] }
+      { title: "Set-up", caption: "<b>1</b> ball, <b>5</b> and <b>4</b> on the wings, <b>3</b> and <b>2</b> in the corners.",
+        players: [[1,150,72,1],[5,42,118],[4,258,118],[3,24,212],[2,276,212]], moves: [] },
+      { title: "Down screens", caption: "<b>5</b> and <b>4</b> set down screens for <b>3</b> and <b>2</b> at the same time.",
+        players: [[1,150,72,1],[5,42,118],[4,258,118],[3,24,212],[2,276,212]],
+        moves: [{t:"scr",pts:[[42,118],[38,170]]},{t:"cut",pts:[[24,212],[74,176],[48,126]]},{t:"scr",pts:[[258,118],[262,170]]},{t:"cut",pts:[[276,212],[228,176],[252,126]]}] },
+      { title: "Pass and cut", caption: "<b>1</b> passes to <b>2</b> and cuts. <b>4</b> moves toward the corner to make room.",
+        players: [[1,150,72,1],[2,252,124],[3,48,126],[5,38,176],[4,262,170]],
+        moves: [{t:"pass",pts:[[150,72],[246,120]]},{t:"cut",pts:[[150,72],[150,150],[172,198]]},{t:"cut",pts:[[262,170],[276,208]]}] },
+      { title: "Layup", caption: "If <b>2</b> has the pass, she hits <b>1</b> on the cut for the layup.",
+        players: [[1,172,198],[2,252,124,1],[3,48,126],[5,38,176],[4,276,208]],
+        moves: [{t:"pass",pts:[[246,132],[180,190]]}] },
+      { title: "Screen", caption: "If not, <b>2</b> keeps the ball and waits for <b>4</b> to come and set a screen for her.",
+        players: [[1,120,190],[2,252,124,1],[3,48,126],[5,38,176],[4,276,208]],
+        moves: [{t:"scr",pts:[[276,208],[266,146]]}] },
+      { title: "Finish", caption: "<b>2</b> uses the screen for the layup, or passes to <b>4</b>.",
+        players: [[1,120,190],[2,252,124,1],[3,48,126],[5,38,176],[4,264,146]],
+        moves: [{t:"cut",pts:[[252,124],[214,156],[178,204]]},{t:"cut",pts:[[264,146],[238,184]]},{t:"pass",pts:[[252,134],[238,178]]}] },
+      { title: "Weak side", caption: "If <b>4</b> has the ball and can't score, she passes to one of the two players on the opposite side, who shoots or drives if there is a lane.",
+        players: [[1,120,196],[2,214,156],[3,48,126],[4,236,184,1],[5,38,180]],
+        moves: [{t:"pass",pts:[[236,184],[58,132]]},{t:"pass",pts:[[236,188],[50,186]]}] }
+    ]
+  },
+  {
+    name: "Motion 3",
+    frames: [
+      { title: "Set-up", caption: "<b>3</b> ball on the left, <b>1</b> top, <b>2</b> right, <b>5</b> and <b>4</b> in the corners.",
+        players: [[3,42,118,1],[1,150,72],[2,258,118],[5,24,212],[4,276,212]], moves: [] },
+      { title: "Handoffs", caption: "Handoffs between <b>3</b>, <b>1</b> and <b>2</b>. At the same time <b>4</b> and <b>5</b> move toward the paint.",
+        players: [[3,42,118,1],[1,150,72],[2,258,118],[5,24,212],[4,276,212]],
+        moves: [{t:"cut",pts:[[42,118],[120,84]]},{t:"cut",pts:[[150,72],[236,108]]},{t:"cut",pts:[[24,212],[92,200]]},{t:"cut",pts:[[276,212],[208,200]]}] },
+      { title: "Give and go", caption: "If <b>3</b> has the ball at the top, <b>1</b> cuts and <b>3</b> looks for the give-and-go.",
+        players: [[5,24,212],[2,42,118],[3,150,72,1],[1,258,118],[4,276,212]],
+        moves: [{t:"cut",pts:[[258,118],[200,160],[158,196]]},{t:"pass",pts:[[150,82],[156,186]]}] },
+      { title: "Post up", caption: "<b>3</b> dribbles to the side, calls for <b>4</b> to post up and feeds her.",
+        players: [[1,24,212],[5,42,118],[2,150,72],[3,258,118,1],[4,198,196]],
+        moves: [{t:"pass",pts:[[256,130],[206,188]]}] },
+      { title: "If no score", caption: "If <b>4</b> can't score, she passes to <b>2</b> and the ball swings quickly for an open shot.",
+        players: [[1,24,212],[5,42,118],[2,150,72],[3,258,118],[4,198,196,1]],
+        moves: [{t:"pass",pts:[[198,196],[156,82]]},{t:"pass",pts:[[142,72],[52,110]]}] },
+      { title: "Handoff", caption: "Or <b>4</b> goes for a handoff with <b>3</b>.",
+        players: [[1,24,212],[5,42,118],[2,150,72],[3,258,118],[4,198,196,1]],
+        moves: [{t:"cut",pts:[[198,196],[240,152]]},{t:"cut",pts:[[258,118],[236,176],[184,208]]}] }
     ]
   },
   {
