@@ -535,9 +535,8 @@ dialog{border:0}
 .play ul,.play ol{margin:0;padding-left:20px;font-size:14px;line-height:1.5;color:var(--text)}
 .play li+li{margin-top:4px}
 .pbk{min-height:calc(100vh - var(--top-h,200px) - var(--bot-h,150px) - 40px);min-height:calc(100svh - var(--top-h,200px) - var(--bot-h,150px) - 40px)}
-.pbk>.seg{flex:none;gap:0;padding:3px}
-.pbk>.seg button{white-space:nowrap;font-size:11px;padding:0 3px;letter-spacing:-.01em}
-.play .soon{margin:auto;font-size:22px;font-weight:700;letter-spacing:.02em;color:var(--text-2);text-align:center}
+.pbk>.seg{flex:none}
+.pbk>.seg button{white-space:nowrap;font-size:12px;padding:0 3px}
 .play{flex:1;display:flex;flex-direction:column;justify-content:center}
 .slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-radius:14px}
 .slides::-webkit-scrollbar{display:none}
@@ -907,7 +906,7 @@ var PLAYBOOK = [
   {
     name: "Motion 2",
     frames: [
-      { title: "Set-up", caption: "<b>1</b> ball, <b>5</b> and <b>4</b> on the wings, <b>3</b> and <b>2</b> in the corners.",
+      { title: "Set-up", caption: "Also called Box. <b>1</b> ball, <b>5</b> and <b>4</b> on the wings, <b>3</b> and <b>2</b> in the corners.",
         players: [[1,150,72,1],[5,42,118],[4,258,118],[3,24,212],[2,276,212]], moves: [] },
       { title: "Down screens", caption: "<b>5</b> and <b>4</b> set down screens for <b>3</b> and <b>2</b> at the same time.",
         players: [[1,150,72,1],[5,42,118],[4,258,118],[3,24,212],[2,276,212]],
@@ -950,10 +949,6 @@ var PLAYBOOK = [
         players: [[1,24,212],[5,42,118],[2,150,72],[3,258,118],[4,198,196,1]],
         moves: [{t:"cut",pts:[[198,196],[240,152]]},{t:"cut",pts:[[258,118],[236,176],[184,208]]}] }
     ]
-  },
-  {
-    name: "Box",
-    frames: []
   }
 ];
 var courtN = 0;
@@ -988,7 +983,6 @@ function playbookHTML(){
   var out = '<div class="pbk"><div class="seg glass" role="radiogroup" aria-label="Choose a system">'
     + PLAYBOOK.map(function(x, i){ return tab("pbplay", i, x.name, i === pbPlay); }).join("") + '</div>'
     + '<article class="play glass" aria-label="' + esc(pl.name) + '">'
-    + (pl.frames.length ? "" : '<p class="soon">Coming soon</p>')
     + '<div class="slides" id="slides">' + pl.frames.map(function(x, i){ return '<figure class="slide"><p class="stp">' + esc(x.title) + '</p>' + '<figcaption>' + x.caption + '</figcaption>' + courtSVG(x) + '</figure>'; }).join("") + '</div>'
     + '<div class="dots" role="tablist" aria-label="Steps">' + pl.frames.map(function(x, i){ return '<button role="tab" aria-selected="' + (i === pbFrame) + '" aria-label="' + esc(x.title) + '" data-act="pbdot" data-v="' + i + '"></button>'; }).join("") + '</div>'
     + '</article></div>';
