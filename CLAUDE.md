@@ -72,16 +72,20 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 
 ## Playbook
 - The book icon (`data-act="playbook"`, next to Table) opens `#story`, a full-screen dark story viewer (`openStory/closeStory`,
-  `storyHTML`, `PLAYBOOK` array in `index.html`). It is not a page view any more and not a card. Segmented progress bars at the top
-  (one per step of the current play), play name + step count + close button in the header, step title, caption and court below,
-  "Next: <play>" hint on a play's last step. The whole screen is tappable: right two thirds = next step, left third = previous;
-  past the last step opens the next play, past the last play closes; swipe left/right = next/previous play, swipe down or X = close.
-  Reopening resumes where it was (reset after finishing). Arrows draw in (`pathLength="1"` + dash animation), cards slide; no
-  motion for Reduce Motion. `#story` uses `touch-action:none; overscroll-behavior:none` so the browser's edge swipe-back does not fire.
-- Plays: Motion (circle motion), Motion 1, Motion 2 (also called Box, noted in its Set-up caption), Motion 3. Each: `{name, frames[{title,
-  caption, players, moves}]}`; a caption describes only its own step. Diagrams: `courtSVG`, full half court, viewBox `0 -42 300 282`,
-  6 units/ft, basket at (150,222); players `[n,x,y,ball]`, moves `cut|pass|scr|fake`. English only for now; numbers 1-5, no names,
-  no video links. Motion 1-3 come from the coach's handwritten sheets (his numbering, post player of Motion 1 is 5).
+  `storyHTML`, `PLAYBOOK` array in `index.html`). Not a page view and not a card. Top: a rail of play circles (badge M/1/2/3 + name,
+  tap to jump), X, segmented progress bars (one per step), play name + step count. Each play starts with a cover card
+  (`pbFrame = -1`: big circle, name, `sub`, step count, "Tap to start") that acts as the divider between plays.
+  The whole screen is tappable: right two thirds = next, left third = previous; past a play's last step opens the next play's cover,
+  past the last play closes; swipe left/right = next/previous play, swipe down or X = close. Reopening resumes (reset after finishing).
+  Arrows draw in (`pathLength="1"` + dash animation), cards slide; no motion for Reduce Motion. `#story` uses `touch-action:none;
+  overscroll-behavior:none` so the browser's edge swipe-back does not fire.
+- Step texts use a tiny markdown (`capHTML`): one line per paragraph (`\n`), `- ` bullets, lines starting with If/Or/Otherwise are
+  shown as red-barred options. Write each option on its own line.
+- Plays: Motion (circle motion), Motion 1, Motion 2 (also called Box, shown on its cover), Motion 3. Each: `{name, badge, sub,
+  frames[{title, caption, players, moves}]}`; a caption describes only its own step; later frames show the players where they ended
+  up. Diagrams: `courtSVG`, full half court, viewBox `0 -42 300 282`, 6 units/ft, basket at (150,222); players `[n,x,y,ball]`, moves
+  `cut|pass|scr|fake`. English only for now; numbers 1-5, no names, no video links. Motion 1-3 come from the coach's handwritten
+  sheets (his numbering, post player of Motion 1 is 5).
 
 ## Game notes
 - Each game has a notes button (`data-act="notes"`, checklist icon, small badge = open items; next-game card and every row). It opens

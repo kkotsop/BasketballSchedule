@@ -545,38 +545,61 @@ html.story-open,html.story-open body{overflow:hidden;overscroll-behavior:none}
 #story{--text:#fff;--text-2:rgba(255,255,255,.74);--text-3:rgba(255,255,255,.4);--bg-bot:#000;position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;box-sizing:border-box;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);background:radial-gradient(120% 80% at 50% 28%,#1c1d22 0%,#000 66%);color:#fff;opacity:0;transform:translateY(16px) scale(.985);transition:opacity .26s ease,transform .26s ease;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none;overscroll-behavior:none;cursor:pointer}
 #story.on{opacity:1;transform:none}
 .st-top{padding:10px 12px 0}
-.st-bars{display:flex;gap:4px}
+.st-row{display:flex;align-items:flex-start;gap:6px}
+.st-rail{flex:1;display:flex;justify-content:space-between;gap:4px;min-width:0}
+.st-ch{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;min-width:0;padding:0;color:var(--text-2);font-size:11px;font-weight:600}
+.st-ch .ring{display:grid;place-items:center;width:54px;height:54px;box-sizing:border-box;padding:3px;border-radius:50%;background:rgba(255,255,255,.26);transition:transform .2s ease}
+.st-ch .ring b{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#0d0e11;color:#fff;font-size:19px;font-weight:800}
+.st-ch.on{color:#fff}
+.st-ch.on .ring{background:conic-gradient(from 210deg,#FF3B4E,#F97316,#FF3B4E);transform:scale(1.07)}
+.st-ch i{font-style:normal;white-space:nowrap}
+.st-x{flex:none;width:44px;height:44px;margin:0 -8px 0 0;display:grid;place-items:center;color:#fff;cursor:pointer}
+.st-x svg{width:22px;height:22px}
+.st-bars{display:flex;gap:4px;margin-top:12px}
 .st-bars i{position:relative;flex:1;height:3px;border-radius:2px;overflow:hidden;background:rgba(255,255,255,.28)}
 .st-bars i.done{background:#fff}
 .st-bars i.cur::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:0 50%;animation:stFill .45s ease-out forwards}
-.st-head{display:flex;align-items:center;gap:10px;padding:12px 2px 0}
-.st-head img{width:34px;height:34px;box-sizing:border-box;padding:2px;border-radius:50%;border:2px solid #FF3B4E;object-fit:contain}
-.st-head b{font-size:16px;font-weight:700}
+.st-head{display:flex;align-items:center;gap:10px;padding:10px 2px 0}
+.st-head img{width:28px;height:28px;box-sizing:border-box;padding:2px;border-radius:50%;border:2px solid #FF3B4E;object-fit:contain}
+.st-head b{font-size:15px;font-weight:700}
 .st-head span{margin-right:auto;font-size:13px;color:var(--text-2)}
-.st-x{width:44px;height:44px;margin:-6px -10px -6px 0;display:grid;place-items:center;color:#fff;cursor:pointer}
-.st-x svg{width:22px;height:22px}
-.st-stage{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:0 18px 12px}
+.st-stage{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:0 18px 8px}
 .st-title{margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#FF3B4E}
-.st-cap{margin:0 0 18px;min-height:3.9em;font-size:20px;line-height:1.35;font-weight:600}
+.st-cap{margin:0 0 16px;min-height:7.6em;font-size:18px;line-height:1.35;font-weight:600}
+.st-cap p{margin:0 0 7px}
 .st-cap b{padding:0 5px;border-radius:6px;background:rgba(255,255,255,.16)}
-.st-next{margin:0;padding:0 18px 20px;min-height:1.2em;text-align:center;font-size:14px;font-weight:600;color:var(--text-2)}
-#story .court{border-radius:22px;background:rgba(255,255,255,.05)}
+.st-cap .opt{padding-left:12px;border-left:3px solid #FF3B4E}
+.st-cap .opt em{margin-right:.25em;font-style:normal;font-weight:800;color:#FF3B4E}
+.st-cap ul{list-style:none;margin:2px 0 0;padding:0}
+.st-cap li{position:relative;margin:3px 0;padding-left:20px}
+.st-cap li::before{content:"";position:absolute;left:4px;top:.6em;width:7px;height:7px;border-radius:50%;background:#FF3B4E}
+.st-next{margin:0;padding:0 18px 18px;min-height:1.2em;text-align:center;font-size:14px;font-weight:600;color:var(--text-2)}
+#story .court{max-height:44vh;width:100%;border-radius:22px;background:rgba(255,255,255,.05)}
+.st-cover{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
+.st-cover .st-big{display:grid;place-items:center;width:148px;height:148px;box-sizing:border-box;padding:6px;border-radius:50%;background:conic-gradient(from 210deg,#FF3B4E,#F97316,#FF3B4E);animation:stPop .55s cubic-bezier(.2,1.2,.3,1) both}
+.st-cover .st-big b{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#0d0e11;font-size:64px;font-weight:800}
+.st-cover h2{margin:12px 0 0;font-size:34px;font-weight:800;letter-spacing:.01em;animation:stUp .5s .12s ease-out both}
+.st-cover p{margin:0;font-size:16px;font-weight:600;color:var(--text-2);animation:stUp .5s .2s ease-out both}
+.st-cover .tap{margin-top:26px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#FF3B4E;animation:stUp .5s .3s ease-out both,stPulse 1.6s 1s ease-in-out infinite}
 #story .court .cut,#story .court .scr{stroke-dasharray:1;stroke-dashoffset:1;animation:stDraw .7s .18s ease-out forwards}
 #story .court .pass{animation:stFade .4s .25s both}
 #story .court .fake{animation:stFade .4s .35s both}
 #story .court .mk,#story .court .mkp{animation:stFade .2s .72s both}
-.st-stage.sp-r{animation:stSpR .34s cubic-bezier(.2,.7,.2,1)}
-.st-stage.sp-l{animation:stSpL .34s cubic-bezier(.2,.7,.2,1)}
-.st-stage.pl-r{animation:stPlR .44s cubic-bezier(.2,.7,.2,1)}
-.st-stage.pl-l{animation:stPlL .44s cubic-bezier(.2,.7,.2,1)}
+.st-stage.sp-r,.st-cover.sp-r{animation:stSpR .34s cubic-bezier(.2,.7,.2,1)}
+.st-stage.sp-l,.st-cover.sp-l{animation:stSpL .34s cubic-bezier(.2,.7,.2,1)}
+.st-stage.pl-r,.st-cover.pl-r{animation:stPlR .44s cubic-bezier(.2,.7,.2,1)}
+.st-stage.pl-l,.st-cover.pl-l{animation:stPlL .44s cubic-bezier(.2,.7,.2,1)}
 @keyframes stFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes stDraw{to{stroke-dashoffset:0}}
 @keyframes stFade{from{opacity:0}to{opacity:1}}
+@keyframes stPop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+@keyframes stUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes stPulse{50%{opacity:.45}}
 @keyframes stSpR{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
 @keyframes stSpL{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
 @keyframes stPlR{from{opacity:0;transform:translateX(70px) scale(.94)}to{opacity:1;transform:none}}
 @keyframes stPlL{from{opacity:0;transform:translateX(-70px) scale(.94)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion: reduce){#story,.st-stage,#story .court *,.st-bars i.cur::after{animation:none!important;transition:none!important}#story .court .cut,#story .court .scr{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){#story,.st-stage,.st-cover,.st-cover *,#story .court *,.st-bars i.cur::after{animation:none!important;transition:none!important}#story .court .cut,#story .court .scr{stroke-dashoffset:0}}
 
 /* ===== opening splash ===== */
 #splash{position:fixed;inset:0;z-index:100;background:#000;overflow:hidden;transition:opacity .6s ease,visibility .6s}
@@ -866,7 +889,7 @@ function nextHTML(g){
 /* Half court, basket at the bottom. viewBox 300 x 250, 6 units per foot. */
 var PLAYBOOK = [
   {
-    name: "Motion",
+    name: "Motion", badge: "M", sub: "Circle motion",
     frames: [
       { title: "Set-up", caption: "<b>1</b> top, <b>2</b>\u2013<b>3</b> wings, <b>4</b>\u2013<b>5</b> corners.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[4,24,212],[5,276,212]], moves: [] },
@@ -879,64 +902,64 @@ var PLAYBOOK = [
     ]
   },
   {
-    name: "Motion 1",
+    name: "Motion 1", badge: "1", sub: "",
     frames: [
       { title: "Set-up", caption: "<b>1</b> ball, <b>2</b> right wing, <b>3</b> left wing, <b>5</b> left corner, <b>4</b> right corner.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[5,24,212],[4,276,212]], moves: [] },
-      { title: "Screens", caption: "<b>1</b> passes to <b>2</b> and screens away for <b>3</b>. At the same time <b>4</b> screens for <b>5</b>, who ends in the right post.",
+      { title: "Screens", caption: "<b>1</b> passes to <b>2</b> and screens away for <b>3</b>.\n<b>4</b> screens for <b>5</b>, who ends in the right post.",
         players: [[1,150,72,1],[2,258,118],[3,42,118],[5,24,212],[4,276,212]],
         moves: [{t:"pass",pts:[[150,72],[258,118]]},{t:"scr",pts:[[150,72],[116,96]]},{t:"cut",pts:[[42,118],[96,134],[150,110],[196,96]]},{t:"cut",pts:[[24,212],[100,230],[170,214],[206,200]]},{t:"scr",pts:[[276,212],[236,186],[172,186]]}] },
-      { title: "Drive", caption: "If <b>2</b> finds a gap, she drives.",
-        players: [[1,116,96],[2,258,118,1],[3,196,96],[4,170,184],[5,206,200]],
-        moves: [{t:"cut",pts:[[258,118],[262,176],[226,222],[172,224]]}] },
+      { title: "Drive", caption: "If <b>2</b> finds a gap, she drives.\n<b>1</b> and <b>4</b> open up.",
+        players: [[1,116,96],[2,258,118,1],[3,196,96],[4,172,186],[5,206,200]],
+        moves: [{t:"cut",pts:[[258,118],[262,176],[226,222],[172,224]]},{t:"cut",pts:[[116,96],[92,94]]},{t:"cut",pts:[[172,186],[120,160],[44,122]]}] },
       { title: "Feed the post", caption: "If not, <b>2</b> passes to <b>5</b> in the post and cuts.",
-        players: [[1,116,96],[2,258,118,1],[3,196,96],[4,170,184],[5,206,200]],
+        players: [[1,92,94],[2,258,118,1],[3,196,96],[4,42,118],[5,206,200]],
         moves: [{t:"pass",pts:[[258,118],[212,190]]},{t:"cut",pts:[[258,118],[240,140],[190,160]]}] },
       { title: "Layup", caption: "<b>5</b> passes back to <b>2</b> on the cut for the layup.",
-        players: [[1,116,96],[2,190,160],[3,196,96],[4,160,192],[5,206,200,1]],
+        players: [[1,92,94],[2,190,160],[3,196,96],[4,42,118],[5,206,200,1]],
         moves: [{t:"pass",pts:[[206,190],[194,172]]}] },
-      { title: "Rotate", caption: "If there is no layup, <b>3</b> moves to the 45° spot, <b>1</b> goes back to the top, and <b>4</b> and <b>2</b> go wide.",
-        players: [[1,116,96],[2,190,160],[3,196,96],[4,160,192],[5,206,200,1]],
-        moves: [{t:"cut",pts:[[196,96],[232,146]]},{t:"cut",pts:[[116,96],[150,72]]},{t:"cut",pts:[[160,192],[110,170],[44,126]]},{t:"cut",pts:[[190,160],[100,205],[34,212]]}] },
-      { title: "Handoff", caption: "<b>5</b> comes up and hands off to <b>3</b>, who goes for the layup, or passes to <b>5</b> cutting to the basket.",
+      { title: "Rotate", caption: "If there is no layup, rotate:\n- <b>3</b> to the 45° spot\n- <b>1</b> back to the top\n- <b>2</b> to the corner",
+        players: [[1,92,94],[2,190,160],[3,196,96],[4,42,118],[5,206,200,1]],
+        moves: [{t:"cut",pts:[[196,96],[232,146]]},{t:"cut",pts:[[92,94],[150,72]]},{t:"cut",pts:[[190,160],[100,205],[34,212]]}] },
+      { title: "Layup", caption: "<b>5</b> comes up and hands off to <b>3</b> for the layup.\nOr <b>3</b> passes to <b>5</b> cutting to the basket.",
         players: [[1,150,72],[2,24,212],[3,232,146],[4,42,118],[5,206,200,1]],
         moves: [{t:"cut",pts:[[206,200],[216,172]]},{t:"cut",pts:[[232,146],[226,192],[178,208]]}] },
-      { title: "Weak side", caption: "If there is no layup, <b>3</b> passes to <b>4</b> on the weak side. <b>4</b> shoots if open, otherwise passes to <b>2</b> in the corner for the shot.",
+      { title: "Weak side", caption: "If there is no layup:\n- <b>3</b> passes to <b>4</b> on the weak side\n- <b>4</b> shoots if open\n- otherwise <b>4</b> passes to <b>2</b> in the corner for the shot",
         players: [[1,150,72],[2,24,212],[3,226,180,1],[4,42,118],[5,206,206]],
         moves: [{t:"pass",pts:[[226,180],[50,124]]},{t:"pass",pts:[[42,118],[26,204]]}] }
     ]
   },
   {
-    name: "Motion 2",
+    name: "Motion 2", badge: "2", sub: "Also called Box",
     frames: [
-      { title: "Set-up", caption: "Also called Box. <b>1</b> ball, <b>5</b> and <b>4</b> on the wings, <b>3</b> and <b>2</b> in the corners.",
+      { title: "Set-up", caption: "<b>1</b> ball, <b>5</b> and <b>4</b> on the wings, <b>3</b> and <b>2</b> in the corners.",
         players: [[1,150,72,1],[5,42,118],[4,258,118],[3,24,212],[2,276,212]], moves: [] },
       { title: "Down screens", caption: "<b>5</b> and <b>4</b> set down screens for <b>3</b> and <b>2</b> at the same time.",
         players: [[1,150,72,1],[5,42,118],[4,258,118],[3,24,212],[2,276,212]],
         moves: [{t:"scr",pts:[[42,118],[38,170]]},{t:"cut",pts:[[24,212],[74,176],[48,126]]},{t:"scr",pts:[[258,118],[262,170]]},{t:"cut",pts:[[276,212],[228,176],[252,126]]}] },
-      { title: "Pass and cut", caption: "<b>1</b> passes to <b>2</b> and cuts. <b>4</b> moves toward the corner to make room.",
+      { title: "Pass and cut", caption: "<b>1</b> passes to <b>2</b> and cuts.\n<b>4</b> moves toward the corner to make room.",
         players: [[1,150,72,1],[2,252,124],[3,48,126],[5,38,176],[4,262,170]],
         moves: [{t:"pass",pts:[[150,72],[246,120]]},{t:"cut",pts:[[150,72],[150,150],[172,198]]},{t:"cut",pts:[[262,170],[276,208]]}] },
       { title: "Layup", caption: "If <b>2</b> has the pass, she hits <b>1</b> on the cut for the layup.",
         players: [[1,172,198],[2,252,124,1],[3,48,126],[5,38,176],[4,276,208]],
         moves: [{t:"pass",pts:[[246,132],[180,190]]}] },
-      { title: "Screen", caption: "If not, <b>2</b> keeps the ball and waits for <b>4</b> to come and set a screen for her.",
-        players: [[1,120,190],[2,252,124,1],[3,48,126],[5,38,176],[4,276,208]],
-        moves: [{t:"scr",pts:[[276,208],[266,146]]}] },
-      { title: "Finish", caption: "<b>2</b> uses the screen for the layup, or passes to <b>4</b>.",
-        players: [[1,120,190],[2,252,124,1],[3,48,126],[5,38,176],[4,264,146]],
+      { title: "Rotate", caption: "If not, <b>2</b> keeps the ball and the team rotates:\n- <b>3</b> to the top\n- <b>5</b> to the 45° spot\n- <b>1</b> to the corner\n<b>4</b> comes to set a screen for <b>2</b>.",
+        players: [[1,172,198],[2,252,124,1],[3,48,126],[5,38,176],[4,276,208]],
+        moves: [{t:"cut",pts:[[172,198],[100,215],[34,212]]},{t:"cut",pts:[[48,126],[150,72]]},{t:"cut",pts:[[38,176],[62,144]]},{t:"scr",pts:[[276,208],[266,146]]}] },
+      { title: "Finish", caption: "<b>2</b> uses the screen for the layup.\nOr she passes to <b>4</b>.",
+        players: [[1,24,212],[2,252,124,1],[3,150,72],[4,264,146],[5,62,144]],
         moves: [{t:"cut",pts:[[252,124],[214,156],[178,204]]},{t:"cut",pts:[[264,146],[238,184]]},{t:"pass",pts:[[252,134],[238,178]]}] },
-      { title: "Weak side", caption: "If <b>4</b> has the ball and can't score, she passes to one of the two players on the opposite side, who shoots or drives if there is a lane.",
-        players: [[1,120,196],[2,214,156],[3,48,126],[4,236,184,1],[5,38,180]],
-        moves: [{t:"pass",pts:[[236,184],[58,132]]},{t:"pass",pts:[[236,188],[50,186]]}] }
+      { title: "Weak side", caption: "If <b>4</b> has the ball and can't score:\n- she passes to one of the two players on the opposite side\n- who shoots, or drives if there is a lane",
+        players: [[1,24,212],[2,214,156],[3,150,72],[4,236,184,1],[5,62,144]],
+        moves: [{t:"pass",pts:[[236,184],[72,150]]},{t:"pass",pts:[[236,190],[34,206]]}] }
     ]
   },
   {
-    name: "Motion 3",
+    name: "Motion 3", badge: "3", sub: "",
     frames: [
       { title: "Set-up", caption: "<b>3</b> ball on the left, <b>1</b> top, <b>2</b> right, <b>5</b> and <b>4</b> in the corners.",
         players: [[3,42,118,1],[1,150,72],[2,258,118],[5,24,212],[4,276,212]], moves: [] },
-      { title: "Handoffs", caption: "Handoffs between <b>3</b>, <b>1</b> and <b>2</b>. At the same time <b>4</b> and <b>5</b> move toward the paint.",
+      { title: "Handoffs", caption: "Handoffs between <b>3</b>, <b>1</b> and <b>2</b>.\nAt the same time <b>4</b> and <b>5</b> move toward the paint.",
         players: [[3,42,118,1],[1,150,72],[2,258,118],[5,24,212],[4,276,212]],
         moves: [{t:"cut",pts:[[42,118],[120,84]]},{t:"cut",pts:[[150,72],[236,108]]},{t:"cut",pts:[[24,212],[92,200]]},{t:"cut",pts:[[276,212],[208,200]]}] },
       { title: "Give and go", caption: "If <b>3</b> has the ball at the top, <b>1</b> cuts and <b>3</b> looks for the give-and-go.",
@@ -945,7 +968,7 @@ var PLAYBOOK = [
       { title: "Post up", caption: "<b>3</b> dribbles to the side, calls for <b>4</b> to post up and feeds her.",
         players: [[1,24,212],[5,42,118],[2,150,72],[3,258,118,1],[4,198,196]],
         moves: [{t:"pass",pts:[[256,130],[206,188]]}] },
-      { title: "If no score", caption: "If <b>4</b> can't score, she passes to <b>2</b> and the ball swings quickly for an open shot.",
+      { title: "No score", caption: "If <b>4</b> can't score:\n- she passes to <b>2</b>\n- the ball swings quickly for an open shot",
         players: [[1,24,212],[5,42,118],[2,150,72],[3,258,118],[4,198,196,1]],
         moves: [{t:"pass",pts:[[198,196],[156,82]]},{t:"pass",pts:[[142,72],[52,110]]}] },
       { title: "Handoff", caption: "Or <b>4</b> goes for a handoff with <b>3</b>.",
@@ -979,20 +1002,40 @@ function courtSVG(f){
   });
   return '<svg class="court" viewBox="0 -42 300 282" role="img" aria-label="' + esc(f.title) + ' diagram">' + lines + a + m + '</svg>';
 }
-var pbPlay = 0, pbFrame = 0, storyEl = null, swipedAt = 0;
+var pbPlay = 0, pbFrame = -1, storyEl = null, swipedAt = 0;   // pbFrame -1 = the play's cover card
+/* small markdown for step texts: one line per paragraph, "- " bullets, lines starting with If/Or/Otherwise are options */
+function capHTML(t){
+  var out = "", lis = [];
+  var flush = function(){ if (lis.length) { out += "<ul>" + lis.join("") + "</ul>"; lis = []; } };
+  String(t).split("\n").forEach(function(line){
+    if (line.indexOf("- ") === 0) { lis.push("<li>" + line.slice(2) + "</li>"); return; }
+    flush();
+    var m = line.match(/^(If|Or|Otherwise)\b(.*)$/);
+    out += m ? '<p class="opt"><em>' + m[1] + "</em>" + m[2] + "</p>" : "<p>" + line + "</p>";
+  });
+  flush();
+  return out;
+}
 function storyHTML(){
-  var pl = PLAYBOOK[pbPlay], f = pl.frames[pbFrame], n = pl.frames.length, nx = PLAYBOOK[pbPlay + 1], bars = "";
+  var pl = PLAYBOOK[pbPlay], n = pl.frames.length, cover = pbFrame < 0, f = cover ? null : pl.frames[pbFrame], nx = PLAYBOOK[pbPlay + 1], bars = "", rail = "";
   for (var i = 0; i < n; i++) bars += '<i class="' + (i < pbFrame ? "done" : i === pbFrame ? "cur" : "") + '"></i>';
-  return '<div class="st-top"><div class="st-bars" aria-hidden="true">' + bars + '</div>'
-    + '<div class="st-head"><img src="assets/logo.png" alt=""><b>' + esc(pl.name) + '</b><span>' + (pbFrame + 1) + ' / ' + n + '</span>'
-    + '<button class="st-x" data-act="storyx" aria-label="Close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16"/></svg></button></div></div>'
-    + '<div class="st-stage"><p class="st-title">' + esc(f.title) + '</p><p class="st-cap">' + f.caption + '</p>' + courtSVG(f) + '</div>'
-    + '<p class="st-next">' + (pbFrame === n - 1 ? (nx ? "Next: " + esc(nx.name) + " ›" : "Last play") : "") + '</p>';
+  PLAYBOOK.forEach(function(x, k){
+    rail += '<button class="st-ch' + (k === pbPlay ? " on" : "") + '" data-go="' + k + '" aria-label="' + esc(x.name) + '"><span class="ring"><b>' + esc(x.badge) + "</b></span><i>" + esc(x.name) + "</i></button>";
+  });
+  var body = cover
+    ? '<div class="st-cover"><div class="st-big"><b>' + esc(pl.badge) + "</b></div><h2>" + esc(pl.name) + "</h2>" + (pl.sub ? "<p>" + esc(pl.sub) + "</p>" : "") + "<p>" + n + ' steps</p><p class="tap">Tap to start</p></div>'
+    : '<div class="st-stage"><p class="st-title">' + esc(f.title) + '</p><div class="st-cap">' + capHTML(f.caption) + "</div>" + courtSVG(f) + "</div>";
+  return '<div class="st-top"><div class="st-row"><div class="st-rail">' + rail + '</div>'
+    + '<button class="st-x" data-act="storyx" aria-label="Close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16"/></svg></button></div>'
+    + '<div class="st-bars" aria-hidden="true">' + bars + "</div>"
+    + '<div class="st-head"><img src="assets/logo.png" alt=""><b>' + esc(pl.name) + "</b><span>" + (cover ? "" : (pbFrame + 1) + " / " + n) + "</span></div></div>"
+    + body
+    + '<p class="st-next">' + (!cover && pbFrame === n - 1 ? (nx ? "Next: " + esc(nx.name) + " ›" : "Last play") : "") + "</p>";
 }
 function paintStory(dir, kind){
   if (!storyEl) return;
   storyEl.innerHTML = storyHTML();
-  var st = storyEl.querySelector(".st-stage");
+  var st = storyEl.querySelector(".st-stage, .st-cover");
   if (dir && st) st.classList.add((kind === "play" ? "pl-" : "sp-") + (dir > 0 ? "r" : "l"));
 }
 function openStory(){
@@ -1011,21 +1054,22 @@ function closeStory(){
   el.classList.remove("on");
   setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 300);
 }
+function storyReset(){ pbPlay = 0; pbFrame = -1; }
 function storyNext(){
   if (pbFrame < PLAYBOOK[pbPlay].frames.length - 1) { pbFrame++; paintStory(1, "step"); }
-  else if (pbPlay < PLAYBOOK.length - 1) { pbPlay++; pbFrame = 0; paintStory(1, "play"); }
-  else { pbPlay = 0; pbFrame = 0; closeStory(); }
+  else if (pbPlay < PLAYBOOK.length - 1) { pbPlay++; pbFrame = -1; paintStory(1, "play"); }
+  else { storyReset(); closeStory(); }
 }
 function storyPrev(){
-  if (pbFrame > 0) { pbFrame--; paintStory(-1, "step"); }
+  if (pbFrame >= 0) { pbFrame--; paintStory(-1, "step"); }
   else if (pbPlay > 0) { pbPlay--; pbFrame = PLAYBOOK[pbPlay].frames.length - 1; paintStory(-1, "play"); }
   else paintStory(0);
 }
-function storyPlay(dir){
-  var np = pbPlay + dir;
-  if (np < 0) return;
-  if (np >= PLAYBOOK.length) { pbPlay = 0; pbFrame = 0; closeStory(); return; }
-  pbPlay = np; pbFrame = 0; paintStory(dir, "play");
+function storyJump(i, dir){
+  if (i < 0 || i === pbPlay) return;
+  if (i >= PLAYBOOK.length) { storyReset(); closeStory(); return; }
+  var d = dir || (i > pbPlay ? 1 : -1);
+  pbPlay = i; pbFrame = -1; paintStory(d, "play");
 }
 (function(){
   var sx = 0, sy = 0;
@@ -1033,12 +1077,15 @@ function storyPlay(dir){
   document.addEventListener("touchend", function(e){
     if (!storyEl || !e.changedTouches[0]) return;
     var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.4) { swipedAt = Date.now(); storyPlay(dx < 0 ? 1 : -1); }
+    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.4) { swipedAt = Date.now(); storyJump(pbPlay + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); }
     else if (dy > 110 && dy > Math.abs(dx) * 1.4) { swipedAt = Date.now(); closeStory(); }
   }, {passive:true});
   document.addEventListener("click", function(ev){
     if (!storyEl || !storyEl.contains(ev.target) || Date.now() - swipedAt < 400) return;
-    if (ev.target.closest && ev.target.closest(".st-x")) { closeStory(); return; }
+    var t = ev.target.closest ? ev.target : null;
+    if (t && t.closest(".st-x")) { closeStory(); return; }
+    var go = t && t.closest("[data-go]");
+    if (go) { storyJump(Number(go.getAttribute("data-go"))); return; }
     if (ev.clientX < window.innerWidth / 3) storyPrev(); else storyNext();
   });
   document.addEventListener("keydown", function(ev){
