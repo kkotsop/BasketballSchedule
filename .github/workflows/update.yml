@@ -67,7 +67,7 @@ jobs:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           PUSH_ADMIN_TOKEN: ${{ secrets.PUSH_ADMIN_TOKEN }}
         run: python tools/notify.py /tmp/fixtures.before.json fixtures.json
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - name: Assemble the website
         run: |
           mkdir _site
