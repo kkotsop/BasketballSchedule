@@ -74,7 +74,7 @@ jobs:
           cp -r index.html sw.js fixtures.json manifest.webmanifest assets _site/
           python tools/embed_data.py fixtures.json _site/index.html
           python tools/make_ics.py fixtures.json _site/calendar
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
