@@ -18,6 +18,7 @@ import re
 import sys
 import unicodedata
 
+from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
@@ -131,6 +132,8 @@ def find_select(soup, kind):
             return name, opts
         if kind == "competition" and any("ΟΜΙΛΟΣ" in t for t in texts):
             return name, opts
+        if kind == "day" and sum(bool(re.match(r"\d+Η ΑΓΩΝΙΣΤΙΚΗ", t)) for t in texts) >= 2:
+            return name, opts
         if kind == "phase" and any("ΚΑΝΟΝΙΚΗ ΠΕΡΙΟΔΟΣ" in t for t in texts):
             return name, opts
     return None, []
@@ -164,7 +167,9 @@ def post(session, soup, changes, target, extra=None):
     data["__EVENTARGUMENT"] = ""
     if extra:
         data.update(extra)
-    r = session.post(URL, data=data, headers={"Referer": URL}, timeout=60)
+    form = soup.find("form")
+    action = urljoin(URL, form.get("action") or "") if form is not None else URL   # the page posts to index.aspx
+    r = session.post(action, data=data, headers={"Referer": URL}, timeout=60)
     r.raise_for_status()
     return r.text
 
@@ -267,6 +272,39 @@ def parse_row(cells):
     }
 
 
+def cards_from(soup):
+    """Current layout: <div class="GameRow"> = home team, score/date/hall, away team."""
+    out = []
+    for row in soup.select("div.GameRow"):
+        teams = [clean(t.get_text(" ", strip=True)) for t in row.select("div.GameTeam")]
+        datum = row.select_one("div.GameDatum")
+        if len(teams) != 2 or datum is None:
+            continue
+        strongs = datum.find_all("strong")             # "0 - 0", or two of them once played: "51" and "- 72"
+        score = SCORE_RE.match(clean(" ".join(x.get_text(" ", strip=True) for x in strongs))) if strongs else None
+        for x in strongs:
+            x.extract()
+        text = clean(datum.get_text(" ", strip=True))
+        m = DATE_RE.search(text)
+        if not m:
+            continue
+        y = int(m.group(3)) + (2000 if int(m.group(3)) < 100 else 0)
+        try:
+            date = dt.date(y, int(m.group(2)), int(m.group(1))).isoformat()
+        except ValueError:
+            continue
+        rest = clean(text[:m.start()] + " " + text[m.end():])
+        t = TIME_RE.search(rest)
+        time = ""
+        if t:
+            time = "%02d:%s" % (int(t.group(1)), t.group(2))
+            rest = clean(rest[:t.start()] + " " + rest[t.end():])
+        venue = clean(rest.replace("|", " "))
+        out.append({"date": date, "time": time, "home": teams[0], "away": teams[1], "venue": venue,
+                    "hs": "" if not score else score.group(1), "as": "" if not score else score.group(2)})
+    return [g for g in out if norm(CONFIG["team"]) in norm(g["home"]) or norm(CONFIG["team"]) in norm(g["away"])]
+
+
 def games_from(soup):
     out = []
     for cells in candidate_rows(soup):
@@ -302,10 +340,31 @@ def group_teams(soup):
     return []
 
 
+def standings_by_ids(html):
+    """Current layout: one <span id="..._Standings_<field>_<row>"> per value."""
+    def field(name, n):
+        m = re.search(r'id="ContentPlaceHolder1_Standings_%s_%d"[^>]*>(.*?)</span>' % (name, n), html, re.S)
+        return re.sub(r"<[^>]+>", "", m.group(1)).strip() if m else None
+    def num(name, n):
+        m = re.search(r"-?\d+", field(name, n) or "")
+        return int(m.group()) if m else 0
+    rows, n = [], 0
+    while field("lblComTeamName", n):
+        rows.append({"team": clean(field("lblComTeamName", n)), "p": num("lbloTeamGames", n),
+                     "w": num("lbloTeamWins", n), "l": num("lbloTeamLoses", n), "pts": num("lbloTeamPoints", n),
+                     "pf": num("lbloTeamPntsScore", n), "pa": num("lbloTeamPntsOpponent", n),
+                     "diff": num("lbloTeamPntsDiff", n)})
+        n += 1
+    return rows
+
+
 def standings_from(html):
     """League table. The federation writes its cells without closing tags, so read the raw HTML.
     Row layout: rank, logo, team, then 12 numbers: played, wins, losses, forfeits, points, for, against, diff,
     wins home, wins away, losses home, losses away. Blank (before the first game) counts as 0."""
+    new = standings_by_ids(html)
+    if new:
+        return new
     i = html.find("acTBLTopLine")
     if i < 0:
         return []
@@ -324,6 +383,28 @@ def standings_from(html):
         rows.append({"team": cells[name_i], "p": nums[0], "w": nums[1], "l": nums[2], "pts": nums[4],
                      "pf": nums[5], "pa": nums[6], "diff": nums[7]})
     return rows
+
+
+def games_by_round(session, soup, chosen):
+    """The page shows one matchday at a time; read each one."""
+    name, opts = find_select(soup, "day")
+    if not name:
+        return []
+    found = []
+    for value, text in opts:
+        if not value or value == "0":
+            continue
+        chosen[name] = value
+        html = post(session, soup, dict(chosen), name)
+        soup = BeautifulSoup(html, "html.parser")
+        found.extend(cards_from(soup))
+    seen, uniq = set(), []
+    for g in found:
+        k = (g["date"], norm(g["home"]), norm(g["away"]))
+        if k not in seen:
+            seen.add(k)
+            uniq.append(g)
+    return uniq
 
 
 def fetch_games(competition):
@@ -357,6 +438,14 @@ def fetch_games(competition):
             global TEAMS
             TEAMS = [r["team"] for r in table] or group_teams(soup) or list(CONFIG["teams"])
             log("  teams: %s" % ", ".join(TEAMS))
+        if kind == "competition":
+            rounds = games_by_round(s, soup, dict(chosen))
+            if rounds:
+                games = rounds
+                log("  %d game(s) for %s over all matchdays" % (len(rounds), CONFIG["team"]))
+                break
+        if kind == "season":
+            continue                                  # (the front page only lists a few games from every competition)
         found = games_from(soup)
         if found:                                     # the list can appear before the last drop-down is set;
             games = found                             # never let a later, empty page throw it away
