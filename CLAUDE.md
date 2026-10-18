@@ -90,6 +90,9 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 ## Game notes
 - Each game has a notes button (`data-act="notes"`, checklist icon, small badge = open items; next-game card and every row). It opens
   `notesSheet(id)`: a private checklist (tick, delete, add; max 30 per game, 140 characters each).
+- Notes are keyed by game id, and the id changes when the federation moves a game or fixes a name. So `fixtures.json` keeps an
+  `aliases` list (earlier ids) on each game (`add_aliases` in `scraper/scrape.py`), and `notesOf`/`notesSave` read all of them and
+  move the notes to the current id on the next save. Never remove `aliases`; old notes stay in localStorage until moved.
 - Stored only in the visitor's browser: localStorage `apop-notes-v1` = `{gameId: [{t, d}]}`. No server, never synced or shared, not in
   any export. Survives deploys because it is not in the repo. Keyed by `game.id`, which includes the date, so a rescheduled game
   starts with an empty list. On iPhone the Home Screen app and Safari have separate storage.

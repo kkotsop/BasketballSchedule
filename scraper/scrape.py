@@ -487,6 +487,26 @@ def apply_overrides(games):
     return games
 
 
+def add_aliases(games, old_games):
+    """Keep every earlier id of a game (it changes when the federation moves the date or fixes a name),
+    so notes people saved in their browser stay attached."""
+    for g in games:
+        al = []
+        for o in old_games:
+            if o.get("id") == g["id"]:
+                al += o.get("aliases") or []
+                continue
+            same_slot = o.get("league") == g.get("league") and o.get("date") == g["date"]
+            same_pair = (norm(o.get("home", "")), norm(o.get("away", ""))) == (norm(g["home"]), norm(g["away"]))
+            if same_slot or (same_pair and o.get("date") == g["date"]) or (same_pair and o.get("league") == g.get("league")):
+                al += [o.get("id")] + (o.get("aliases") or [])
+        al = [a for i, a in enumerate(al) if a and a != g["id"] and a not in al[:i]]
+        if al:
+            g["aliases"] = al
+        else:
+            g.pop("aliases", None)
+
+
 def main():
     try:
         with open(FIXTURES, encoding="utf-8") as f:
@@ -522,6 +542,7 @@ def main():
         log("OK (%s): %d games for %s, %d teams in the table" % (label, len(games), CONFIG["team"], len(LAST_TABLE)))
     if len(failed) == len(CONFIG["competitions"]):
         return 1
+    add_aliases(all_games, old_games)
     all_games.sort(key=lambda g: (g["date"], g["time"] or "99:99"))
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     old = json.dumps(old_games, ensure_ascii=False, sort_keys=True)

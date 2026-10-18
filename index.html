@@ -785,10 +785,25 @@ var NOTES_KEY = "apop-notes-v1";
 function notesAll(){
   try { var o = JSON.parse(localStorage.getItem(NOTES_KEY) || "{}"); return (o && typeof o === "object" && !Array.isArray(o)) ? o : {}; } catch (e) { return {}; }
 }
-function notesOf(id){ var a = notesAll()[id]; return Array.isArray(a) ? a : []; }
+/* A game's id changes when the federation moves it or fixes a name; notes follow it through "aliases" (its earlier ids). */
+function aliasesOf(id){
+  var g = state.games.filter(function(x){ return x.id === id; })[0];
+  return g && Array.isArray(g.aliases) ? g.aliases : [];
+}
+function notesOf(id){
+  var all = notesAll(), out = [], seen = {};
+  [id].concat(aliasesOf(id)).forEach(function(k){
+    (Array.isArray(all[k]) ? all[k] : []).forEach(function(n){
+      if (k !== id && seen[JSON.stringify(n)]) return;
+      seen[JSON.stringify(n)] = 1; out.push(n);
+    });
+  });
+  return out;
+}
 function notesSave(id, list){
   try {
     var o = notesAll();
+    aliasesOf(id).forEach(function(k){ delete o[k]; });      // moved to the current id
     if (list.length) o[id] = list; else delete o[id];
     localStorage.setItem(NOTES_KEY, JSON.stringify(o));
     return true;
