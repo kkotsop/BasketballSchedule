@@ -90,7 +90,7 @@
   },
   {
    "date": "2026-10-25",
-   "time": "",
+   "time": "11:00",
    "home": "ΑΡΗΣ Λεμεσού",
    "away": "ΑΠΟΠ",
    "venue": "Λύκ. Αγ. Σπυρίδωνα",
@@ -157,8 +157,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-10-18T14:04:41Z",
- "checked": "2026-10-20T00:21:55Z",
+ "updated": "2026-10-20T08:35:51Z",
+ "checked": "2026-10-20T08:35:51Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
