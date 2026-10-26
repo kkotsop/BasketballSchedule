@@ -158,7 +158,7 @@
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
  "updated": "2026-10-25T11:30:23Z",
- "checked": "2026-10-26T04:47:20Z",
+ "checked": "2026-10-26T13:03:07Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
@@ -213,24 +213,24 @@
     "diff": -36
    },
    {
-    "team": "ΑΝΟΡΘΩΣΗ Αμμοχώστου",
-    "p": 4,
+    "team": "Α.Ε.Λ.",
+    "p": 3,
     "w": 1,
     "l": 2,
     "pts": 4,
-    "pf": 149,
-    "pa": 184,
-    "diff": -35
-   },
-   {
-    "team": "Α.Ε.Λ.",
-    "p": 3,
-    "w": 0,
-    "l": 3,
-    "pts": 3,
     "pf": 144,
     "pa": 197,
     "diff": -53
+   },
+   {
+    "team": "ΑΝΟΡΘΩΣΗ Αμμοχώστου",
+    "p": 4,
+    "w": 0,
+    "l": 3,
+    "pts": 3,
+    "pf": 149,
+    "pa": 184,
+    "diff": -35
    }
   ],
   "U16": [
