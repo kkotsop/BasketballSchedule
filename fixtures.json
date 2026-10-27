@@ -101,7 +101,7 @@
   },
   {
    "date": "2026-10-31",
-   "time": "",
+   "time": "15:00",
    "home": "ΑΠΟΠ",
    "away": "ΑΧΙΛΛΕΑΣ Αγρού",
    "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους",
@@ -157,8 +157,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-10-25T11:30:23Z",
- "checked": "2026-10-27T00:27:23Z",
+ "updated": "2026-10-27T09:04:01Z",
+ "checked": "2026-10-27T09:04:01Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
