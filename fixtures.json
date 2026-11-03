@@ -117,7 +117,7 @@
   },
   {
    "date": "2026-11-07",
-   "time": "",
+   "time": "10:00",
    "home": "Α.Ε.Λ.",
    "away": "ΑΠΟΠ",
    "venue": "Αίθ. Νίκος Σολομωνίδης",
@@ -157,8 +157,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-10-31T19:19:59Z",
- "checked": "2026-11-03T06:48:43Z",
+ "updated": "2026-11-03T17:06:43Z",
+ "checked": "2026-11-03T17:06:43Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
