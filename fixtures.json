@@ -28,7 +28,10 @@
    "hs": "42",
    "as": "50",
    "league": "U16",
-   "id": "363e00ef"
+   "id": "363e00ef",
+   "aliases": [
+    "f8ae24db"
+   ]
   },
   {
    "date": "2026-10-10",
@@ -292,8 +295,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-11-04T11:43:31Z",
- "checked": "2026-11-04T11:43:31Z",
+ "updated": "2026-11-04T11:54:42Z",
+ "checked": "2026-11-04T11:54:42Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
