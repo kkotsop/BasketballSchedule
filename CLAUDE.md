@@ -12,7 +12,8 @@ setup and everyday use and SECURITY.md for the security notes.
 
 ## Files
 - `index.html`: the entire site (HTML + CSS + JS). `fixtures.json`: data. `overrides.json`: manual tip-off/venue fixes.
-- `scraper/scrape.py`: reads the federation form (ASP.NET WebForms) for each entry of `CONFIG["competitions"]`.
+- `scraper/scrape.py`: reads the federation form (ASP.NET WebForms) for each entry of `CONFIG["competitions"]`. An entry with `"stage"` (and `"table": False`) adds games of a second
+  competition to the same age group without replacing its league table (used for U16 "Τελικής Κατάταξης").
 - `.github/workflows/update.yml` (copy in `workflow-copy.yml`): scrape, commit `fixtures.json`, embed data, publish Pages.
 - `tools/`: `mock_cbf.py` (fake federation for tests), `make_icons.py`, `embed_data.py`, `make_ics.py` (calendar feeds),
   `notify.py` (web push sender), `gen_vapid.py`. `sw.js`: service worker (push display only). `worker/`: Cloudflare Worker that

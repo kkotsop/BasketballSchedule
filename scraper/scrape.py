@@ -34,6 +34,8 @@ CONFIG = {
     "competitions": [
         {"label": "U14", "competition": "Γυναικών U14 - Γ' Ομιλος"},
         {"label": "U16", "competition": "Γυναικών U16 - Γ' Ομιλος"},
+        # second stage of the same age group: its games are added, the league table above stays the Γ' Ομιλος one
+        {"label": "U16", "competition": "Γυναικών U16 (Τελικής Κατάταξης)", "stage": "final", "table": False},
     ],
     "phase": "Κανονική Περίοδος",
     "season": None,          # None = current season (e.g. 20262027). Or set it, e.g. "20262027"
@@ -530,14 +532,17 @@ def main():
         if not games:
             log("FAILED (%s): no games for %s were found." % (label, CONFIG["team"]))
             failed.append(label)
-            all_games += [g for g in old_games if (g.get("league") or "U14") == label]   # keep what we had
+            all_games += [g for g in old_games if (g.get("league") or "U14") == label
+                          and (g.get("stage") or "") == (comp.get("stage") or "")]   # keep what we had
             continue
         games = apply_overrides(games)
         for g in games:
             g["league"] = label
+            if comp.get("stage"):
+                g["stage"] = comp["stage"]
             g["id"] = hashlib.sha1(("%s|%s|%s|%s" % (label, g["date"], norm(g["home"]), norm(g["away"]))).encode()).hexdigest()[:8]
         all_games += games
-        if LAST_TABLE:
+        if LAST_TABLE and comp.get("table", True):
             standings[label] = LAST_TABLE
         log("OK (%s): %d games for %s, %d teams in the table" % (label, len(games), CONFIG["team"], len(LAST_TABLE)))
     if len(failed) == len(CONFIG["competitions"]):
