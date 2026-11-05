@@ -1112,13 +1112,14 @@ function storyJump(i, dir){
 })();
 
 function tableHTML(){
-  var leagues = filt === "both" ? LEAGUES : [filt], out = "", any = false;
+  var leagues = filt === "both" ? ["U16", "U14"] : [filt], out = "", any = false;   // U16 (the current tournament) first
   leagues.forEach(function(lg){
+    var sub = (state.standings_title || {})[lg] || state.group || "";
     var rows = ((state.standings || {})[lg] || []).map(function(r, i){ r.__i = i; return r; });
     if (!rows.length) return;
     any = true;
     rows.sort(function(a, b){ return (b.pts - a.pts) || (b.diff - a.diff) || (b.pf - a.pf) || (a.__i - b.__i); });
-    out += '<section class="tcard glass" aria-label="' + esc(lg) + ' league table"><h3>' + esc(lg) + (state.group ? ' · ' + esc(state.group) : "") + '</h3>'
+    out += '<section class="tcard glass" aria-label="' + esc(lg) + ' league table"><h3>' + esc(lg) + (sub ? ' · ' + esc(sub) : "") + '</h3>'
       + '<div class="trow h"><span>#</span><span>Team</span><span class="num">P</span><span class="num">W</span><span class="num">L</span><span class="num">+/−</span><span class="num">Pts</span></div>';
     rows.forEach(function(r, i){
       var me = (r.team || "").indexOf(state.team) > -1;

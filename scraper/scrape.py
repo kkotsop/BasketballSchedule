@@ -33,9 +33,9 @@ CONFIG = {
     # "Επιλογή Διοργάνωσης" for each age group we follow; label is shown on the website
     "competitions": [
         {"label": "U14", "competition": "Γυναικών U14 - Γ' Ομιλος"},
-        {"label": "U16", "competition": "Γυναικών U16 - Γ' Ομιλος"},
-        # second stage of the same age group: its games are added, the league table above stays the Γ' Ομιλος one
-        {"label": "U16", "competition": "Γυναικών U16 (Τελικής Κατάταξης)", "stage": "final", "table": False},
+        {"label": "U16", "competition": "Γυναικών U16 - Γ' Ομιλος", "table": False},
+        # second stage of the same age group: its games are added and its table is the one shown for U16 (the Γ' Ομιλος games stay)
+        {"label": "U16", "competition": "Γυναικών U16 (Τελικής Κατάταξης)", "stage": "final", "title": "Final ranking"},
     ],
     "phase": "Κανονική Περίοδος",
     "season": None,          # None = current season (e.g. 20262027). Or set it, e.g. "20262027"
@@ -171,9 +171,15 @@ def post(session, soup, changes, target, extra=None):
         data.update(extra)
     form = soup.find("form")
     action = urljoin(URL, form.get("action") or "") if form is not None else URL   # the page posts to index.aspx
-    r = session.post(action, data=data, headers={"Referer": URL}, timeout=60)
-    r.raise_for_status()
-    return r.text
+    for attempt in range(3):
+        try:
+            r = session.post(action, data=data, headers={"Referer": URL}, timeout=60)
+            r.raise_for_status()
+            return r.text
+        except requests.RequestException:             # the 4 MB page sometimes gets cut off
+            if attempt == 2:
+                raise
+    return ""
 
 
 # ------------------------------------------------------------------ reading the game rows
@@ -387,15 +393,24 @@ def standings_from(html):
     return rows
 
 
+def selected_value(soup, name):
+    sel = soup.find("select", {"name": name})
+    o = sel.find("option", selected=True) if sel is not None else None
+    return o.get("value") if o is not None else None
+
+
 def games_by_round(session, soup, chosen):
     """The page shows one matchday at a time; read each one."""
     name, opts = find_select(soup, "day")
     if not name:
         return []
     found = []
-    for value, text in opts:
-        if not value or value == "0":
-            continue
+    sel = selected_value(soup, name)
+    todo = [v for v, _ in opts if v and v != "0"]
+    if sel in todo:                                   # re-selecting the shown round returns an empty list: do it last
+        todo.remove(sel)
+        todo.append(sel)
+    for value in todo:
         chosen[name] = value
         html = post(session, soup, dict(chosen), name)
         soup = BeautifulSoup(html, "html.parser")
@@ -518,6 +533,7 @@ def main():
     old_games = data.get("games") or []
     all_games, failed = [], []
     standings = dict(data.get("standings") or {})      # keep the old table of a group that could not be read
+    titles = dict(data.get("standings_title") or {})
     for comp in CONFIG["competitions"]:
         label = comp["label"]
         global DUMP_PREFIX
@@ -544,6 +560,7 @@ def main():
         all_games += games
         if LAST_TABLE and comp.get("table", True):
             standings[label] = LAST_TABLE
+            titles[label] = comp.get("title", "")
         log("OK (%s): %d games for %s, %d teams in the table" % (label, len(games), CONFIG["team"], len(LAST_TABLE)))
     if len(failed) == len(CONFIG["competitions"]):
         return 1
@@ -556,6 +573,7 @@ def main():
         data["updated"] = now
     data["checked"] = now
     data["standings"] = standings
+    data["standings_title"] = titles
     data["league"] = "Γυναικών"
     data["source"] = URL
     with open(FIXTURES, "w", encoding="utf-8") as f:

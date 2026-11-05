@@ -135,6 +135,18 @@
    ]
   },
   {
+   "date": "2026-11-08",
+   "time": "10:00",
+   "home": "ΑΠΟΛΛΩΝ Λεμεσού",
+   "away": "ΑΠΟΠ",
+   "venue": "Αίθ. Απόλλωνα",
+   "hs": "0",
+   "as": "0",
+   "league": "U16",
+   "stage": "final",
+   "id": "d115bb34"
+  },
+  {
    "date": "2026-11-14",
    "time": "",
    "home": "ΑΠΟΠ",
@@ -295,8 +307,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-11-04T11:54:42Z",
- "checked": "2026-11-04T23:45:15Z",
+ "updated": "2026-11-05T06:45:17Z",
+ "checked": "2026-11-05T06:45:17Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
@@ -373,59 +385,83 @@
   ],
   "U16": [
    {
-    "team": "ΑΤΛΑΝΤΑΣ Πάφου",
-    "p": 4,
-    "w": 4,
+    "team": "Ε. Ν. Παραλιμνίου",
+    "p": 0,
+    "w": 0,
     "l": 0,
-    "pts": 8,
-    "pf": 279,
-    "pa": 176,
-    "diff": 103
-   },
-   {
-    "team": "ΑΝΟΡΘΩΣΗ Αμμοχώστου",
-    "p": 4,
-    "w": 3,
-    "l": 1,
-    "pts": 7,
-    "pf": 332,
-    "pa": 206,
-    "diff": 126
-   },
-   {
-    "team": "ΑΡΗΣ Λεμεσού",
-    "p": 4,
-    "w": 2,
-    "l": 2,
-    "pts": 6,
-    "pf": 308,
-    "pa": 193,
-    "diff": 115
-   },
-   {
-    "team": "ΑΠΟΛΛΩΝ Λεμεσού",
-    "p": 4,
-    "w": 1,
-    "l": 3,
-    "pts": 5,
-    "pf": 144,
-    "pa": 277,
-    "diff": -133
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
    },
    {
     "team": "ΑΠΟΠ",
-    "p": 4,
+    "p": 0,
     "w": 0,
-    "l": 4,
-    "pts": 4,
-    "pf": 124,
-    "pa": 335,
-    "diff": -211
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
+   },
+   {
+    "team": "Moufflons",
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
+   },
+   {
+    "team": "Υδρα Ασφαλιστική Ε.Ν.Α.Δ.",
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
+   },
+   {
+    "team": "ΑΠΟΕΛ",
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
+   },
+   {
+    "team": "Ε.Θ.Α. Έγκωμης",
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
+   },
+   {
+    "team": "ΑΠΟΛΛΩΝ Λεμεσού",
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
    }
   ]
  },
  "push": {
   "api": "",
   "publicKey": "BI329d2dNJigQk9hQNgqDEIgn6vsJlf-tvzs3kTzFnYCd7d5nXGOevckvoJe4vXF5EsUiVcip6YP05GR__63TKs"
+ },
+ "standings_title": {
+  "U14": "",
+  "U16": "Final ranking"
  }
 }
