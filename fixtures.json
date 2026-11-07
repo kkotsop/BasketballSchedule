@@ -124,8 +124,8 @@
    "home": "Α.Ε.Λ.",
    "away": "ΑΠΟΠ",
    "venue": "Αίθ. Νίκος Σολομωνίδης",
-   "hs": "0",
-   "as": "0",
+   "hs": "51",
+   "as": "42",
    "league": "U14",
    "id": "e9854835",
    "aliases": [
@@ -307,8 +307,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-11-05T06:45:17Z",
- "checked": "2026-11-07T06:02:25Z",
+ "updated": "2026-11-07T13:05:29Z",
+ "checked": "2026-11-07T13:05:29Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
@@ -353,24 +353,24 @@
     "diff": -25
    },
    {
-    "team": "ΑΠΟΠ",
-    "p": 4,
-    "w": 1,
+    "team": "Α.Ε.Λ.",
+    "p": 5,
+    "w": 2,
     "l": 3,
-    "pts": 5,
-    "pf": 125,
-    "pa": 183,
-    "diff": -58
+    "pts": 7,
+    "pf": 239,
+    "pa": 306,
+    "diff": -67
    },
    {
-    "team": "Α.Ε.Λ.",
-    "p": 4,
+    "team": "ΑΠΟΠ",
+    "p": 5,
     "w": 1,
-    "l": 3,
-    "pts": 5,
-    "pf": 188,
-    "pa": 264,
-    "diff": -76
+    "l": 4,
+    "pts": 6,
+    "pf": 167,
+    "pa": 234,
+    "diff": -67
    },
    {
     "team": "ΑΝΟΡΘΩΣΗ Αμμοχώστου",
