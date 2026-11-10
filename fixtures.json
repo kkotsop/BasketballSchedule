@@ -148,7 +148,7 @@
   },
   {
    "date": "2026-11-14",
-   "time": "",
+   "time": "14:00",
    "home": "ΑΠΟΠ",
    "away": "ΑΤΛΑΝΤΑΣ Πάφου",
    "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους",
@@ -165,7 +165,7 @@
   },
   {
    "date": "2026-11-15",
-   "time": "",
+   "time": "16:30",
    "home": "ΑΠΟΠ",
    "away": "ΑΠΟΕΛ",
    "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους",
@@ -307,8 +307,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-11-08T10:25:10Z",
- "checked": "2026-11-10T03:36:34Z",
+ "updated": "2026-11-10T15:01:10Z",
+ "checked": "2026-11-10T15:01:10Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
