@@ -43,5 +43,5 @@ Settings → Code security), or open an issue for anything that is not sensitive
 
 ## Player stats
 The Stats view keeps one player's points and fouls from match-sheet PDFs. Everything stays in that visitor's browser (localStorage); the PDF
-is parsed locally and nothing is sent anywhere. The repository and the published site contain no player data, name or licence number.
+is parsed locally and nothing is sent anywhere. The repository and the published site contain no player data, name.
 The vendored PDF reader (`assets/pdfjs/`) runs with `isEvalSupported: false`, so the strict CSP did not need to be loosened.

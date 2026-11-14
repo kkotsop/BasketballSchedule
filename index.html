@@ -909,7 +909,7 @@ function notesSheet(id){
 }
 
 /* ---------- player stats: read from the official match sheets (PDF), kept ONLY in this browser ---------- */
-/* Nothing here is uploaded or stored on a server. Her surname and licence are typed in on this device and live in localStorage,
+/* Nothing here is uploaded or stored on a server. Her surname is typed in on this device and live in localStorage,
    never in this file. Only her own line is kept from each sheet (points, fouls, jersey), plus the game header. */
 var STATS_KEY = "apop-stats-v1", pdfReady = null;
 function statsAll(){
@@ -951,7 +951,7 @@ function readSheet(file){
     var hash = r[0], doc = r[1];
     return doc.getPage(1).then(function(p){ return p.getTextContent(); }).then(function(tc){
       var items = tc.items.map(function(i){ return {str: i.str, x: i.transform[4], y: i.transform[5], w: i.width}; });
-      var res = window.SheetParser.parse([items], who, state.team);
+      var res = window.SheetParser.parse([items], {surname: who && who.surname}, state.team);   // surname only: no licence number
       res.hash = hash;
       return res;
     });
@@ -1012,7 +1012,7 @@ function statsHTML(){
   var box = function(label, b){
     return '<div class="sbox"><b>' + esc(label) + '</b><span class="n">' + b.p + '</span><span class="l">points</span><span class="n">' + b.f + '</span><span class="l">fouls</span><span class="g">' + plural(b.g, "game", "games") + '</span></div>';
   };
-  var out = '<div class="sv"><section class="scard glass"><h3>' + esc(st.who.surname) + (st.who.licence ? ' · licence ' + esc(st.who.licence) : "") + '</h3>'
+  var out = '<div class="sv"><section class="scard glass"><h3>' + esc(st.who.surname) + '</h3>'
     + '<div class="sgrid">' + box("U14", t.U14) + box("U16", t.U16) + box("Season", t.all) + '</div>'
     + (t.review ? '<p class="swarn">' + plural(t.review, "game needs", "games need") + ' review and ' + (t.review === 1 ? "is" : "are") + ' not counted.</p>' : "")
     + '<div class="sact"><button class="btn" data-act="stats-import">Import match sheet</button><button class="btn ghost" data-act="stats-settings">Settings</button></div>'
@@ -1037,23 +1037,22 @@ function statsHTML(){
 
 function statsSetup(){
   var st = statsAll(), w = st.who || {};
-  var d = sheet('<h2>Player</h2><p class="note">Used only to find her line on each sheet. Kept on this phone, never uploaded, and not part of the website.</p>'
+  var d = sheet('<h2>Player</h2><p class="note">Used only to find her line on each sheet (matched by surname). Kept on this phone, never uploaded, and not part of the website.</p>'
     + '<form class="sform" id="sform" autocomplete="off"><label>Surname, as printed on the sheet (capitals)<input id="s-sn" type="text" maxlength="40" value="' + esc(w.surname || "") + '" required></label>'
-    + '<label>Licence number<input id="s-lic" type="text" inputmode="numeric" maxlength="8" value="' + esc(w.licence || "") + '"></label>'
     + '<label>Jersey numbers she has worn (optional, e.g. 65, 24)<input id="s-jn" type="text" inputmode="numeric" maxlength="20" value="' + esc((w.jerseys || []).join(", ")) + '"></label>'
     + '<button class="btn" type="submit">Save</button></form>');
   d.querySelector("#sform").addEventListener("submit", function(ev){
     ev.preventDefault();
-    var sn = d.querySelector("#s-sn").value.replace(/\s+/g, " ").trim().toUpperCase(), lic = d.querySelector("#s-lic").value.replace(/\D/g, "");
+    var sn = d.querySelector("#s-sn").value.replace(/\s+/g, " ").trim().toUpperCase();
     if (!sn) return;
     var jn = d.querySelector("#s-jn").value.split(/[^0-9]+/).filter(Boolean).map(Number).filter(function(n){ return n >= 0 && n <= 99; });
-    var o = statsAll(); o.who = {surname: sn, licence: lic, jerseys: jn};
+    var o = statsAll(); o.who = {surname: sn, jerseys: jn};
     if (!statsSave(o)) { toast("Can’t save in this browser"); return; }
     d.close(); render();
   });
 }
 function statsSettings(){
-  var d = sheet('<h2>Stats settings</h2><div class="sact col"><button class="btn ghost" data-s="edit">Change surname / licence</button>'
+  var d = sheet('<h2>Stats settings</h2><div class="sact col"><button class="btn ghost" data-s="edit">Change surname / jerseys</button>'
     + '<button class="btn danger" data-s="erase">Erase all stats from this phone</button></div>'
     + '<p class="note nfoot">Erasing removes every saved sheet line and the surname. Nothing is stored anywhere else.</p>');
   d.addEventListener("click", function(ev){
@@ -1094,7 +1093,7 @@ function statsConfirm(file){          // read one sheet, show what was found, sa
       var warn = (Object.keys(known).length && !known[p.jersey]) ? '<p class="swarn">She has not worn #' + p.jersey + ' before (known: ' + Object.keys(known).join(", ") + '). Check it is her.</p>' : "";
       var d = sheet('<h2>' + (flags.length ? "Check this sheet" : "Save this game?") + '</h2>'
         + '<p class="note">' + esc(g.home) + ' ' + esc(g.hs) + '–' + esc(g.as) + ' ' + esc(g.away) + '<br>' + esc(g.league) + ' · ' + esc(fmtDay(g.date)) + (g.time ? ' ' + esc(g.time) : "") + '</p>'
-        + '<div class="sfound"><b>' + esc(st.who.surname) + '</b> · licence ' + esc(p.licence || st.who.licence || "") + '<span class="jn">#' + p.jersey + '</span></div>'
+        + '<div class="sfound"><b>' + esc(st.who.surname) + '</b><span class="jn">#' + p.jersey + '</span></div>'
         + warn
         + '<div class="sgrid one"><div class="sbox"><span class="n">' + p.points + '</span><span class="l">points</span><span class="n">' + p.fouls + '</span><span class="l">fouls</span></div></div>'
         + (flags.length ? '<p class="swarn">Needs review: ' + esc(flags.join("; ")) + '. It will not be counted.</p>' : "")

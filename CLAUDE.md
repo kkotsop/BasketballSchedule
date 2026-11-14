@@ -114,11 +114,11 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 ## Player stats (private, on-device)
 - A person-icon button next to Playbook opens a Stats view (`view === "stats"`, `statsHTML()` and the `stats*` functions in `index.html`).
   The user imports match-sheet PDFs (the NBN23 FIBA sheets from the federation's results page) that they download themselves.
-- **Privacy rule: her stats, surname and licence never go in the repo or the deployed site.** They live only in the visitor's
-  localStorage key `apop-stats-v1` (`{who:{surname,licence}, games:{key:{...}}}`); the PDF is read in the browser and never uploaded.
-  Do not add them to `fixtures.json`, tests or docs. `tools/local/` is git-ignored for the test config (surname, licence, checked figures).
+- **Privacy rule: her stats and surname never go in the repo or the deployed site.** They live only in the visitor's
+  localStorage key `apop-stats-v1` (`{who:{surname,jerseys}, games:{key:{...}}}`); the PDF is read in the browser and never uploaded.
+  Do not add them to `fixtures.json`, tests or docs. `tools/local/` is git-ignored for the test config (surname, checked figures).
 - `assets/sheet.js` parses one sheet (pure function, also used by `tools/test_sheet.js`): header, final score, her roster row (matched by
-  surname + licence, never by jersey) and her points from the running score (each entry is worth new total - previous total, credited to the
+  surname only, never by jersey; two roster lines with that surname are flagged for review) and her points from the running score (each entry is worth new total - previous total, credited to the
   jersey beside it, so the slash/dot/circle marks are not needed). Anything that does not add up goes into `flags`; flagged sheets are
   saved as "needs review" and not counted. Nothing is guessed.
 - On each import the person confirms the sheet, with her jersey shown. A warning appears only for a number she has not worn before (the numbers listed in Settings plus those on saved sheets), so a planned change like 65 to 24 does not nag.
