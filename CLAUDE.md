@@ -110,3 +110,19 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
 - Accessibility: 44 px tap targets in the header, visible focus, contrast checked in both themes.
 - The styling has layers from several design rounds (later blocks override earlier ones). If a rewrite is needed,
   consolidate the `design v10` and `document scrolling` blocks into the base styles.
+
+## Player stats (private, on-device)
+- A person-icon button next to Playbook opens a Stats view (`view === "stats"`, `statsHTML()` and the `stats*` functions in `index.html`).
+  The user imports match-sheet PDFs (the NBN23 FIBA sheets from the federation's results page) that they download themselves.
+- **Privacy rule: her stats, surname and licence never go in the repo or the deployed site.** They live only in the visitor's
+  localStorage key `apop-stats-v1` (`{who:{surname,licence}, games:{key:{...}}}`); the PDF is read in the browser and never uploaded.
+  Do not add them to `fixtures.json`, tests or docs. `tools/local/` is git-ignored for the test config (surname, licence, checked figures).
+- `assets/sheet.js` parses one sheet (pure function, also used by `tools/test_sheet.js`): header, final score, her roster row (matched by
+  surname + licence, never by jersey) and her points from the running score (each entry is worth new total - previous total, credited to the
+  jersey beside it, so the slash/dot/circle marks are not needed). Anything that does not add up goes into `flags`; flagged sheets are
+  saved as "needs review" and not counted. Nothing is guessed.
+- On each import the person confirms the sheet, with her jersey shown and a warning when it differs from the last saved game.
+- Games are keyed by `league|date|home|away` (normalised) so importing a sheet twice never duplicates. Played games without a sheet show
+  "Sheet unavailable", never 0. Only points and fouls are shown (sheets have no minutes, rebounds or assists).
+- `assets/pdfjs/` is a vendored pdf.js 3.11.174 (Apache-2.0), loaded only when a sheet is imported. CSP unchanged (all `'self'`).
+- The NBN23 API (`api.swish.nbn23.com`) is deliberately not used: their widget docs say the key identifies the integrating organisation.

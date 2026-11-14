@@ -613,6 +613,41 @@ html.story-open,html.story-open body{overflow:hidden;overscroll-behavior:none}
 /* ===== light theme: no white card borders (border only) ===== */
 :root[data-theme="light"]{--edge:transparent}
 :root[data-theme="light"] .it.next .bd{border-color:transparent}
+
+/* ---------- player stats ---------- */
+.sv{position:relative;padding-bottom:56px}
+.scard{margin:10px 0 12px;padding:16px 14px;border-radius:18px}
+.scard h3{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+.scard p,.sv .snote{font-size:13.5px;color:var(--text-2);line-height:1.45;margin:0 0 12px}
+.sv .snote{margin:10px 4px}
+.scard .snote{margin:12px 0 0}
+.sgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sgrid.one{grid-template-columns:1fr;margin:12px 0}
+.sbox{display:grid;grid-template-columns:auto 1fr;column-gap:6px;align-items:baseline;padding:10px;border-radius:14px;background:rgba(127,127,127,.12)}
+.sbox b{grid-column:1/3;font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:4px}
+.sbox .n{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
+.sbox .l{font-size:12px;color:var(--text-2)}
+.sbox .g{grid-column:1/3;font-size:11.5px;color:var(--text-3);margin-top:4px}
+.swarn{font-size:13px;color:var(--loss);margin:10px 0 0}
+.sact{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.sact.col{flex-direction:column}
+.sact .btn{flex:1 1 auto}
+.srow{margin:0 0 8px;padding:12px 14px;border-radius:16px}
+.srow .sh,.srow .sm,.srow .sl{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.srow .sd{font-size:12px;font-weight:600;color:var(--text-2)}
+.srow .sm{margin:6px 0 4px}
+.srow .so{font-size:15px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srow .ss{font-size:13px;color:var(--text-2);font-variant-numeric:tabular-nums;flex:none}
+.srow .sst{font-size:14px;color:var(--text-2)}
+.srow .sst b{color:var(--text);font-size:16px}
+.srow .sna{font-size:13px;color:var(--text-3);font-style:italic}
+.srow.rv{box-shadow:inset 3px 0 0 var(--loss)}
+.sx{flex:none;width:30px;height:30px;border-radius:50%;font-size:18px;line-height:1;color:var(--text-3)}
+.sform{display:flex;flex-direction:column;gap:12px}
+.sform label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--text-2)}
+.sform input{height:44px;background:var(--field);border:1px solid var(--hair);border-radius:12px;padding:0 12px;font:inherit;font-size:16px;color:var(--text)}
+.sfound{display:flex;align-items:center;gap:8px;font-size:14px;margin:10px 0 0}
+.sfound .jn{margin-left:auto;font-size:18px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--accent-chip)}
 </style>
 </head>
 <body>
@@ -641,6 +676,7 @@ var DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 var DAYS_LONG = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 var ICON = {
+  person:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3.2"/><path d="M3.5 16.5c.7-3.1 3.2-4.8 6.5-4.8s5.8 1.7 6.5 4.8"/></svg>',
   notes:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5l1.7 1.7L8 3.8M3 11.5l1.7 1.7L8 9.8M11 5.5h6M11 11.5h6M3.5 17h4.5M11 17h6"/></svg>',
   book:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H16v12H5.5A1.5 1.5 0 0 0 4 16.5z"/><path d="M4 16.5A1.5 1.5 0 0 0 5.5 18H16v-3"/></svg>',
   sun:'<svg class="sun" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="3.2"/><path d="M10 2.5v1.8M10 15.7v1.8M2.5 10h1.8M15.7 10h1.8M4.7 4.7l1.3 1.3M14 14l1.3 1.3M15.3 4.7L14 6M6 14l-1.3 1.3"/></svg>',
@@ -747,6 +783,7 @@ function filterHTML(){
   return '<div class="fbar">'
     + (many ? '<div class="seg glass" role="radiogroup" aria-label="Show games for">' + opt("both", "Both") + opt("U14", "U14") + opt("U16", "U16") + '</div>' : '<span class="sp" style="flex:1"></span>')
     + '<button class="vbtn glass pbtn" data-act="playbook" aria-label="Playbook" title="Playbook">' + ICON.book + '</button>'
+    + '<button class="vbtn glass pbtn" data-act="stats" aria-label="Player stats" title="Player stats" aria-pressed="' + (view === "stats") + '">' + ICON.person + '</button>'
     + (tables ? '<button class="vbtn glass" data-act="view" aria-pressed="' + (view === "table") + '">' + (view === "table" ? ICON.list + "Games" : ICON.table + "Table") + '</button>' : "")
     + '</div>';
 }
@@ -866,6 +903,210 @@ function notesSheet(id){
     inp.focus();
   });
   paint();
+}
+
+/* ---------- player stats: read from the official match sheets (PDF), kept ONLY in this browser ---------- */
+/* Nothing here is uploaded or stored on a server. Her surname and licence are typed in on this device and live in localStorage,
+   never in this file. Only her own line is kept from each sheet (points, fouls, jersey), plus the game header. */
+var STATS_KEY = "apop-stats-v1", pdfReady = null;
+function statsAll(){
+  try {
+    var o = JSON.parse(localStorage.getItem(STATS_KEY) || "null");
+    if (o && typeof o === "object" && o.games && typeof o.games === "object") return o;
+  } catch (e) {}
+  return {v: 1, who: null, games: {}};
+}
+function statsSave(o){ try { localStorage.setItem(STATS_KEY, JSON.stringify(o)); return true; } catch (e) { return false; } }
+function tkey(s){ return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[\s.]/g, ""); }
+function statsKey(g){ return [g.league, g.date, tkey(g.home), tkey(g.away)].join("|"); }
+function loadScript(src){
+  return new Promise(function(ok, bad){
+    var s = document.createElement("script");
+    s.src = src; s.onload = ok; s.onerror = function(){ bad(new Error("Could not load " + src)); };
+    document.head.appendChild(s);
+  });
+}
+function loadPdf(){            // the PDF reader (about 1.4 MB) is only fetched when a sheet is imported
+  if (!pdfReady) pdfReady = loadScript("assets/pdfjs/pdf.min.js").then(function(){
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/pdfjs/pdf.worker.min.js";
+    return loadScript("assets/sheet.js");
+  });
+  return pdfReady;
+}
+function sha256(buf){
+  if (!(window.crypto && crypto.subtle)) return Promise.resolve("");
+  return crypto.subtle.digest("SHA-256", buf).then(function(h){
+    return Array.prototype.map.call(new Uint8Array(h), function(b){ return ("0" + b.toString(16)).slice(-2); }).join("");
+  }, function(){ return ""; });
+}
+function readSheet(file){
+  var who = statsAll().who;
+  return Promise.all([file.arrayBuffer(), loadPdf()]).then(function(r){
+    var buf = r[0];
+    return Promise.all([sha256(buf.slice(0)), window.pdfjsLib.getDocument({data: new Uint8Array(buf), isEvalSupported: false}).promise]);
+  }).then(function(r){
+    var hash = r[0], doc = r[1];
+    return doc.getPage(1).then(function(p){ return p.getTextContent(); }).then(function(tc){
+      var items = tc.items.map(function(i){ return {str: i.str, x: i.transform[4], y: i.transform[5], w: i.width}; });
+      var res = window.SheetParser.parse([items], who, state.team);
+      res.hash = hash;
+      return res;
+    });
+  });
+}
+function statsFor(g){            // the saved record (if any) for a scheduled game: same age group, same day, same opponent
+  var all = statsAll().games, found = null;
+  Object.keys(all).forEach(function(k){
+    var r = all[k];
+    if (r.league === leagueOf(g) && r.date === g.date && tkey(isHome(g) ? r.away : r.home) === tkey(opponent(g))) found = r;
+  });
+  return found;
+}
+function fmtDay(iso){
+  var p = iso.split("-"), d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  return DAYS[d.getDay()] + " " + d.getDate() + " " + MONTHS[d.getMonth()];
+}
+function plural(n, one, many){ return n + " " + (n === 1 ? one : many); }
+
+function statsRows(){
+  var st = statsAll(), recs = st.games, used = {}, rows = [];
+  state.games.filter(played).forEach(function(g){
+    var r = statsFor(g);
+    if (r) used[r.key] = 1;
+    rows.push({date: g.date, league: leagueOf(g), opp: opponent(g), home: isHome(g), us: ourScore(g), them: theirScore(g), rec: r});
+  });
+  Object.keys(recs).forEach(function(k){            // a sheet whose game is not in the schedule (yet)
+    var r = recs[k];
+    if (used[k]) return;
+    var home = tkey(r.home).indexOf(tkey(state.team)) > -1;
+    rows.push({date: r.date, league: r.league, opp: home ? r.away : r.home, home: home, us: home ? r.hs : r.as, them: home ? r.as : r.hs, rec: r});
+  });
+  return rows.sort(function(a, b){ return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
+}
+function statsTotals(){
+  var recs = statsAll().games, t = {U14: {g: 0, p: 0, f: 0}, U16: {g: 0, p: 0, f: 0}, all: {g: 0, p: 0, f: 0}, review: 0};
+  Object.keys(recs).forEach(function(k){
+    var r = recs[k];
+    if (r.review) { t.review++; return; }
+    [t[r.league], t.all].forEach(function(b){ if (b) { b.g++; b.p += r.points; b.f += r.fouls; } });
+  });
+  return t;
+}
+
+function statsHTML(){
+  var st = statsAll();
+  if (!st.who) {
+    return '<div class="sv"><section class="scard glass"><h3>Player stats</h3>'
+      + '<p>Points and fouls from the official match sheets. The sheets are read on this phone and the numbers are kept here only. They are never uploaded, and nobody else who opens this link can see them.</p>'
+      + '<button class="btn" data-act="stats-setup">Set up</button></section></div>';
+  }
+  var t = statsTotals(), rows = statsRows().filter(function(r){ return filt === "both" || r.league === filt; });
+  var box = function(label, b){
+    return '<div class="sbox"><b>' + esc(label) + '</b><span class="n">' + b.p + '</span><span class="l">points</span><span class="n">' + b.f + '</span><span class="l">fouls</span><span class="g">' + plural(b.g, "game", "games") + '</span></div>';
+  };
+  var out = '<div class="sv"><section class="scard glass"><h3>' + esc(st.who.surname) + (st.who.licence ? ' · licence ' + esc(st.who.licence) : "") + '</h3>'
+    + '<div class="sgrid">' + box("U14", t.U14) + box("U16", t.U16) + box("Season", t.all) + '</div>'
+    + (t.review ? '<p class="swarn">' + plural(t.review, "game needs", "games need") + ' review and ' + (t.review === 1 ? "is" : "are") + ' not counted.</p>' : "")
+    + '<div class="sact"><button class="btn" data-act="stats-import">Import match sheet</button><button class="btn ghost" data-act="stats-settings">Settings</button></div>'
+    + '<p class="snote">Only on this phone. Sheets give points and fouls only; no minutes, rebounds or assists.</p></section>';
+  if (!rows.length) out += '<p class="snote">No played games yet.</p>';
+  rows.forEach(function(r){
+    var rec = r.rec, line, cls = "srow glass";
+    if (!rec) line = '<span class="sna">Sheet unavailable</span>';
+    else if (rec.review) { line = '<span class="sna">Needs review</span>'; cls += " rv"; }
+    else line = '<span class="sst"><b>' + rec.points + '</b> ' + (rec.points === 1 ? "pt" : "pts") + ' · <b>' + rec.fouls + '</b> ' + (rec.fouls === 1 ? "foul" : "fouls") + '</span>';
+    var res = r.us > r.them ? "W" : (r.us < r.them ? "L" : "D");
+    out += '<div class="' + cls + '"><div class="sh"><span class="sd">' + esc(fmtDay(r.date)) + '</span><span class="chip">' + esc(r.league) + '</span></div>'
+      + '<div class="sm"><span class="so">' + (r.home ? "vs " : "at ") + esc(r.opp) + '</span><span class="ss">' + esc(r.us) + '–' + esc(r.them) + ' ' + res + '</span></div>'
+      + '<div class="sl">' + line + (rec ? '<button class="sx" data-act="stats-del" data-key="' + esc(rec.key) + '" aria-label="Remove this sheet" title="Remove this sheet">×</button>' : "") + '</div></div>';
+  });
+  return out + '</div>';
+}
+
+function statsSetup(){
+  var st = statsAll(), w = st.who || {};
+  var d = sheet('<h2>Player</h2><p class="note">Used only to find her line on each sheet. Kept on this phone, never uploaded, and not part of the website.</p>'
+    + '<form class="sform" id="sform" autocomplete="off"><label>Surname, as printed on the sheet (capitals)<input id="s-sn" type="text" maxlength="40" value="' + esc(w.surname || "") + '" required></label>'
+    + '<label>Licence number<input id="s-lic" type="text" inputmode="numeric" maxlength="8" value="' + esc(w.licence || "") + '"></label>'
+    + '<button class="btn" type="submit">Save</button></form>');
+  d.querySelector("#sform").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var sn = d.querySelector("#s-sn").value.replace(/\s+/g, " ").trim().toUpperCase(), lic = d.querySelector("#s-lic").value.replace(/\D/g, "");
+    if (!sn) return;
+    var o = statsAll(); o.who = {surname: sn, licence: lic};
+    if (!statsSave(o)) { toast("Can’t save in this browser"); return; }
+    d.close(); render();
+  });
+}
+function statsSettings(){
+  var d = sheet('<h2>Stats settings</h2><div class="sact col"><button class="btn ghost" data-s="edit">Change surname / licence</button>'
+    + '<button class="btn danger" data-s="erase">Erase all stats from this phone</button></div>'
+    + '<p class="note nfoot">Erasing removes every saved sheet line and the surname. Nothing is stored anywhere else.</p>');
+  d.addEventListener("click", function(ev){
+    var b = ev.target.closest ? ev.target.closest("[data-s]") : null;
+    if (!b) return;
+    d.close();
+    if (b.getAttribute("data-s") === "edit") statsSetup();
+    else if (confirm("Erase all saved stats and the surname from this phone?")) { try { localStorage.removeItem(STATS_KEY); } catch (e) {} render(); toast("Erased"); }
+  });
+}
+function statsImport(){
+  var inp = document.createElement("input");
+  inp.type = "file"; inp.accept = "application/pdf,.pdf"; inp.multiple = true;
+  inp.addEventListener("change", function(){
+    var files = Array.prototype.slice.call(inp.files || []);
+    (function next(i){
+      if (i >= files.length) { render(); return; }
+      statsConfirm(files[i]).then(function(){ next(i + 1); });
+    })(0);
+  });
+  inp.click();
+}
+function statsConfirm(file){          // read one sheet, show what was found, save only after the person confirms
+  return new Promise(function(done){
+    var wait = sheet('<h2>Reading sheet…</h2><p class="note">' + esc(file.name) + '</p>');
+    readSheet(file).then(function(res){
+      wait.close();
+      var st = statsAll(), g = res.game, p = res.player, flags = res.flags || [];
+      if (!g || !p || p.points === undefined) {
+        sheet('<h2>Can’t use this sheet</h2><p class="note">' + (flags.length ? esc(flags.join(". ")) : "It does not look like a match sheet.") + '</p><button class="btn" data-s="ok">OK</button>')
+          .addEventListener("click", function(ev){ if (ev.target.getAttribute && ev.target.getAttribute("data-s")) { ev.currentTarget.close(); done(); } });
+        return;
+      }
+      var key = statsKey({league: g.league, date: g.date, home: g.home, away: g.away}), had = st.games[key];
+      var lastJersey = null, lastDate = "";
+      Object.keys(st.games).forEach(function(k){ var r = st.games[k]; if (!r.review && r.date > lastDate) { lastDate = r.date; lastJersey = r.jersey; } });
+      var warn = (lastJersey !== null && lastJersey !== p.jersey) ? '<p class="swarn">Last saved game she wore #' + lastJersey + '. This sheet has #' + p.jersey + '. Check it is her.</p>' : "";
+      var d = sheet('<h2>' + (flags.length ? "Check this sheet" : "Save this game?") + '</h2>'
+        + '<p class="note">' + esc(g.home) + ' ' + esc(g.hs) + '–' + esc(g.as) + ' ' + esc(g.away) + '<br>' + esc(g.league) + ' · ' + esc(fmtDay(g.date)) + (g.time ? ' ' + esc(g.time) : "") + '</p>'
+        + '<div class="sfound"><b>' + esc(st.who.surname) + '</b> · licence ' + esc(p.licence || st.who.licence || "") + '<span class="jn">#' + p.jersey + '</span></div>'
+        + warn
+        + '<div class="sgrid one"><div class="sbox"><span class="n">' + p.points + '</span><span class="l">points</span><span class="n">' + p.fouls + '</span><span class="l">fouls</span></div></div>'
+        + (flags.length ? '<p class="swarn">Needs review: ' + esc(flags.join("; ")) + '. It will not be counted.</p>' : "")
+        + (had ? '<p class="note">Already saved. Saving again replaces it, no duplicate.</p>' : "")
+        + '<form class="sform" id="cform"><label>Where it came from (optional link)<input id="c-url" type="url" inputmode="url" maxlength="300" placeholder="https://…" value="' + esc((had && had.url) || "") + '"></label>'
+        + '<div class="sact"><button class="btn" type="submit">' + (flags.length ? "Save for review" : "Save") + '</button><button class="btn ghost" type="button" data-s="no">Cancel</button></div></form>');
+      var finished = false;
+      function fin(){ if (!finished) { finished = true; done(); } }
+      d.addEventListener("close", fin);
+      d.querySelector('[data-s="no"]').addEventListener("click", function(){ d.close(); });
+      d.querySelector("#cform").addEventListener("submit", function(ev){
+        ev.preventDefault();
+        var u = d.querySelector("#c-url").value.trim();
+        if (u && !/^https:\/\//i.test(u)) u = "";
+        var o = statsAll();
+        o.games[key] = {key: key, league: g.league, date: g.date, time: g.time, home: g.home, away: g.away, hs: g.hs, as: g.as,
+          side: g.side, jersey: p.jersey, points: p.points, fouls: p.fouls, entries: p.entries || [], flags: flags, review: flags.length > 0,
+          hash: res.hash, file: file.name, url: u, importedAt: new Date().toISOString()};
+        if (!statsSave(o)) toast("Can’t save in this browser"); else toast(flags.length ? "Saved for review" : "Saved");
+        d.close();
+      });
+    }).catch(function(e){
+      wait.close();
+      sheet('<h2>Can’t read this file</h2><p class="note">' + esc(String(e && e.message || e)) + '</p><button class="btn" data-s="ok">OK</button>')
+        .addEventListener("click", function(ev){ if (ev.target.getAttribute && ev.target.getAttribute("data-s")) { ev.currentTarget.close(); done(); } });
+    });
+  });
 }
 
 function rowHTML(g, isFocus){
@@ -1184,7 +1425,7 @@ function render(opts){
   var hasNext = sorted().some(upcoming);
   document.getElementById("root").innerHTML =
     '<div class="app"><div class="top" id="top">' + headerHTML() + filterHTML() + widgetHTML() + '</div>'
-    + '<main class="scroller" id="scroller">' + (view === "table" ? tableHTML() : timelineHTML()) + '</main>'
+    + '<main class="scroller" id="scroller">' + (view === "table" ? tableHTML() : (view === "stats" ? statsHTML() : timelineHTML())) + '</main>'
     + '<button class="jump glass hide" id="jump" data-act="jump" data-dir="down">' + (hasNext ? "Next game" : "Latest game") + ICON.down + '</button>'
     + '<div class="bottom" id="bottom"><button class="quote glass" id="q" data-act="quote" aria-live="polite" aria-label="Show another quote">'
     + '<span class="qmark" aria-hidden="true">“</span><span class="qbody"><span id="q-text"></span><span id="q-by" hidden></span></span>'
@@ -1485,6 +1726,14 @@ document.addEventListener("click", function(ev){
   }
   else if (act === "view") { view = view === "table" ? "games" : "table"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
   else if (act === "playbook") openStory();
+  else if (act === "stats") { view = view === "stats" ? "games" : "stats"; render(); window.scrollTo(0, 0); if (view === "games") centerFocus(false); }
+  else if (act === "stats-setup") statsSetup();
+  else if (act === "stats-settings") statsSettings();
+  else if (act === "stats-import") statsImport();
+  else if (act === "stats-del") {
+    var sk = el.getAttribute("data-key");
+    if (sk && confirm("Remove this game’s stats from this phone?")) { var so = statsAll(); delete so.games[sk]; statsSave(so); render({}); }
+  }
   else if (act === "copy") copyLink();
   else if (act === "updates") updatesSheet();
   else if (act === "refresh") {

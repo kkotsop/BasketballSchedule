@@ -21,6 +21,7 @@ Live site: `https://kkotsop.github.io/BasketballSchedule/` (on a phone: Share â†
   (updates) and refresh.
 - **Subscribe** (bell, bottom bar): pop-up with Apple Calendar, Google Calendar and (once set up) a Notifications switch, in an iOS-style grouped list.
 - Refresh button next to the footnote.
+- **Player stats** (person icon next to Playbook): import the official match-sheet PDFs and see one player's points and fouls per game and in totals. Private: it all stays on that phone (see CLAUDE.md and SECURITY.md).
 
 ## Calendar feed and notifications
 - **Calendar feed**: the workflow writes `calendar/apop.ics`, `apop-u14.ics` and `apop-u16.ics` into the published

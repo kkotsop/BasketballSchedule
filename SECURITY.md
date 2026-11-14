@@ -40,3 +40,8 @@ Settings → Code security), or open an issue for anything that is not sensitive
 - Two-factor authentication on the GitHub account.
 - Settings → Code security: enable Dependabot alerts, secret scanning and push protection.
 - Settings → Actions → General: allow only GitHub-owned actions.
+
+## Player stats
+The Stats view keeps one player's points and fouls from match-sheet PDFs. Everything stays in that visitor's browser (localStorage); the PDF
+is parsed locally and nothing is sent anywhere. The repository and the published site contain no player data, name or licence number.
+The vendored PDF reader (`assets/pdfjs/`) runs with `isEvalSupported: false`, so the strict CSP did not need to be loosened.
