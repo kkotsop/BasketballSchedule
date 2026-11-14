@@ -121,7 +121,8 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
   surname + licence, never by jersey) and her points from the running score (each entry is worth new total - previous total, credited to the
   jersey beside it, so the slash/dot/circle marks are not needed). Anything that does not add up goes into `flags`; flagged sheets are
   saved as "needs review" and not counted. Nothing is guessed.
-- On each import the person confirms the sheet, with her jersey shown and a warning when it differs from the last saved game.
+- On each import the person confirms the sheet, with her jersey shown. A warning appears only for a number she has not worn before (the numbers listed in Settings plus those on saved sheets), so a planned change like 65 to 24 does not nag.
+- Played games with no sheet show "Waiting for the sheet" (and a red dot on the person icon) until imported or marked "No sheet" (then "Sheet unavailable").
 - Games are keyed by `league|date|home|away` (normalised) so importing a sheet twice never duplicates. Played games without a sheet show
   "Sheet unavailable", never 0. Only points and fouls are shown (sheets have no minutes, rebounds or assists).
 - `assets/pdfjs/` is a vendored pdf.js 3.11.174 (Apache-2.0), loaded only when a sheet is imported. CSP unchanged (all `'self'`).

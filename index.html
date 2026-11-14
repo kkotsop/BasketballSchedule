@@ -615,6 +615,9 @@ html.story-open,html.story-open body{overflow:hidden;overscroll-behavior:none}
 :root[data-theme="light"] .it.next .bd{border-color:transparent}
 
 /* ---------- player stats ---------- */
+.pdot{position:absolute;top:8px;right:8px;width:9px;height:9px;border-radius:50%;background:#FF3B4E;box-shadow:0 0 0 2px var(--bg-bot,#0A0A0B)}
+.fbar .pbtn{position:relative}
+.slink{flex:none;font-size:12px;font-weight:600;color:var(--text-2);text-decoration:underline;padding:6px 4px}
 .sv{position:relative;padding-bottom:56px}
 .scard{margin:10px 0 12px;padding:16px 14px;border-radius:18px}
 .scard h3{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
@@ -783,7 +786,7 @@ function filterHTML(){
   return '<div class="fbar">'
     + (many ? '<div class="seg glass" role="radiogroup" aria-label="Show games for">' + opt("both", "Both") + opt("U14", "U14") + opt("U16", "U16") + '</div>' : '<span class="sp" style="flex:1"></span>')
     + '<button class="vbtn glass pbtn" data-act="playbook" aria-label="Playbook" title="Playbook">' + ICON.book + '</button>'
-    + '<button class="vbtn glass pbtn" data-act="stats" aria-label="Player stats" title="Player stats" aria-pressed="' + (view === "stats") + '">' + ICON.person + '</button>'
+    + '<button class="vbtn glass pbtn" data-act="stats" aria-label="Player stats" title="Player stats" aria-pressed="' + (view === "stats") + '">' + ICON.person + (sheetsPending() ? '<i class="pdot" aria-hidden="true"></i>' : "") + '</button>'
     + (tables ? '<button class="vbtn glass" data-act="view" aria-pressed="' + (view === "table") + '">' + (view === "table" ? ICON.list + "Games" : ICON.table + "Table") + '</button>' : "")
     + '</div>';
 }
@@ -968,12 +971,17 @@ function fmtDay(iso){
 }
 function plural(n, one, many){ return n + " " + (n === 1 ? one : many); }
 
+function sheetsPending(){          // played games that still have no sheet and were not marked "no sheet"
+  var st = statsAll();
+  if (!st.who) return 0;
+  return state.games.filter(function(g){ return played(g) && !statsFor(g) && !(st.nosheet || {})[statsKey(g)]; }).length;
+}
 function statsRows(){
   var st = statsAll(), recs = st.games, used = {}, rows = [];
   state.games.filter(played).forEach(function(g){
     var r = statsFor(g);
     if (r) used[r.key] = 1;
-    rows.push({date: g.date, league: leagueOf(g), opp: opponent(g), home: isHome(g), us: ourScore(g), them: theirScore(g), rec: r});
+    rows.push({date: g.date, league: leagueOf(g), opp: opponent(g), home: isHome(g), us: ourScore(g), them: theirScore(g), rec: r, key: statsKey(g)});
   });
   Object.keys(recs).forEach(function(k){            // a sheet whose game is not in the schedule (yet)
     var r = recs[k];
@@ -1012,7 +1020,11 @@ function statsHTML(){
   if (!rows.length) out += '<p class="snote">No played games yet.</p>';
   rows.forEach(function(r){
     var rec = r.rec, line, cls = "srow glass";
-    if (!rec) line = '<span class="sna">Sheet unavailable</span>';
+    if (!rec) {
+      var gone = (st.nosheet || {})[r.key];
+      line = gone ? '<span class="sna">Sheet unavailable</span>'
+        : '<span class="sna">Waiting for the sheet</span><button class="slink" data-act="stats-nosheet" data-key="' + esc(r.key) + '">No sheet</button>';
+    }
     else if (rec.review) { line = '<span class="sna">Needs review</span>'; cls += " rv"; }
     else line = '<span class="sst"><b>' + rec.points + '</b> ' + (rec.points === 1 ? "pt" : "pts") + ' · <b>' + rec.fouls + '</b> ' + (rec.fouls === 1 ? "foul" : "fouls") + '</span>';
     var res = r.us > r.them ? "W" : (r.us < r.them ? "L" : "D");
@@ -1028,12 +1040,14 @@ function statsSetup(){
   var d = sheet('<h2>Player</h2><p class="note">Used only to find her line on each sheet. Kept on this phone, never uploaded, and not part of the website.</p>'
     + '<form class="sform" id="sform" autocomplete="off"><label>Surname, as printed on the sheet (capitals)<input id="s-sn" type="text" maxlength="40" value="' + esc(w.surname || "") + '" required></label>'
     + '<label>Licence number<input id="s-lic" type="text" inputmode="numeric" maxlength="8" value="' + esc(w.licence || "") + '"></label>'
+    + '<label>Jersey numbers she has worn (optional, e.g. 65, 24)<input id="s-jn" type="text" inputmode="numeric" maxlength="20" value="' + esc((w.jerseys || []).join(", ")) + '"></label>'
     + '<button class="btn" type="submit">Save</button></form>');
   d.querySelector("#sform").addEventListener("submit", function(ev){
     ev.preventDefault();
     var sn = d.querySelector("#s-sn").value.replace(/\s+/g, " ").trim().toUpperCase(), lic = d.querySelector("#s-lic").value.replace(/\D/g, "");
     if (!sn) return;
-    var o = statsAll(); o.who = {surname: sn, licence: lic};
+    var jn = d.querySelector("#s-jn").value.split(/[^0-9]+/).filter(Boolean).map(Number).filter(function(n){ return n >= 0 && n <= 99; });
+    var o = statsAll(); o.who = {surname: sn, licence: lic, jerseys: jn};
     if (!statsSave(o)) { toast("Can’t save in this browser"); return; }
     d.close(); render();
   });
@@ -1074,9 +1088,10 @@ function statsConfirm(file){          // read one sheet, show what was found, sa
         return;
       }
       var key = statsKey({league: g.league, date: g.date, home: g.home, away: g.away}), had = st.games[key];
-      var lastJersey = null, lastDate = "";
-      Object.keys(st.games).forEach(function(k){ var r = st.games[k]; if (!r.review && r.date > lastDate) { lastDate = r.date; lastJersey = r.jersey; } });
-      var warn = (lastJersey !== null && lastJersey !== p.jersey) ? '<p class="swarn">Last saved game she wore #' + lastJersey + '. This sheet has #' + p.jersey + '. Check it is her.</p>' : "";
+      var known = {};                    // numbers she is known to wear: the ones you listed plus those on saved sheets
+      ((st.who && st.who.jerseys) || []).forEach(function(n){ known[n] = 1; });
+      Object.keys(st.games).forEach(function(k){ if (!st.games[k].review) known[st.games[k].jersey] = 1; });
+      var warn = (Object.keys(known).length && !known[p.jersey]) ? '<p class="swarn">She has not worn #' + p.jersey + ' before (known: ' + Object.keys(known).join(", ") + '). Check it is her.</p>' : "";
       var d = sheet('<h2>' + (flags.length ? "Check this sheet" : "Save this game?") + '</h2>'
         + '<p class="note">' + esc(g.home) + ' ' + esc(g.hs) + '–' + esc(g.as) + ' ' + esc(g.away) + '<br>' + esc(g.league) + ' · ' + esc(fmtDay(g.date)) + (g.time ? ' ' + esc(g.time) : "") + '</p>'
         + '<div class="sfound"><b>' + esc(st.who.surname) + '</b> · licence ' + esc(p.licence || st.who.licence || "") + '<span class="jn">#' + p.jersey + '</span></div>'
@@ -1730,6 +1745,10 @@ document.addEventListener("click", function(ev){
   else if (act === "stats-setup") statsSetup();
   else if (act === "stats-settings") statsSettings();
   else if (act === "stats-import") statsImport();
+  else if (act === "stats-nosheet") {
+    var nk = el.getAttribute("data-key");
+    if (nk) { var no = statsAll(); no.nosheet = no.nosheet || {}; no.nosheet[nk] = true; statsSave(no); render({}); }
+  }
   else if (act === "stats-del") {
     var sk = el.getAttribute("data-key");
     if (sk && confirm("Remove this game’s stats from this phone?")) { var so = statsAll(); delete so.games[sk]; statsSave(so); render({}); }
