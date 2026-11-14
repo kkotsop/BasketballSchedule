@@ -123,6 +123,8 @@ A game counts as **played only when the score is not 0–0**; unplayed games alw
   saved as "needs review" and not counted. Nothing is guessed.
 - On each import the person confirms the sheet, with her jersey shown. A warning appears only for a number she has not worn before (the numbers listed in Settings plus those on saved sheets), so a planned change like 65 to 24 does not nag.
 - Played games with no sheet show "Waiting for the sheet" (and a red dot on the person icon) until imported or marked "No sheet" (then "Sheet unavailable").
+- The Stats view shows a summary table (games, points, points/game, fouls, fouls/game for U14, U16 and season), one bar chart each for points
+  and fouls per game (inline SVG, one series per chart, tap a bar for its details) and a plain game list. No game scores are shown there.
 - Games are keyed by `league|date|home|away` (normalised) so importing a sheet twice never duplicates. Played games without a sheet show
   "Sheet unavailable", never 0. Only points and fouls are shown (sheets have no minutes, rebounds or assists).
 - `assets/pdfjs/` is a vendored pdf.js 3.11.174 (Apache-2.0), loaded only when a sheet is imported. CSP unchanged (all `'self'`).

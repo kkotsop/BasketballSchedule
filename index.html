@@ -635,22 +635,36 @@ html.story-open,html.story-open body{overflow:hidden;overscroll-behavior:none}
 .sact{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 .sact.col{flex-direction:column}
 .sact .btn{flex:1 1 auto}
-.srow{margin:0 0 8px;padding:12px 14px;border-radius:16px}
-.srow .sh,.srow .sm,.srow .sl{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.srow .sd{font-size:12px;font-weight:600;color:var(--text-2)}
-.srow .sm{margin:6px 0 4px}
-.srow .so{font-size:15px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.srow .ss{font-size:13px;color:var(--text-2);font-variant-numeric:tabular-nums;flex:none}
-.srow .sst{font-size:14px;color:var(--text-2)}
-.srow .sst b{color:var(--text);font-size:16px}
-.srow .sna{font-size:13px;color:var(--text-3);font-style:italic}
-.srow.rv{box-shadow:inset 3px 0 0 var(--loss)}
 .sx{flex:none;width:30px;height:30px;border-radius:50%;font-size:18px;line-height:1;color:var(--text-3)}
 .sform{display:flex;flex-direction:column;gap:12px}
 .sform label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--text-2)}
 .sform input{height:44px;background:var(--field);border:1px solid var(--hair);border-radius:12px;padding:0 12px;font:inherit;font-size:16px;color:var(--text)}
 .sfound{display:flex;align-items:center;gap:8px;font-size:14px;margin:10px 0 0}
 .sfound .jn{margin-left:auto;font-size:18px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--accent-chip)}
+
+.strow{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:4px;align-items:baseline;padding:8px 2px;border-top:1px solid var(--hair);font-size:14px}
+.strow.h{border-top:0;padding-top:0;font-size:11px;font-weight:600;color:var(--text-3)}
+.strow .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.strow:not(.h) span:first-child{color:var(--text-2)}
+:root{--ch1:#7FA8FF;--ch2:#9AA7BD}
+:root[data-theme="light"]{--ch1:#2F6FEB;--ch2:#7B8597}
+.schart{display:block;width:100%;height:auto;overflow:visible}
+.schart .sb1{fill:var(--ch1)}
+.schart .sb2{fill:var(--ch2)}
+.schart .sv-base{stroke:var(--hair);stroke-width:2}
+.schart .sv-val{fill:var(--text);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.schart .sv-ax{fill:var(--text-2);font-size:10px}
+.schart .sv-ax2{fill:var(--text-3);font-size:9px}
+.schart .hit{cursor:pointer}
+.stip{margin:6px 0 0;font-size:12.5px;color:var(--text-2)}
+.slist .slr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;padding:9px 2px;border-top:1px solid var(--hair);align-items:center}
+.slist .slr:first-child{border-top:0}
+.slist .sd{font-size:12px;font-weight:600;color:var(--text-2);white-space:nowrap}
+.slist .so{font-size:14px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slist .sl{grid-column:1/3;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.slist .sst{font-size:14px;color:var(--text-2)}
+.slist .sst b{color:var(--text)}
+.slist .sna{font-size:13px;color:var(--text-3);font-style:italic}
 </style>
 </head>
 <body>
@@ -1001,37 +1015,70 @@ function statsTotals(){
   return t;
 }
 
+function avg(n, g){ return g ? (n / g).toFixed(1) : "–"; }
+function statsChart(title, recs, field, cls){         // one series per chart (points and fouls have different scales): bars, one per game
+  var n = recs.length;
+  if (!n) return "";
+  var W = 340, H = 168, top = 22, bot = 40, plotH = H - top - bot, max = 4;
+  recs.forEach(function(r){ if (r[field] > max) max = r[field]; });
+  var slot = (W - 8) / n, bw = Math.min(30, slot - 8), out = "", tot = 0;
+  recs.forEach(function(r, k){
+    tot += r[field];
+    var x = 4 + slot * k + (slot - bw) / 2, h = Math.round(plotH * r[field] / max), y = top + plotH - h, rad = Math.min(4, bw / 2, h);
+    var label = fmtDay(r.date).replace(/^\w+ /, "");
+    var tip = fmtDay(r.date) + " · " + r.league + " · " + ((tkey(r.home).indexOf(tkey(state.team)) > -1) ? "vs " + r.away : "at " + r.home) + ": " + r[field] + (field === "points" ? (r[field] === 1 ? " pt" : " pts") : (r[field] === 1 ? " foul" : " fouls"));
+    out += '<g class="sbar"><title>' + esc(tip) + '</title>'
+      + (h > 0 ? '<path d="M' + x + ' ' + (y + h) + 'V' + (y + rad) + 'q0 -' + rad + ' ' + rad + ' -' + rad + 'h' + (bw - 2 * rad) + 'q' + rad + ' 0 ' + rad + ' ' + rad + 'V' + (y + h) + 'z" class="' + cls + '"/>'
+               : '<rect x="' + x + '" y="' + (top + plotH - 2) + '" width="' + bw + '" height="2" class="' + cls + '"/>')
+      + '<text x="' + (x + bw / 2) + '" y="' + (y - 5) + '" class="sv-val" text-anchor="middle">' + r[field] + '</text>'
+      + '<text x="' + (x + bw / 2) + '" y="' + (H - 22) + '" class="sv-ax" text-anchor="middle">' + esc(label) + '</text>'
+      + '<text x="' + (x + bw / 2) + '" y="' + (H - 9) + '" class="sv-ax2" text-anchor="middle">' + esc(r.league) + '</text>'
+      + '<rect class="hit" data-tip="' + esc(tip) + '" x="' + (4 + slot * k) + '" y="0" width="' + slot + '" height="' + H + '" fill="transparent"/></g>';
+  });
+  var line = '<line x1="0" x2="' + W + '" y1="' + (top + plotH) + '" y2="' + (top + plotH) + '" class="sv-base"/>';
+  return '<section class="scard glass"><h3>' + esc(title) + '</h3>'
+    + '<svg class="schart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(title + ": " + recs.map(function(r){ return fmtDay(r.date) + " " + r[field]; }).join(", ")) + '">' + line + out + '</svg>'
+    + '<p class="stip" aria-live="polite">Average ' + avg(tot, n) + ' per game · tap a bar for details</p></section>';
+}
+
 function statsHTML(){
   var st = statsAll();
   if (!st.who) {
     return '<div class="sv"><section class="scard glass"><h3>Player stats</h3>'
-      + '<p>Points and fouls from the official match sheets. The sheets are read on this phone and the numbers are kept here only. They are never uploaded, and nobody else who opens this link can see them.</p>'
+      + '<p>Her points and fouls for every game, from the official match sheets.</p>'
       + '<button class="btn" data-act="stats-setup">Set up</button></section></div>';
   }
-  var t = statsTotals(), rows = statsRows().filter(function(r){ return filt === "both" || r.league === filt; });
-  var box = function(label, b){
-    return '<div class="sbox"><b>' + esc(label) + '</b><span class="n">' + b.p + '</span><span class="l">points</span><span class="n">' + b.f + '</span><span class="l">fouls</span><span class="g">' + plural(b.g, "game", "games") + '</span></div>';
-  };
+  var t = statsTotals(), all = statsAll().games;
+  var recs = Object.keys(all).map(function(k){ return all[k]; }).filter(function(r){ return !r.review && (filt === "both" || r.league === filt); })
+    .sort(function(a, b){ return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+  var rows = statsRows().filter(function(r){ return filt === "both" || r.league === filt; });
+  var cell = function(v){ return '<span class="num">' + v + '</span>'; };
+  var tab = function(label, f){ return '<div class="strow"><span>' + label + '</span>' + cell(f(t.U14)) + cell(f(t.U16)) + cell(f(t.all)) + '</div>'; };
   var out = '<div class="sv"><section class="scard glass"><h3>' + esc(st.who.surname) + '</h3>'
-    + '<div class="sgrid">' + box("U14", t.U14) + box("U16", t.U16) + box("Season", t.all) + '</div>'
+    + '<div class="strow h"><span></span><span class="num">U14</span><span class="num">U16</span><span class="num">Season</span></div>'
+    + tab("Games", function(b){ return b.g; })
+    + tab("Points", function(b){ return b.p; })
+    + tab("Points / game", function(b){ return avg(b.p, b.g); })
+    + tab("Fouls", function(b){ return b.f; })
+    + tab("Fouls / game", function(b){ return avg(b.f, b.g); })
     + (t.review ? '<p class="swarn">' + plural(t.review, "game needs", "games need") + ' review and ' + (t.review === 1 ? "is" : "are") + ' not counted.</p>' : "")
-    + '<div class="sact"><button class="btn" data-act="stats-import">Import match sheet</button><button class="btn ghost" data-act="stats-settings">Settings</button></div>'
-    + '<p class="snote">Only on this phone. Sheets give points and fouls only; no minutes, rebounds or assists.</p></section>';
-  if (!rows.length) out += '<p class="snote">No played games yet.</p>';
-  rows.forEach(function(r){
-    var rec = r.rec, line, cls = "srow glass";
-    if (!rec) {
-      var gone = (st.nosheet || {})[r.key];
-      line = gone ? '<span class="sna">Sheet unavailable</span>'
-        : '<span class="sna">Waiting for the sheet</span><button class="slink" data-act="stats-nosheet" data-key="' + esc(r.key) + '">No sheet</button>';
-    }
-    else if (rec.review) { line = '<span class="sna">Needs review</span>'; cls += " rv"; }
-    else line = '<span class="sst"><b>' + rec.points + '</b> ' + (rec.points === 1 ? "pt" : "pts") + ' · <b>' + rec.fouls + '</b> ' + (rec.fouls === 1 ? "foul" : "fouls") + '</span>';
-    var res = r.us > r.them ? "W" : (r.us < r.them ? "L" : "D");
-    out += '<div class="' + cls + '"><div class="sh"><span class="sd">' + esc(fmtDay(r.date)) + '</span><span class="chip">' + esc(r.league) + '</span></div>'
-      + '<div class="sm"><span class="so">' + (r.home ? "vs " : "at ") + esc(r.opp) + '</span><span class="ss">' + esc(r.us) + '–' + esc(r.them) + ' ' + res + '</span></div>'
-      + '<div class="sl">' + line + (rec ? '<button class="sx" data-act="stats-del" data-key="' + esc(rec.key) + '" aria-label="Remove this sheet" title="Remove this sheet">×</button>' : "") + '</div></div>';
-  });
+    + '<div class="sact"><button class="btn" data-act="stats-import">Import match sheet</button><button class="btn ghost" data-act="stats-settings">Settings</button></div></section>';
+  out += statsChart("Points per game", recs, "points", "sb1") + statsChart("Fouls per game", recs, "fouls", "sb2");
+  if (rows.length) {
+    out += '<section class="scard glass"><h3>Games</h3><div class="slist">';
+    rows.forEach(function(r){
+      var rec = r.rec, line;
+      if (!rec) {
+        var gone = (st.nosheet || {})[r.key];
+        line = gone ? '<span class="sna">Sheet unavailable</span>'
+          : '<span class="sna">Waiting for the sheet</span><button class="slink" data-act="stats-nosheet" data-key="' + esc(r.key) + '">No sheet</button>';
+      } else if (rec.review) line = '<span class="sna">Needs review</span>';
+      else line = '<span class="sst"><b>' + rec.points + '</b> ' + (rec.points === 1 ? "pt" : "pts") + ' · <b>' + rec.fouls + '</b> ' + (rec.fouls === 1 ? "foul" : "fouls") + '</span>';
+      out += '<div class="slr"><span class="sd">' + esc(fmtDay(r.date)) + '</span><span class="so">' + esc(r.league) + ' · ' + (r.home ? "vs " : "at ") + esc(r.opp) + '</span>'
+        + '<span class="sl">' + line + (rec ? '<button class="sx" data-act="stats-del" data-key="' + esc(rec.key) + '" aria-label="Remove this sheet" title="Remove this sheet">×</button>' : "") + '</span></div>';
+    });
+    out += '</div></section>';
+  }
   return out + '</div>';
 }
 
@@ -1720,6 +1767,13 @@ document.addEventListener("click", function(ev){
   var t = ev.target && ev.target.closest ? ev.target.closest("button, a.calopt, a.rfb, a.lrow, [data-act]") : null;
   if (t && !t.disabled) haptic();
 }, true);
+
+document.addEventListener("click", function(ev){
+  var h = ev.target.closest ? ev.target.closest(".schart .hit") : null;
+  if (!h) return;
+  var cap = h.closest("section").querySelector(".stip");
+  if (cap) cap.textContent = h.getAttribute("data-tip");
+});
 
 /* ---------- events ---------- */
 
