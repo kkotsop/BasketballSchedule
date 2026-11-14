@@ -649,8 +649,13 @@ html.story-open,html.story-open body{overflow:hidden;overscroll-behavior:none}
 :root{--ch1:#7FA8FF;--ch2:#9AA7BD}
 :root[data-theme="light"]{--ch1:#2F6FEB;--ch2:#7B8597}
 .schart{display:block;width:100%;height:auto;overflow:visible}
-.schart .sb1{fill:var(--ch1)}
-.schart .sb2{fill:var(--ch2)}
+.schart .sline{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.schart .sline.sb1{stroke:var(--ch1)}
+.schart .sline.sb2{stroke:var(--ch2)}
+.schart .sdot{stroke:var(--bg-bot,#0A0A0B);stroke-width:2}
+.schart .sdot.sb1{fill:var(--ch1)}
+.schart .sdot.sb2{fill:var(--ch2)}
+.schart .sv-grid{stroke:var(--hair);stroke-width:1;stroke-dasharray:3 4}
 .schart .sv-base{stroke:var(--hair);stroke-width:2}
 .schart .sv-val{fill:var(--text);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
 .schart .sv-ax{fill:var(--text-2);font-size:10px}
@@ -1016,29 +1021,37 @@ function statsTotals(){
 }
 
 function avg(n, g){ return g ? (n / g).toFixed(1) : "–"; }
-function statsChart(title, recs, field, cls){         // one series per chart (points and fouls have different scales): bars, one per game
+function statsChart(title, recs, field, cls){         // one series per chart (points and fouls have different scales): a line, one dot per game
   var n = recs.length;
   if (!n) return "";
-  var W = 340, H = 168, top = 22, bot = 40, plotH = H - top - bot, max = 4;
+  var W = 340, H = 176, top = 22, bot = 40, padL = 24, plotH = H - top - bot, plotW = W - padL - 6, max = 4, tot = 0;
   recs.forEach(function(r){ if (r[field] > max) max = r[field]; });
-  var slot = (W - 8) / n, bw = Math.min(30, slot - 8), out = "", tot = 0;
+  max = max % 2 ? max + 1 : max;                       // even top so the middle gridline is a whole number
+  var X = function(k){ return padL + 14 + (plotW - 28) * (n === 1 ? 0.5 : k / (n - 1)); };
+  var Y = function(v){ return top + plotH - plotH * v / max; };
+  var unit = field === "points" ? ["pt", "pts"] : ["foul", "fouls"];
+  var grid = [0, max / 2, max].map(function(v){
+    return '<line x1="' + padL + '" x2="' + W + '" y1="' + Y(v) + '" y2="' + Y(v) + '" class="' + (v === 0 ? "sv-base" : "sv-grid") + '"/>'
+      + '<text x="' + (padL - 6) + '" y="' + (Y(v) + 3.5) + '" class="sv-ax" text-anchor="end">' + v + '</text>';
+  }).join("");
+  var pts = recs.map(function(r, k){ return X(k) + "," + Y(r[field]); }).join(" ");
+  var dots = "", labels = "", hits = "", maxV = Math.max.apply(null, recs.map(function(r){ return r[field]; }));
   recs.forEach(function(r, k){
     tot += r[field];
-    var x = 4 + slot * k + (slot - bw) / 2, h = Math.round(plotH * r[field] / max), y = top + plotH - h, rad = Math.min(4, bw / 2, h);
-    var label = fmtDay(r.date).replace(/^\w+ /, "");
-    var tip = fmtDay(r.date) + " · " + r.league + " · " + ((tkey(r.home).indexOf(tkey(state.team)) > -1) ? "vs " + r.away : "at " + r.home) + ": " + r[field] + (field === "points" ? (r[field] === 1 ? " pt" : " pts") : (r[field] === 1 ? " foul" : " fouls"));
-    out += '<g class="sbar"><title>' + esc(tip) + '</title>'
-      + (h > 0 ? '<path d="M' + x + ' ' + (y + h) + 'V' + (y + rad) + 'q0 -' + rad + ' ' + rad + ' -' + rad + 'h' + (bw - 2 * rad) + 'q' + rad + ' 0 ' + rad + ' ' + rad + 'V' + (y + h) + 'z" class="' + cls + '"/>'
-               : '<rect x="' + x + '" y="' + (top + plotH - 2) + '" width="' + bw + '" height="2" class="' + cls + '"/>')
-      + '<text x="' + (x + bw / 2) + '" y="' + (y - 5) + '" class="sv-val" text-anchor="middle">' + r[field] + '</text>'
-      + '<text x="' + (x + bw / 2) + '" y="' + (H - 22) + '" class="sv-ax" text-anchor="middle">' + esc(label) + '</text>'
-      + '<text x="' + (x + bw / 2) + '" y="' + (H - 9) + '" class="sv-ax2" text-anchor="middle">' + esc(r.league) + '</text>'
-      + '<rect class="hit" data-tip="' + esc(tip) + '" x="' + (4 + slot * k) + '" y="0" width="' + slot + '" height="' + H + '" fill="transparent"/></g>';
+    var x = X(k), y = Y(r[field]);
+    var tip = fmtDay(r.date) + " · " + r.league + " · " + ((tkey(r.home).indexOf(tkey(state.team)) > -1) ? "vs " + r.away : "at " + r.home) + ": " + r[field] + " " + unit[r[field] === 1 ? 0 : 1];
+    dots += '<circle cx="' + x + '" cy="' + y + '" r="4.5" class="sdot ' + cls + '"><title>' + esc(tip) + '</title></circle>';
+    if (n <= 10 || r[field] === maxV || k === n - 1) labels += '<text x="' + x + '" y="' + (y - 9) + '" class="sv-val" text-anchor="middle">' + r[field] + '</text>';
+    var step = n > 8 ? 2 : 1;
+    if (k % step === 0 || k === n - 1) labels += '<text x="' + x + '" y="' + (H - 22) + '" class="sv-ax" text-anchor="middle">' + esc(fmtDay(r.date).replace(/^\w+ /, "")) + '</text>'
+      + '<text x="' + x + '" y="' + (H - 9) + '" class="sv-ax2" text-anchor="middle">' + esc(r.league) + '</text>';
+    var w = (plotW - 28) / Math.max(1, n - 1);
+    hits += '<rect class="hit" data-tip="' + esc(tip) + '" x="' + (x - (n === 1 ? plotW / 2 : w / 2)) + '" y="0" width="' + (n === 1 ? plotW : w) + '" height="' + H + '" fill="transparent"/>';
   });
-  var line = '<line x1="0" x2="' + W + '" y1="' + (top + plotH) + '" y2="' + (top + plotH) + '" class="sv-base"/>';
   return '<section class="scard glass"><h3>' + esc(title) + '</h3>'
-    + '<svg class="schart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(title + ": " + recs.map(function(r){ return fmtDay(r.date) + " " + r[field]; }).join(", ")) + '">' + line + out + '</svg>'
-    + '<p class="stip" aria-live="polite">Average ' + avg(tot, n) + ' per game · tap a bar for details</p></section>';
+    + '<svg class="schart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(title + ": " + recs.map(function(r){ return fmtDay(r.date) + " " + r[field]; }).join(", ")) + '">'
+    + grid + (n > 1 ? '<polyline points="' + pts + '" class="sline ' + cls + '"/>' : "") + dots + labels + hits + '</svg>'
+    + '<p class="stip" aria-live="polite">Average ' + avg(tot, n) + ' per game · tap a point for details</p></section>';
 }
 
 function statsHTML(){
