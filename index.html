@@ -1024,16 +1024,12 @@ function avg(n, g){ return g ? (n / g).toFixed(1) : "–"; }
 function statsChart(title, recs, field, cls){         // one series per chart (points and fouls have different scales): a line, one dot per game
   var n = recs.length;
   if (!n) return "";
-  var W = 340, H = 176, top = 22, bot = 40, padL = 24, plotH = H - top - bot, plotW = W - padL - 6, max = 4, tot = 0;
+  var W = 340, H = 176, top = 22, bot = 40, padL = 6, plotH = H - top - bot, plotW = W - padL - 6, max = 4, tot = 0;
   recs.forEach(function(r){ if (r[field] > max) max = r[field]; });
-  max = max % 2 ? max + 1 : max;                       // even top so the middle gridline is a whole number
+  max += 1;                                            // headroom so the top label is not cut off
   var X = function(k){ return padL + 14 + (plotW - 28) * (n === 1 ? 0.5 : k / (n - 1)); };
   var Y = function(v){ return top + plotH - plotH * v / max; };
   var unit = field === "points" ? ["pt", "pts"] : ["foul", "fouls"];
-  var grid = [0, max / 2, max].map(function(v){
-    return '<line x1="' + padL + '" x2="' + W + '" y1="' + Y(v) + '" y2="' + Y(v) + '" class="' + (v === 0 ? "sv-base" : "sv-grid") + '"/>'
-      + '<text x="' + (padL - 6) + '" y="' + (Y(v) + 3.5) + '" class="sv-ax" text-anchor="end">' + v + '</text>';
-  }).join("");
   var pts = recs.map(function(r, k){ return X(k) + "," + Y(r[field]); }).join(" ");
   var dots = "", labels = "", hits = "", maxV = Math.max.apply(null, recs.map(function(r){ return r[field]; }));
   recs.forEach(function(r, k){
@@ -1050,7 +1046,7 @@ function statsChart(title, recs, field, cls){         // one series per chart (p
   });
   return '<section class="scard glass"><h3>' + esc(title) + '</h3>'
     + '<svg class="schart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(title + ": " + recs.map(function(r){ return fmtDay(r.date) + " " + r[field]; }).join(", ")) + '">'
-    + grid + (n > 1 ? '<polyline points="' + pts + '" class="sline ' + cls + '"/>' : "") + dots + labels + hits + '</svg>'
+    + (n > 1 ? '<polyline points="' + pts + '" class="sline ' + cls + '"/>' : "") + dots + labels + hits + '</svg>'
     + '<p class="stip" aria-live="polite">Average ' + avg(tot, n) + ' per game · tap a point for details</p></section>';
 }
 
