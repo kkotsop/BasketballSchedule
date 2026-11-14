@@ -1021,6 +1021,24 @@ function statsTotals(){
 }
 
 function avg(n, g){ return g ? (n / g).toFixed(1) : "–"; }
+function smoothPath(p){                              // monotone cubic curve through the points: smooth, never dips below a point or the baseline
+  var n = p.length, d = "M" + p[0][0] + " " + p[0][1];
+  if (n < 3) return n === 2 ? d + "L" + p[1][0] + " " + p[1][1] : d;
+  var dx = [], m = [], t = [], k;
+  for (k = 0; k < n - 1; k++) { dx[k] = p[k + 1][0] - p[k][0]; m[k] = (p[k + 1][1] - p[k][1]) / dx[k]; }
+  t[0] = m[0]; t[n - 1] = m[n - 2];
+  for (k = 1; k < n - 1; k++) t[k] = m[k - 1] * m[k] <= 0 ? 0 : (m[k - 1] + m[k]) / 2;
+  for (k = 0; k < n - 1; k++) {
+    if (m[k] === 0) { t[k] = 0; t[k + 1] = 0; continue; }
+    var a = t[k] / m[k], b = t[k + 1] / m[k], h = a * a + b * b;
+    if (h > 9) { var q = 3 / Math.sqrt(h); t[k] = q * a * m[k]; t[k + 1] = q * b * m[k]; }
+  }
+  for (k = 0; k < n - 1; k++) {
+    var c = dx[k] / 3;
+    d += "C" + (p[k][0] + c).toFixed(1) + " " + (p[k][1] + t[k] * c).toFixed(1) + " " + (p[k + 1][0] - c).toFixed(1) + " " + (p[k + 1][1] - t[k + 1] * c).toFixed(1) + " " + p[k + 1][0].toFixed(1) + " " + p[k + 1][1].toFixed(1);
+  }
+  return d;
+}
 function statsChart(title, recs, field, cls){         // one series per chart (points and fouls have different scales): a line, one dot per game
   var n = recs.length;
   if (!n) return "";
@@ -1030,7 +1048,7 @@ function statsChart(title, recs, field, cls){         // one series per chart (p
   var X = function(k){ return padL + 14 + (plotW - 28) * (n === 1 ? 0.5 : k / (n - 1)); };
   var Y = function(v){ return top + plotH - plotH * v / max; };
   var unit = field === "points" ? ["pt", "pts"] : ["foul", "fouls"];
-  var pts = recs.map(function(r, k){ return X(k) + "," + Y(r[field]); }).join(" ");
+  var curve = smoothPath(recs.map(function(r, k){ return [X(k), Y(r[field])]; }));
   var dots = "", labels = "", hits = "", maxV = Math.max.apply(null, recs.map(function(r){ return r[field]; }));
   recs.forEach(function(r, k){
     tot += r[field];
@@ -1046,7 +1064,7 @@ function statsChart(title, recs, field, cls){         // one series per chart (p
   });
   return '<section class="scard glass"><h3>' + esc(title) + '</h3>'
     + '<svg class="schart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(title + ": " + recs.map(function(r){ return fmtDay(r.date) + " " + r[field]; }).join(", ")) + '">'
-    + (n > 1 ? '<polyline points="' + pts + '" class="sline ' + cls + '"/>' : "") + dots + labels + hits + '</svg>'
+    + (n > 1 ? '<path d="' + curve + '" class="sline ' + cls + '"/>' : "") + dots + labels + hits + '</svg>'
     + '<p class="stip" aria-live="polite">Average ' + avg(tot, n) + ' per game · tap a point for details</p></section>';
 }
 
