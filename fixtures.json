@@ -177,7 +177,7 @@
   },
   {
    "date": "2026-11-22",
-   "time": "",
+   "time": "15:00",
    "home": "Moufflons",
    "away": "ΑΠΟΠ",
    "venue": "Λυκ. Αγ. Γεωργίου",
@@ -307,8 +307,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-11-15T16:22:46Z",
- "checked": "2026-11-17T03:55:46Z",
+ "updated": "2026-11-17T16:10:21Z",
+ "checked": "2026-11-17T16:10:21Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
