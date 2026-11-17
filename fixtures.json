@@ -176,6 +176,18 @@
    "id": "cf9426ba"
   },
   {
+   "date": "2026-11-21",
+   "time": "11:00",
+   "home": "ΑΠΟΠ",
+   "away": "ΑΝΟΡΘΩΣΗ Αμμοχώστου",
+   "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους",
+   "hs": "0",
+   "as": "0",
+   "league": "U14",
+   "stage": "final",
+   "id": "e80629cb"
+  },
+  {
    "date": "2026-11-22",
    "time": "15:00",
    "home": "Moufflons",
@@ -307,80 +319,70 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-11-17T16:10:21Z",
- "checked": "2026-11-17T16:10:21Z",
+ "updated": "2026-11-17T17:03:46Z",
+ "checked": "2026-11-17T17:03:46Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
    {
-    "team": "ΑΤΛΑΝΤΑΣ Πάφου",
-    "p": 6,
-    "w": 6,
-    "l": 0,
-    "pts": 12,
-    "pf": 390,
-    "pa": 229,
-    "diff": 161
-   },
-   {
-    "team": "ΑΡΗΣ Λεμεσού",
-    "p": 6,
-    "w": 5,
-    "l": 1,
-    "pts": 11,
-    "pf": 361,
-    "pa": 282,
-    "diff": 79
-   },
-   {
-    "team": "ΑΠΟΛΛΩΝ Λεμεσού",
-    "p": 6,
-    "w": 4,
-    "l": 2,
-    "pts": 10,
-    "pf": 286,
-    "pa": 272,
-    "diff": 14
-   },
-   {
     "team": "ΑΧΙΛΛΕΑΣ Αγρού",
-    "p": 6,
-    "w": 3,
-    "l": 3,
-    "pts": 9,
-    "pf": 287,
-    "pa": 302,
-    "diff": -15
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
    },
    {
     "team": "Α.Ε.Λ.",
-    "p": 6,
-    "w": 2,
-    "l": 4,
-    "pts": 8,
-    "pf": 282,
-    "pa": 359,
-    "diff": -77
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
    },
    {
     "team": "ΑΠΟΠ",
-    "p": 6,
-    "w": 1,
-    "l": 5,
-    "pts": 7,
-    "pf": 207,
-    "pa": 311,
-    "diff": -104
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
    },
    {
     "team": "ΑΝΟΡΘΩΣΗ Αμμοχώστου",
-    "p": 6,
+    "p": 0,
     "w": 0,
-    "l": 4,
-    "pts": 4,
-    "pf": 208,
-    "pa": 266,
-    "diff": -58
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
+   },
+   {
+    "team": "ΑΝΑΓΕΝΝΗΣΗ Γερμασόγειας",
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
+   },
+   {
+    "team": "Α.Σ.Υ.Λ.",
+    "p": 0,
+    "w": 0,
+    "l": 0,
+    "pts": 0,
+    "pf": 0,
+    "pa": 0,
+    "diff": 0
    }
   ],
   "U16": [
@@ -461,7 +463,7 @@
   "publicKey": "BI329d2dNJigQk9hQNgqDEIgn6vsJlf-tvzs3kTzFnYCd7d5nXGOevckvoJe4vXF5EsUiVcip6YP05GR__63TKs"
  },
  "standings_title": {
-  "U14": "",
+  "U14": "Final ranking",
   "U16": "Final ranking"
  }
 }

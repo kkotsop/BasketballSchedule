@@ -32,7 +32,8 @@ URL = os.environ.get("CBF_URL", "https://cbfweb.org/eCBF/pubgames.aspx")
 CONFIG = {
     # "Επιλογή Διοργάνωσης" for each age group we follow; label is shown on the website
     "competitions": [
-        {"label": "U14", "competition": "Γυναικών U14 - Γ' Ομιλος"},
+        {"label": "U14", "competition": "Γυναικών U14 - Γ' Ομιλος", "table": False},
+        {"label": "U14", "competition": "Γυναικών U14 (Τελικής Κατάταξης - Α' Ομιλος)", "stage": "final", "title": "Final ranking"},
         {"label": "U16", "competition": "Γυναικών U16 - Γ' Ομιλος", "table": False},
         # second stage of the same age group: its games are added and its table is the one shown for U16 (the Γ' Ομιλος games stay)
         {"label": "U16", "competition": "Γυναικών U16 (Τελικής Κατάταξης)", "stage": "final", "title": "Final ranking"},
@@ -134,7 +135,7 @@ def find_select(soup, kind):
             return name, opts
         if kind == "competition" and any("ΟΜΙΛΟΣ" in t for t in texts):
             return name, opts
-        if kind == "day" and sum(bool(re.match(r"\d+Η ΑΓΩΝΙΣΤΙΚΗ", t)) for t in texts) >= 2:
+        if kind == "day" and sum(bool(re.match(r"\d+Η ΑΓΩΝΙΣΤΙΚΗ", t)) for t in texts) >= 1:
             return name, opts
         if kind == "phase" and any("ΚΑΝΟΝΙΚΗ ΠΕΡΙΟΔΟΣ" in t for t in texts):
             return name, opts
@@ -283,7 +284,8 @@ def parse_row(cells):
 def cards_from(soup):
     """Current layout: <div class="GameRow"> = home team, score/date/hall, away team."""
     out = []
-    for row in soup.select("div.GameRow"):
+    box = soup.find(id="ContentPlaceHolder1_ComGames")           # the round list (not the club-wide "all games" strips)
+    for row in (box.select("div.GameRow") if box is not None else []):
         teams = [clean(t.get_text(" ", strip=True)) for t in row.select("div.GameTeam")]
         datum = row.select_one("div.GameDatum")
         if len(teams) != 2 or datum is None:
@@ -404,12 +406,9 @@ def games_by_round(session, soup, chosen):
     name, opts = find_select(soup, "day")
     if not name:
         return []
-    found = []
     sel = selected_value(soup, name)
-    todo = [v for v, _ in opts if v and v != "0"]
-    if sel in todo:                                   # re-selecting the shown round returns an empty list: do it last
-        todo.remove(sel)
-        todo.append(sel)
+    found = cards_from(soup)                          # the round that is already shown
+    todo = [v for v, _ in opts if v and v != "0" and v != sel]   # (re-selecting the shown round returns an empty / wrong list)
     for value in todo:
         chosen[name] = value
         html = post(session, soup, dict(chosen), name)
