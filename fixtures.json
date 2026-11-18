@@ -16,8 +16,7 @@
    "aliases": [
     "e2acef48",
     "aac154c1",
-    "cc7tbfc",
-    "6c452579"
+    "cc7tbfc"
    ]
   },
   {
@@ -29,10 +28,7 @@
    "hs": "42",
    "as": "50",
    "league": "U16",
-   "id": "363e00ef",
-   "aliases": [
-    "f8ae24db"
-   ]
+   "id": "363e00ef"
   },
   {
    "date": "2026-10-10",
@@ -116,8 +112,7 @@
    "aliases": [
     "0ac138c0",
     "f8ee63ae",
-    "wctfmm7",
-    "c733d9b4"
+    "wctfmm7"
    ]
   },
   {
@@ -133,8 +128,7 @@
    "aliases": [
     "203cbc2b",
     "68659da4",
-    "v3ryk3n",
-    "2d358410"
+    "v3ryk3n"
    ]
   },
   {
@@ -284,13 +278,7 @@
    "as": "0",
    "league": "U14",
    "stage": "final",
-   "id": "2d358410",
-   "aliases": [
-    "e9854835",
-    "203cbc2b",
-    "68659da4",
-    "v3ryk3n"
-   ]
+   "id": "2d358410"
   },
   {
    "date": "2027-01-10",
@@ -338,13 +326,7 @@
    "as": "0",
    "league": "U14",
    "stage": "final",
-   "id": "c733d9b4",
-   "aliases": [
-    "6b513d9d",
-    "0ac138c0",
-    "f8ee63ae",
-    "wctfmm7"
-   ]
+   "id": "c733d9b4"
   },
   {
    "date": "2027-01-24",
@@ -416,10 +398,7 @@
    "as": "0",
    "league": "U16",
    "stage": "final",
-   "id": "f8ae24db",
-   "aliases": [
-    "363e00ef"
-   ]
+   "id": "f8ae24db"
   },
   {
    "date": "2027-03-06",
@@ -431,13 +410,7 @@
    "as": "0",
    "league": "U14",
    "stage": "final",
-   "id": "6c452579",
-   "aliases": [
-    "036d57c5",
-    "e2acef48",
-    "aac154c1",
-    "cc7tbfc"
-   ]
+   "id": "6c452579"
   }
  ],
  "places": {

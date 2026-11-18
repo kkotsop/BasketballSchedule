@@ -21,8 +21,15 @@ MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 MAX_LINES = 4
 
 
-def key(g):
-    return (g.get("league") or "U14", g["home"], g["away"])
+def keyed(games):
+    """{(league, home, away, n): game}: the same two teams can meet more than once in a league (other stage, return
+    leg), so the n-th meeting by date is told apart from the others."""
+    seen, out = {}, {}
+    for g in sorted(games, key=lambda x: x["date"]):
+        k = (g.get("league") or "U14", g["home"], g["away"])
+        seen[k] = seen.get(k, 0) + 1
+        out[k + (seen[k],)] = g
+    return out
 
 
 def when(g):
@@ -45,10 +52,10 @@ def label(g):
 
 def diff(before, after):
     """List of (league, text)."""
-    old = {key(g): g for g in before}
+    old = keyed(before)
     out = []
-    for g in after:
-        o = old.get(key(g))
+    for k, g in sorted(keyed(after).items(), key=lambda kv: kv[1]["date"]):
+        o = old.get(k)
         lg = g.get("league") or "U14"
         if o is None:
             out.append((lg, "New game %s, %s" % (label(g), when(g))))

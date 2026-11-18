@@ -514,7 +514,8 @@ def add_aliases(games, old_games):
                 continue
             same_slot = o.get("league") == g.get("league") and o.get("date") == g["date"]
             same_pair = (norm(o.get("home", "")), norm(o.get("away", ""))) == (norm(g["home"]), norm(g["away"]))
-            if same_slot or (same_pair and o.get("date") == g["date"]) or (same_pair and o.get("league") == g.get("league")):
+            same_stage = (o.get("stage") or "") == (g.get("stage") or "")   # the same two teams meet again in other stages
+            if same_slot or (same_pair and o.get("date") == g["date"]) or (same_pair and o.get("league") == g.get("league") and same_stage):
                 al += [o.get("id")] + (o.get("aliases") or [])
         al = [a for i, a in enumerate(al) if a and a != g["id"] and a not in al[:i]]
         if al:
