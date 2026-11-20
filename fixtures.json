@@ -178,7 +178,7 @@
    "home": "ΑΠΟΠ",
    "away": "ΑΝΟΡΘΩΣΗ Αμμοχώστου",
    "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους",
-   "hs": "0",
+   "hs": "20",
    "as": "0",
    "league": "U14",
    "stage": "final",
@@ -421,8 +421,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-11-18T19:27:10Z",
- "checked": "2026-11-20T11:49:55Z",
+ "updated": "2026-11-20T20:28:45Z",
+ "checked": "2026-11-20T20:28:45Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
