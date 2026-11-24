@@ -198,7 +198,7 @@
   },
   {
    "date": "2026-11-28",
-   "time": "",
+   "time": "10:00",
    "home": "ΑΠΟΠ",
    "away": "ΑΝΑΓΕΝΝΗΣΗ Γερμασόγειας",
    "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους",
@@ -210,7 +210,7 @@
   },
   {
    "date": "2026-11-29",
-   "time": "",
+   "time": "16:00",
    "home": "ΑΠΟΠ",
    "away": "Υδρα Ασφαλιστική Ε.Ν.Α.Δ.",
    "venue": "Αίθ. Α' Λυκείου Ακης Κλεάνθους",
@@ -421,8 +421,8 @@
  },
  "logo": "assets/logo.png",
  "source": "https://cbfweb.org/eCBF/pubgames.aspx",
- "updated": "2026-11-20T20:28:45Z",
- "checked": "2026-11-24T02:17:18Z",
+ "updated": "2026-11-24T13:52:29Z",
+ "checked": "2026-11-24T13:52:29Z",
  "site": "https://kkotsop.github.io/BasketballSchedule/",
  "standings": {
   "U14": [
